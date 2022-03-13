@@ -1,6 +1,6 @@
 package com.norberttalpos.product.core.entity
 
-import com.norberttalpos.abstracts.entity.AbstractEntity
+import com.norberttalpos.common.abstracts.entity.AbstractEntity
 import javax.persistence.*
 
 @Entity(name = "Product")

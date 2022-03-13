@@ -1,7 +1,7 @@
-package com.norberttalpos.abstracts.controller.interfaces
+package com.norberttalpos.common.abstracts.controller.interfaces
 
-import com.norberttalpos.abstracts.dto.AbstractDto
-import com.norberttalpos.abstracts.filter.AbstractFilter
+import com.norberttalpos.common.abstracts.dto.AbstractDto
+import com.norberttalpos.common.abstracts.filter.AbstractFilter
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 

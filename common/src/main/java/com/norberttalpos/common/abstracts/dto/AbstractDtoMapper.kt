@@ -1,6 +1,6 @@
-package com.norberttalpos.abstracts.dto
+package com.norberttalpos.common.abstracts.dto
 
-import com.norberttalpos.abstracts.entity.AbstractEntity
+import com.norberttalpos.common.abstracts.entity.AbstractEntity
 
 interface AbstractDtoMapper<ENTITY : AbstractEntity, DTO : AbstractDto> {
 

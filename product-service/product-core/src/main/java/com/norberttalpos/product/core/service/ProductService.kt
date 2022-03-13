@@ -1,21 +1,34 @@
 package com.norberttalpos.product.core.service
 
-import com.norberttalpos.abstracts.service.AbstractDeletableService
-import com.norberttalpos.product.core.entity.Product
+import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.product.api.filter.ProductFilter
+import com.norberttalpos.product.core.entity.Product
+import com.norberttalpos.product.core.entity.QProduct
 import com.norberttalpos.product.core.repository.ProductRepository
+import com.querydsl.core.BooleanBuilder
 import org.springframework.stereotype.Service
 
 @Service
-class ProductService(
-    repository: ProductRepository
-) : AbstractDeletableService<Product, ProductFilter, ProductRepository>(repository) {
+class ProductService : AbstractDeletableService<Product, ProductFilter, ProductRepository>() {
 
     override fun filter(filter: ProductFilter): Collection<Product> {
-        TODO("Not yet implemented")
+        val product: QProduct = QProduct.product
+        val where = BooleanBuilder()
+
+        filter.id?.let {
+            where.and(product.id.eq(filter.id))
+        }
+        filter.brandName?.let {
+            where.and(product.brand.name.containsIgnoreCase(filter.brandName))
+        }
+        filter.categoryName?.let {
+            where.and(product.category.name.containsIgnoreCase(filter.categoryName))
+        }
+
+        return this.repository.findAll(where).toList()
     }
 
     override fun validateEntity(entity: Product): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 }

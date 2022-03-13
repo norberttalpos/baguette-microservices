@@ -1,5 +1,7 @@
 server:
   port: 8080
+  servlet:
+    context-path: /api/product
 
 spring:
   application:
@@ -10,7 +12,7 @@ spring:
     password: Passw0rd
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

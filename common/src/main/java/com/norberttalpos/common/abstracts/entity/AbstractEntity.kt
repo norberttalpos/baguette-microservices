@@ -1,4 +1,4 @@
-package com.norberttalpos.abstracts.entity
+package com.norberttalpos.common.abstracts.entity
 
 import javax.persistence.*
 

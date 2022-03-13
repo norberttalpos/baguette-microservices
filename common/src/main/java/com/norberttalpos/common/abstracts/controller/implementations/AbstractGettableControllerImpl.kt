@@ -1,12 +1,13 @@
-package com.norberttalpos.abstracts.controller.implementations
+package com.norberttalpos.common.abstracts.controller.implementations
 
-import com.norberttalpos.abstracts.controller.interfaces.AbstractGettableController
-import com.norberttalpos.abstracts.dto.AbstractDto
-import com.norberttalpos.abstracts.dto.AbstractDtoMapper
-import com.norberttalpos.abstracts.entity.AbstractEntity
-import com.norberttalpos.abstracts.filter.AbstractFilter
-import com.norberttalpos.abstracts.repository.AbstractRepository
-import com.norberttalpos.abstracts.service.AbstractGettableService
+import com.norberttalpos.common.abstracts.controller.interfaces.AbstractGettableController
+import com.norberttalpos.common.abstracts.dto.AbstractDto
+import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
+import com.norberttalpos.common.abstracts.entity.AbstractEntity
+import com.norberttalpos.common.abstracts.filter.AbstractFilter
+import com.norberttalpos.common.abstracts.repository.AbstractRepository
+import com.norberttalpos.common.abstracts.service.AbstractGettableService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -16,13 +17,13 @@ abstract class AbstractGettableControllerImpl<
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
         MAPPER : AbstractDtoMapper<ENTITY, DTO>,
-        SERVICE : AbstractGettableService<ENTITY, FILTER, out AbstractRepository<ENTITY>>
-        >(
-    protected val service: SERVICE,
-    protected val mapper: MAPPER
-    )
-    :
-    AbstractGettableController<DTO, FILTER> {
+        SERVICE : AbstractGettableService<ENTITY, FILTER, out AbstractRepository<ENTITY>>>
+    : AbstractGettableController<DTO, FILTER> {
+
+    @Autowired
+    lateinit var service: SERVICE
+    @Autowired
+    lateinit var mapper: MAPPER
 
     @GetMapping
     override fun getEntities(): ResponseEntity<Collection<DTO>> {

@@ -1,6 +1,6 @@
 package com.norberttalpos.product.core.mapper
 
-import com.norberttalpos.abstracts.dto.AbstractDtoMapper
+import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
 import com.norberttalpos.product.api.dto.ProductDto
 import com.norberttalpos.product.core.entity.Product
 import org.mapstruct.Mapper
