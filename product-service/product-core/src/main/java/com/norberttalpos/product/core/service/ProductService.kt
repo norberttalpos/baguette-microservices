@@ -9,7 +9,7 @@ import com.querydsl.core.BooleanBuilder
 import org.springframework.stereotype.Service
 
 @Service
-class ProductService : AbstractDeletableService<Product, ProductFilter, ProductRepository>() {
+class ProductService : AbstractDeletableService<Product, ProductFilter>() {
 
     override fun filter(filter: ProductFilter): Collection<Product> {
         val product: QProduct = QProduct.product

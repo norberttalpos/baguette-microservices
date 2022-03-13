@@ -8,14 +8,12 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-abstract class AbstractGettableService<ENTITY : AbstractEntity, FILTER : AbstractFilter, REPOSITORY : AbstractRepository<ENTITY>>() {
+abstract class AbstractGettableService<ENTITY : AbstractEntity>() {
 
     @Autowired
-    lateinit var repository: REPOSITORY
+    lateinit var repository: AbstractRepository<ENTITY>
 
     fun getEntities(): Collection<ENTITY> = this.repository.findAll()
 
     fun getById(id: Long): ENTITY? = this.repository.findByIdOrNull(id)
-
-    abstract fun filter(filter: FILTER): Collection<ENTITY>
 }

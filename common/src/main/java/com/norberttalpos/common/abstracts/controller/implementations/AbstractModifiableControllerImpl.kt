@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import java.lang.Exception
 
 @RestController
 abstract class AbstractModifiableControllerImpl<
@@ -19,21 +20,26 @@ abstract class AbstractModifiableControllerImpl<
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
         MAPPER : AbstractDtoMapper<ENTITY, DTO>,
-        SERVICE : AbstractModifiableService<ENTITY, FILTER, out AbstractRepository<ENTITY>>
+        SERVICE : AbstractModifiableService<ENTITY, FILTER>
         >
     : AbstractModifiableController<DTO, FILTER>, AbstractGettableControllerImpl<DTO, ENTITY, FILTER, MAPPER, SERVICE>() {
 
     @PutMapping
-    override fun put(@RequestBody dto: DTO): ResponseEntity<DTO> {
+    override fun put(@RequestBody dto: DTO): ResponseEntity<Any> {
         val persistedEntity = this.service.put(this.mapper.fromDto(dto)) ?: return ResponseEntity.badRequest().build()
 
         return ResponseEntity.ok(this.mapper.toDto(persistedEntity))
     }
 
     @PostMapping
-    override fun post(@RequestBody dto: DTO): ResponseEntity<DTO> {
-        val persistedEntity = this.service.post(this.mapper.fromDto(dto)) ?: return ResponseEntity.badRequest().build()
+    override fun post(@RequestBody dto: DTO): ResponseEntity<Any> {
+        try {
+            dto.id = null
+            val persistedEntity = this.service.post(this.mapper.fromDto(dto)) ?: return ResponseEntity.badRequest().build()
 
-        return ResponseEntity.ok(this.mapper.toDto(persistedEntity))
+            return ResponseEntity.ok(this.mapper.toDto(persistedEntity))
+        } catch (e: Exception) {
+            return ResponseEntity.badRequest().body(e.message.toString())
+        }
     }
 }

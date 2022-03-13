@@ -4,6 +4,8 @@ import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
 import com.norberttalpos.product.api.dto.ProductBrandDto
 import com.norberttalpos.product.core.entity.ProductBrand
 import org.mapstruct.Mapper
+import org.mapstruct.NullValuePropertyMappingStrategy
 
-@Mapper(componentModel = "spring", uses = [ ProductMapper::class ])
-abstract class ProductBrandMapper : AbstractDtoMapper<ProductBrand, ProductBrandDto>
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+    uses = [ ProductMapper::class ])
+abstract class ProductBrandMapper : AbstractDtoMapper<ProductBrand, ProductBrandDto>()

@@ -5,8 +5,8 @@ import com.norberttalpos.common.abstracts.filter.AbstractFilter
 import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import org.springframework.beans.factory.annotation.Autowired
 
-abstract class AbstractModifiableService<ENTITY : AbstractEntity, FILTER : AbstractFilter, REPOSITORY : AbstractRepository<ENTITY>>
-    : AbstractGettableService<ENTITY, FILTER, REPOSITORY>() {
+abstract class AbstractModifiableService<ENTITY : AbstractEntity, FILTER : AbstractFilter>
+    : AbstractFilterableService<ENTITY, FILTER>() {
 
     fun put(entity: ENTITY): ENTITY? {
         this.getById(entity.id!!)

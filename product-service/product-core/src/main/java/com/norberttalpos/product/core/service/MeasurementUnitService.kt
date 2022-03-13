@@ -10,7 +10,7 @@ import com.querydsl.core.BooleanBuilder
 import org.springframework.stereotype.Service
 
 @Service
-class MeasurementUnitService : AbstractDeletableService<MeasurementUnit, MeasurementUnitFilter, MeasurementUnitRepository>() {
+class MeasurementUnitService : AbstractDeletableService<MeasurementUnit, MeasurementUnitFilter>() {
 
     override fun filter(filter: MeasurementUnitFilter): Collection<MeasurementUnit> {
         val measurementUnit: QMeasurementUnit = QMeasurementUnit.measurementUnit

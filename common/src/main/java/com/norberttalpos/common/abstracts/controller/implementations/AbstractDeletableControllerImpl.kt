@@ -18,7 +18,7 @@ abstract class AbstractDeletableControllerImpl<
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
         MAPPER : AbstractDtoMapper<ENTITY, DTO>,
-        SERVICE : AbstractDeletableService<ENTITY, FILTER, out AbstractRepository<ENTITY>>
+        SERVICE : AbstractDeletableService<ENTITY, FILTER>
         >
     : AbstractDeletableController<DTO, FILTER>, AbstractModifiableControllerImpl<DTO, ENTITY, FILTER, MAPPER, SERVICE>() {
 

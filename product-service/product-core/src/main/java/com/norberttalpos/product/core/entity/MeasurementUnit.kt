@@ -9,6 +9,6 @@ import javax.persistence.Table
 @Table(name = "measurement_unit")
 class MeasurementUnit : AbstractEntity() {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     var name: String = ""
 }

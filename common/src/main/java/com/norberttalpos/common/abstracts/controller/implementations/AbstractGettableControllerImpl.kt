@@ -5,11 +5,11 @@ import com.norberttalpos.common.abstracts.dto.AbstractDto
 import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
 import com.norberttalpos.common.abstracts.filter.AbstractFilter
-import com.norberttalpos.common.abstracts.repository.AbstractRepository
-import com.norberttalpos.common.abstracts.service.AbstractGettableService
+import com.norberttalpos.common.abstracts.service.AbstractFilterableService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.persistence.EntityNotFoundException
 
 @RestController
 abstract class AbstractGettableControllerImpl<
@@ -17,7 +17,7 @@ abstract class AbstractGettableControllerImpl<
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
         MAPPER : AbstractDtoMapper<ENTITY, DTO>,
-        SERVICE : AbstractGettableService<ENTITY, FILTER, out AbstractRepository<ENTITY>>>
+        SERVICE : AbstractFilterableService<ENTITY, FILTER>>
     : AbstractGettableController<DTO, FILTER> {
 
     @Autowired
@@ -46,5 +46,10 @@ abstract class AbstractGettableControllerImpl<
         val dtos = this.service.filter(filter).map(this.mapper::toDto)
 
         return ResponseEntity.ok(dtos)
+    }
+
+    @ExceptionHandler(EntityNotFoundException::class)
+    fun handleException(e: EntityNotFoundException): ResponseEntity<Any> {
+        return ResponseEntity.notFound().build()
     }
 }

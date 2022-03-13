@@ -9,12 +9,12 @@ import javax.persistence.Table
 @Entity(name = "ProductBrand")
 @Table(name = "product_brand")
 class ProductBrand : AbstractEntity() {
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     var name: String = ""
 
     @Column(name = "country", nullable = false)
     var country: String = ""
 
     @OneToMany(mappedBy = "brand")
-    var products: List<Product> = emptyList()
+    var products: List<Product>? = emptyList()
 }

@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "product")
 class Product : AbstractEntity() {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     var name: String = ""
 
     @Column(name = "unit_price")

@@ -10,12 +10,12 @@ import javax.persistence.Table
 @Table(name = "product_category")
 class ProductCategory : AbstractEntity() {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     var name: String = ""
 
     @Column(name = "parent")
     var parent: Int = 0
 
     @OneToMany(mappedBy = "category")
-    var products: List<Product> = emptyList()
+    var products: List<Product>? = emptyList()
 }
