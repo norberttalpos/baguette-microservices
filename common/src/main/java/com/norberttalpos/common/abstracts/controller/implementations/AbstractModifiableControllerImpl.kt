@@ -26,20 +26,20 @@ abstract class AbstractModifiableControllerImpl<
 
     @PutMapping
     override fun put(@RequestBody dto: DTO): ResponseEntity<Any> {
-        val persistedEntity = this.service.put(this.mapper.fromDto(dto)) ?: return ResponseEntity.badRequest().build()
+        val persistedEntity = this.service.put(this.mapper.fromDto(dto))
 
         return ResponseEntity.ok(this.mapper.toDto(persistedEntity))
     }
 
     @PostMapping
     override fun post(@RequestBody dto: DTO): ResponseEntity<Any> {
-        try {
+        return try {
             dto.id = null
-            val persistedEntity = this.service.post(this.mapper.fromDto(dto)) ?: return ResponseEntity.badRequest().build()
+            val persistedEntity = this.service.post(this.mapper.fromDto(dto))
 
-            return ResponseEntity.ok(this.mapper.toDto(persistedEntity))
+            ResponseEntity.ok(this.mapper.toDto(persistedEntity))
         } catch (e: Exception) {
-            return ResponseEntity.badRequest().body(e.message.toString())
+            ResponseEntity.badRequest().body(e.message.toString())
         }
     }
 }

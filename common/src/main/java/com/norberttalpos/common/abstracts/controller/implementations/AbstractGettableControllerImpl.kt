@@ -47,9 +47,4 @@ abstract class AbstractGettableControllerImpl<
 
         return ResponseEntity.ok(dtos)
     }
-
-    @ExceptionHandler(EntityNotFoundException::class)
-    fun handleException(e: EntityNotFoundException): ResponseEntity<Any> {
-        return ResponseEntity.notFound().build()
-    }
 }

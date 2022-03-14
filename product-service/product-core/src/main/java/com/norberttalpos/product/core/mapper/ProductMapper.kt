@@ -10,7 +10,7 @@ import com.norberttalpos.product.core.entity.ProductCategory
 import org.mapstruct.*
 import org.springframework.beans.factory.annotation.Autowired
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = [
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT, uses = [
     ProductBrandMapper::class,
     ProductCategoryMapper::class,
     MeasurementUnitMapper::class
@@ -28,6 +28,7 @@ abstract class ProductMapper : AbstractDtoMapper<Product, ProductDto>() {
 
     @Mapping(target = "brand.products", ignore = true)
     @Mapping(target = "category.products", ignore = true)
+    @Mapping(target = "price", ignore = true)
     abstract override fun toDto(entity: Product): ProductDto
 
     @Mapping(target = "brand", ignore = true)
@@ -41,5 +42,10 @@ abstract class ProductMapper : AbstractDtoMapper<Product, ProductDto>() {
         this.referenceResolver(dto.brand, entity::brand, this.productBrandService::getById)
         this.referenceResolver(dto.category, entity::category, this.productCategoryService::getById)
         this.referenceResolver(dto.measurementUnit, entity::measurementUnit, this.measurementUnitService::getById)
+    }
+
+    @AfterMapping
+    fun fillReferences(entity: Product, @MappingTarget dto: ProductDto) {
+        dto.price = entity.amount * entity.unitPrice
     }
 }

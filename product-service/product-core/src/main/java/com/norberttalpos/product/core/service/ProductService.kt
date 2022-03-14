@@ -1,34 +1,38 @@
 package com.norberttalpos.product.core.service
 
+import com.norberttalpos.common.QueryBuilder
+import com.norberttalpos.common.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.product.api.filter.ProductFilter
 import com.norberttalpos.product.core.entity.Product
 import com.norberttalpos.product.core.entity.QProduct
-import com.norberttalpos.product.core.repository.ProductRepository
-import com.querydsl.core.BooleanBuilder
 import org.springframework.stereotype.Service
 
 @Service
 class ProductService : AbstractDeletableService<Product, ProductFilter>() {
 
-    override fun filter(filter: ProductFilter): Collection<Product> {
+    override fun filter(filter: ProductFilter, whereMode: WhereMode): Collection<Product> {
         val product: QProduct = QProduct.product
-        val where = BooleanBuilder()
+        val where = QueryBuilder(whereMode)
 
         filter.id?.let {
-            where.and(product.id.eq(filter.id))
+            where.add(product.id.eq(filter.id))
+        }
+        filter.name?.let {
+            where.addUniqueStringPred(product.name, filter.name)
         }
         filter.brandName?.let {
-            where.and(product.brand.name.containsIgnoreCase(filter.brandName))
+            where.add(product.brand.name.containsIgnoreCase(filter.brandName))
         }
         filter.categoryName?.let {
-            where.and(product.category.name.containsIgnoreCase(filter.categoryName))
+            where.add(product.category.name.containsIgnoreCase(filter.categoryName))
         }
 
-        return this.repository.findAll(where).toList()
+        return this.repository.findAll(where.getBooleanBuilder()).toList()
     }
 
     override fun validateEntity(entity: Product): Boolean {
-        return true
+        val collisions = this.filter(ProductFilter(name = entity.name), WhereMode.OR)
+        return collisions.isEmpty()
     }
 }

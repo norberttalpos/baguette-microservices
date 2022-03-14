@@ -16,16 +16,16 @@ import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
 @EntityScan(basePackages = [ "com.norberttalpos.product.core.entity" ])
-open class ProductServiceApplication {
+class ProductServiceApplication {
     @Bean
-    open fun run(
+    fun run(
         productService: ProductService,
         productBrandService: ProductBrandService,
         productCategoryService: ProductCategoryService,
         measurementUnitService: MeasurementUnitService,
     ) = CommandLineRunner {
         val measurementUnit = MeasurementUnit().apply {
-            this.name = "g"
+            this.name = "kg"
         }
         measurementUnitService.post(measurementUnit)
 
@@ -42,8 +42,10 @@ open class ProductServiceApplication {
 
         val product = Product().apply {
             this.name = "Téliszalámi"
-            this.amount = 500
-            this.rating = 9.1f
+            this.amount = 0.5
+            this.available = 100
+            this.rating = 9.1
+            this.unitPrice = 5000
             this.brand = productBrand
             this.category = productCategory
             this.measurementUnit = measurementUnit

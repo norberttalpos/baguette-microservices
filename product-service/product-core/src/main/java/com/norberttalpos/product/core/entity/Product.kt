@@ -10,14 +10,17 @@ class Product : AbstractEntity() {
     @Column(name = "name", nullable = false, unique = true)
     var name: String = ""
 
-    @Column(name = "unit_price")
+    @Column(name = "unit_price", nullable = false)
     var unitPrice: Int = 0
 
-    @Column(name = "amount")
-    var amount: Int = 0
+    @Column(name = "amount", nullable = false)
+    var amount: Double = 0.0
+
+    @Column(name = "available", nullable = false)
+    var available: Int = 0
 
     @Column(name = "rating")
-    var rating: Float = 0f
+    var rating: Double = 0.0
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_brand_id", nullable = false)
