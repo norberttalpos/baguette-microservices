@@ -1,4 +1,4 @@
-package com.norberttalpos.cart.api.resource.product
+package com.norberttalpos.product.api.client
 
 import com.norberttalpos.product.api.dto.ProductDto
 import org.springframework.web.bind.annotation.PathVariable
