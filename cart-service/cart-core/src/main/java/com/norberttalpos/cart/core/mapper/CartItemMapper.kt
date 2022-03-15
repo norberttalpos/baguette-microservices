@@ -27,7 +27,8 @@ abstract class CartItemMapper : AbstractDtoMapper<CartItem, CartItemDto>() {
     @AfterMapping
     fun fillReferences(entity: CartItem, @MappingTarget dto: CartItemDto) {
         entity.id?.let {
-            dto.product = this.productDtoMapper.toDto2(productGetterService.getProductById(entity.id!!))
+            val productDto = productGetterService.getProductById(entity.productId!!)
+            dto.product = this.productDtoMapper.toDto2(productDto!!)
             dto.price = (entity.amount * dto.product!!.price!!)
         }
     }

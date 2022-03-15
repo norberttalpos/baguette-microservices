@@ -1,6 +1,7 @@
 package com.norberttalpos.cart.core.controller
 
 import com.norberttalpos.cart.api.controller.CartController
+import com.norberttalpos.cart.api.controller.restobjects.AddCartItemToCartRequest
 import com.norberttalpos.cart.api.controller.restobjects.ModifyCartItemRequest
 import com.norberttalpos.cart.api.controller.restobjects.RemoveCartItemRequest
 import com.norberttalpos.cart.api.dto.CartDto
@@ -22,15 +23,18 @@ class CartControllerImpl : CartController,
     @Autowired
     private lateinit var cartItemMapper: CartItemMapper
 
-    @PutMapping("/modifyCartItem")
-    override fun modifyCartItem(@RequestBody request: ModifyCartItemRequest): ResponseEntity<Any> {
-        this.service.modifyCartItem(request.userId, this.cartItemMapper.fromDto(request.cartItem))
+    @PostMapping("/addProductToCart")
+    override fun addProductToCart(@RequestBody request: AddCartItemToCartRequest) {
+        this.service.addProductToCart(request.userId, request.productId)
+    }
 
-        return ResponseEntity.ok().build()
+    @PutMapping("/modifyCartItem")
+    override fun modifyCartItem(@RequestBody request: ModifyCartItemRequest) {
+        this.service.modifyCartItem(request.userId, this.cartItemMapper.fromDto(request.cartItem))
     }
 
     @PutMapping("/removeCartItem")
-    override fun removeCartItem(request: RemoveCartItemRequest) {
+    override fun removeCartItem(@RequestBody request: RemoveCartItemRequest) {
        this.service.removeCartItem(request.userId, request.cartItemId)
     }
 
