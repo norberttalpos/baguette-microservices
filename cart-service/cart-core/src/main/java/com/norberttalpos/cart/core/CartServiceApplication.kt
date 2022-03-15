@@ -2,6 +2,7 @@ package com.norberttalpos.cart.core
 
 import com.norberttalpos.cart.core.entity.Cart
 import com.norberttalpos.cart.core.entity.CartItem
+import com.norberttalpos.cart.core.repository.CartItemRepository
 import com.norberttalpos.cart.core.service.CartService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -17,13 +18,16 @@ class CartServiceApplication {
 
     @Bean
     fun run(
-        cartService: CartService
+        cartService: CartService,
+        cartItemRepository: CartItemRepository
     ) = CommandLineRunner {
         val cart = Cart().apply {
             this.userId = 1
         }
 
-        val cartItems = arrayListOf<CartItem>(
+        cartService.post(cart)
+
+        val cartItems = arrayListOf(
             CartItem().apply {
                 this.productId = 1
                 this.amount = 10
@@ -31,9 +35,7 @@ class CartServiceApplication {
             }
         )
 
-        cart.cartItems = cartItems
-
-        cartService.post(cart)
+        cartItemRepository.saveAll(cartItems)
     }
 }
 

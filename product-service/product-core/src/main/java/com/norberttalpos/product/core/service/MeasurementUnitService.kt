@@ -1,7 +1,7 @@
 package com.norberttalpos.product.core.service
 
-import com.norberttalpos.common.QueryBuilder
-import com.norberttalpos.common.WhereMode
+import com.norberttalpos.common.abstracts.filter.QueryBuilder
+import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.product.api.filter.MeasurementUnitFilter
 import com.norberttalpos.product.core.entity.MeasurementUnit
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class MeasurementUnitService : AbstractDeletableService<MeasurementUnit, MeasurementUnitFilter>() {
 
-    override fun filter(filter: MeasurementUnitFilter, whereMode: WhereMode): Collection<MeasurementUnit> {
+    override fun filter(filter: MeasurementUnitFilter, whereMode: WhereMode): List<MeasurementUnit> {
         val measurementUnit: QMeasurementUnit = QMeasurementUnit.measurementUnit
         val where = QueryBuilder(whereMode)
 
@@ -22,11 +22,10 @@ class MeasurementUnitService : AbstractDeletableService<MeasurementUnit, Measure
             where.addUniqueStringPred(measurementUnit.name, filter.name)
         }
 
-        return this.repository.findAll(where.getBooleanBuilder()).toList()
+        return this.repository.findAll(where.getBuilder()).toList()
     }
 
-    override fun validateEntity(entity: MeasurementUnit): Boolean {
-        val collisions = this.filter(MeasurementUnitFilter(name = entity.name), WhereMode.OR)
-        return collisions.isEmpty()
-    }
+    override fun validateEntity(entity: MeasurementUnit) = true
+
+    override fun provideUniqunessCheckFilter(entity: MeasurementUnit) = MeasurementUnitFilter(name = entity.name)
 }

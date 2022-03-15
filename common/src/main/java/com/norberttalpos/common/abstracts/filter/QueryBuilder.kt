@@ -1,4 +1,4 @@
-package com.norberttalpos.common
+package com.norberttalpos.common.abstracts.filter
 
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Predicate
@@ -9,29 +9,23 @@ class QueryBuilder(
     private val builder: BooleanBuilder = BooleanBuilder(),
 ) {
 
-    fun add(predicate: Predicate) {
+    fun add(predicate: Predicate) =
         if(this.whereMode == WhereMode.AND)
-            this.builder.and(predicate)
+            this.and(predicate)
         else
-            this.builder.or(predicate)
-    }
+            this.or(predicate)
 
-    fun and(predicate: Predicate) {
-        this.builder.and(predicate)
-    }
+    fun and(predicate: Predicate): BooleanBuilder = this.builder.and(predicate)
 
-    fun or(predicate: Predicate) {
-        this.builder.or(predicate)
-    }
+    fun or(predicate: Predicate): BooleanBuilder = this.builder.or(predicate)
 
-    fun addUniqueStringPred(path: StringPath, str: String?) {
-        if(whereMode == WhereMode.AND) builder.and(path.containsIgnoreCase(str))
-        else builder.or(path.eq(str))
-    }
+    fun addUniqueStringPred(path: StringPath, str: String?): BooleanBuilder =
+        if(whereMode == WhereMode.AND)
+            builder.and(path.containsIgnoreCase(str))
+        else
+            builder.or(path.eq(str))
 
-    fun getBooleanBuilder(): BooleanBuilder {
-        return builder
-    }
+    fun getBuilder(): BooleanBuilder = this.builder
 }
 
 enum class WhereMode {

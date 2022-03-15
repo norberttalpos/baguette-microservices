@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody
 interface AbstractModifiableController<DTO : AbstractDto, FILTER : AbstractFilter>
     : AbstractGettableController<DTO, FILTER> {
 
-    fun put(@RequestBody dto: DTO): ResponseEntity<Any>
+    fun put(dto: DTO): ResponseEntity<Any>
 
-    fun post(@RequestBody dto: DTO): ResponseEntity<Any>
+    fun post(dto: DTO): ResponseEntity<Any>
 }

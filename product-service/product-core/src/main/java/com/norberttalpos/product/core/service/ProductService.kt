@@ -1,7 +1,7 @@
 package com.norberttalpos.product.core.service
 
-import com.norberttalpos.common.QueryBuilder
-import com.norberttalpos.common.WhereMode
+import com.norberttalpos.common.abstracts.filter.QueryBuilder
+import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.product.api.filter.ProductFilter
 import com.norberttalpos.product.core.entity.Product
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class ProductService : AbstractDeletableService<Product, ProductFilter>() {
 
-    override fun filter(filter: ProductFilter, whereMode: WhereMode): Collection<Product> {
+    override fun filter(filter: ProductFilter, whereMode: WhereMode): List<Product> {
         val product: QProduct = QProduct.product
         val where = QueryBuilder(whereMode)
 
@@ -28,11 +28,21 @@ class ProductService : AbstractDeletableService<Product, ProductFilter>() {
             where.add(product.category.name.containsIgnoreCase(filter.categoryName))
         }
 
-        return this.repository.findAll(where.getBooleanBuilder()).toList()
+        return this.repository.findAll(where.getBuilder()).toList()
     }
 
-    override fun validateEntity(entity: Product): Boolean {
-        val collisions = this.filter(ProductFilter(name = entity.name), WhereMode.OR)
-        return collisions.isEmpty()
+    override fun validateEntity(entity: Product) = true
+
+    override fun provideUniqunessCheckFilter(entity: Product) = ProductFilter(name = entity.name)
+
+    fun buyProduct(productName: String, amount: Int) = this.changeProductAmount(productName, -amount)
+
+    fun addProduct(productName: String, amount: Int) = this.changeProductAmount(productName, amount)
+
+    private fun changeProductAmount(productName: String, amount: Int) {
+        this.filter(ProductFilter(name = productName)).forEach {
+            it.amount += amount
+            this.put(it)
+        }
     }
 }

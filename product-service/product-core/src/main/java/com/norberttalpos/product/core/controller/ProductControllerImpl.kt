@@ -18,19 +18,11 @@ class ProductControllerImpl : ProductController,
     AbstractDeletableControllerImpl<ProductDto, Product, ProductFilter, ProductMapper, ProductService>() {
 
     @PutMapping("/buy")
-    override fun buyProduct(request: ProductAmountChangeRequest) {
-        this.changeProductAmount(request.productName, -request.amount);
-    }
+    override fun buyProduct(request: ProductAmountChangeRequest)
+        = this.service.buyProduct(request.productName, request.amount)
 
     @PutMapping("/add")
-    override fun addProductToStore(request: ProductAmountChangeRequest) {
-        this.changeProductAmount(request.productName, request.amount);
-    }
+    override fun addProductToStore(request: ProductAmountChangeRequest)
+        = this.service.addProduct(request.productName, request.amount);
 
-    private fun changeProductAmount(productName: String, amount: Int) {
-        this.service.filter(ProductFilter(name = productName)).forEach {
-            it.amount += amount
-            this.service.put(it)
-        }
-    }
 }

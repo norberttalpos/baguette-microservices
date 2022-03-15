@@ -1,7 +1,7 @@
 package com.norberttalpos.product.core.service
 
-import com.norberttalpos.common.QueryBuilder
-import com.norberttalpos.common.WhereMode
+import com.norberttalpos.common.abstracts.filter.QueryBuilder
+import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.product.api.filter.ProductCategoryFilter
 import com.norberttalpos.product.core.entity.ProductCategory
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class ProductCategoryService : AbstractDeletableService<ProductCategory, ProductCategoryFilter>() {
 
-    override fun filter(filter: ProductCategoryFilter, whereMode: WhereMode): Collection<ProductCategory> {
+    override fun filter(filter: ProductCategoryFilter, whereMode: WhereMode): List<ProductCategory> {
         val productCategory: QProductCategory = QProductCategory.productCategory
         val where = QueryBuilder(whereMode)
 
@@ -22,11 +22,10 @@ class ProductCategoryService : AbstractDeletableService<ProductCategory, Product
             where.addUniqueStringPred(productCategory.name, filter.name)
         }
 
-        return this.repository.findAll(where.getBooleanBuilder()).toList()
+        return this.repository.findAll(where.getBuilder()).toList()
     }
 
-    override fun validateEntity(entity: ProductCategory): Boolean {
-        val collisions = this.filter(ProductCategoryFilter(name = entity.name), WhereMode.OR)
-        return collisions.isEmpty()
-    }
+    override fun validateEntity(entity: ProductCategory) = true
+
+    override fun provideUniqunessCheckFilter(entity: ProductCategory) = ProductCategoryFilter(name = entity.name)
 }

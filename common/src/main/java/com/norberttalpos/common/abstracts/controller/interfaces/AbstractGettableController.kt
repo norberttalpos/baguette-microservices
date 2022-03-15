@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody
 
 interface AbstractGettableController<DTO : AbstractDto, FILTER : AbstractFilter> {
 
-    fun getEntities(): ResponseEntity<Collection<DTO>>
+    fun getEntities(): ResponseEntity<List<DTO>>
 
-    fun getById(@PathVariable id: Long): ResponseEntity<DTO>
+    fun getById(id: Long): ResponseEntity<DTO>
 
-    fun filter(@RequestBody filter: FILTER): ResponseEntity<Collection<DTO>>
+    fun filter(filter: FILTER): ResponseEntity<List<DTO>>
 }

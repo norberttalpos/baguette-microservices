@@ -26,7 +26,7 @@ abstract class AbstractGettableControllerImpl<
     lateinit var mapper: MAPPER
 
     @GetMapping
-    override fun getEntities(): ResponseEntity<Collection<DTO>> {
+    override fun getEntities(): ResponseEntity<List<DTO>> {
         val dtos = this.service.getEntities().map(this.mapper::toDto)
 
         return ResponseEntity.ok(dtos)
@@ -42,7 +42,7 @@ abstract class AbstractGettableControllerImpl<
     }
 
     @PostMapping("/filter")
-    override fun filter(@RequestBody filter: FILTER): ResponseEntity<Collection<DTO>> {
+    override fun filter(@RequestBody filter: FILTER): ResponseEntity<List<DTO>> {
         val dtos = this.service.filter(filter).map(this.mapper::toDto)
 
         return ResponseEntity.ok(dtos)

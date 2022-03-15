@@ -13,7 +13,7 @@ abstract class AbstractGettableService<ENTITY : AbstractEntity>() {
     @Autowired
     lateinit var repository: AbstractRepository<ENTITY>
 
-    fun getEntities(): Collection<ENTITY> = this.repository.findAll()
+    fun getEntities(): List<ENTITY> = this.repository.findAll()
 
     fun getById(id: Long): ENTITY? = this.repository.findByIdOrNull(id)
 }

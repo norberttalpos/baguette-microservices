@@ -15,3 +15,8 @@ fun handleException(e: EntityNotFoundException): ResponseEntity<Any> {
 fun handleException(e: NotValidUpdateException): ResponseEntity<Any> {
     return ResponseEntity.badRequest().body(e.message)
 }
+
+@ExceptionHandler(NullPointerException::class)
+fun handleException(e: NullPointerException): ResponseEntity<Any> {
+    return ResponseEntity.internalServerError().body("Internal server error occured")
+}

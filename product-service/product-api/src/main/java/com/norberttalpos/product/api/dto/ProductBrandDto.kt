@@ -6,5 +6,5 @@ data class ProductBrandDto(
     override var id : Long?,
     val name: String?,
     val country: String?,
-    val products: Collection<ProductDto>?
+    val products: List<ProductDto>?
 ) : AbstractDto

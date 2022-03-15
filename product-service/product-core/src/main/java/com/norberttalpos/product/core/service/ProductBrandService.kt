@@ -1,7 +1,7 @@
 package com.norberttalpos.product.core.service
 
-import com.norberttalpos.common.QueryBuilder
-import com.norberttalpos.common.WhereMode
+import com.norberttalpos.common.abstracts.filter.QueryBuilder
+import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.product.api.filter.ProductBrandFilter
 import com.norberttalpos.product.core.entity.ProductBrand
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class ProductBrandService : AbstractDeletableService<ProductBrand, ProductBrandFilter>() {
 
-    override fun filter(filter: ProductBrandFilter, whereMode: WhereMode): Collection<ProductBrand> {
+    override fun filter(filter: ProductBrandFilter, whereMode: WhereMode): List<ProductBrand> {
         val productBrand: QProductBrand = QProductBrand.productBrand
         val where = QueryBuilder(whereMode)
 
@@ -22,11 +22,10 @@ class ProductBrandService : AbstractDeletableService<ProductBrand, ProductBrandF
             where.addUniqueStringPred(productBrand.name, filter.name)
         }
 
-        return this.repository.findAll(where.getBooleanBuilder()).toList()
+        return this.repository.findAll(where.getBuilder()).toList()
     }
 
-    override fun validateEntity(entity: ProductBrand): Boolean {
-        val collisions = this.filter(ProductBrandFilter(name = entity.name), WhereMode.OR)
-        return collisions.isEmpty()
-    }
+    override fun validateEntity(entity: ProductBrand) = true
+
+    override fun provideUniqunessCheckFilter(entity: ProductBrand) = ProductBrandFilter(name = entity.name)
 }

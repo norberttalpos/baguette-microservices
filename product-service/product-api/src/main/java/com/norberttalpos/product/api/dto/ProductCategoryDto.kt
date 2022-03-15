@@ -6,5 +6,5 @@ data class ProductCategoryDto(
     override var id: Long?,
     val name: String?,
     val parent: Int?,
-    val products: Collection<ProductDto>?,
+    val products: List<ProductDto>?,
 ) : AbstractDto
