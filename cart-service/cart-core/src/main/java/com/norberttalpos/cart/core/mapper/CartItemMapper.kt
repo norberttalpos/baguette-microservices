@@ -2,8 +2,8 @@ package com.norberttalpos.cart.core.mapper
 
 import com.norberttalpos.cart.api.dto.CartItemDto
 import com.norberttalpos.cart.core.entity.CartItem
+import com.norberttalpos.product.api.client.CartProductResource
 import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
-import com.norberttalpos.cart.api.resource.product.CartProductResource
 import org.mapstruct.*
 import org.springframework.beans.factory.annotation.Autowired
 
