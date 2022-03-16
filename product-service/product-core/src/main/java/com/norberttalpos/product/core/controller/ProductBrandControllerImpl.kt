@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/productBrand")
+@RequestMapping("/product-brand")
 class ProductBrandControllerImpl : ProductBrandController,
         AbstractDeletableControllerImpl<ProductBrandDto, ProductBrand, ProductBrandFilter, ProductBrandMapper, ProductBrandService>()

@@ -1,5 +1,7 @@
 package com.norberttalpos.common.abstracts.filter
 
+import java.util.*
+
 interface AbstractFilter {
-    val id: Long?
+    val id: UUID?
 }

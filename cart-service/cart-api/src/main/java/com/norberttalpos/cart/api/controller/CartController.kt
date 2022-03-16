@@ -7,6 +7,7 @@ import com.norberttalpos.cart.api.dto.CartDto
 import com.norberttalpos.cart.api.filter.CartFilter
 import com.norberttalpos.common.abstracts.controller.interfaces.AbstractDeletableController
 import org.springframework.http.ResponseEntity
+import java.util.*
 
 interface CartController : AbstractDeletableController<CartDto, CartFilter> {
 
@@ -16,5 +17,5 @@ interface CartController : AbstractDeletableController<CartDto, CartFilter> {
 
     fun removeCartItem(request: RemoveCartItemRequest)
 
-    fun emptyCart(userId: Long)
+    fun emptyCart(userId: UUID)
 }

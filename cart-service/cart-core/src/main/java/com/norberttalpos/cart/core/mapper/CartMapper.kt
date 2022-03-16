@@ -10,7 +10,7 @@ import org.mapstruct.*
 abstract class CartMapper : AbstractDtoMapper<Cart, CartDto>() {
 
     @AfterMapping
-    fun fillReferences(entity: Cart, @MappingTarget dto: CartDto) {
+    fun fillReferences(@MappingTarget dto: CartDto) {
         dto.totalPrice = dto.cartItems?.map { it.price ?: 0.0 }?.toList()?.sum() ?: 0.0
     }
 }

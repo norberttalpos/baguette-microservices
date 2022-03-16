@@ -2,6 +2,7 @@ package com.norberttalpos.cart.core.entity
 
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
 import org.hibernate.annotations.Cascade
+import java.util.*
 import javax.persistence.*
 
 @Entity(name = "Cart")
@@ -12,5 +13,5 @@ class Cart : AbstractEntity() {
     var cartItems: List<CartItem>? = emptyList()
 
     @Column(name = "user_id", nullable = false, updatable = false)
-    var userId: Long = 0
+    lateinit var userId: UUID
 }

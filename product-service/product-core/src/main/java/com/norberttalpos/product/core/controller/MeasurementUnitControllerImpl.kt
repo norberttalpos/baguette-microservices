@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/measurementUnit")
+@RequestMapping("/measurement-unit")
 class MeasurementUnitControllerImpl : MeasurementUnitController,
     AbstractModifiableControllerImpl<MeasurementUnitDto, MeasurementUnit, MeasurementUnitFilter, MeasurementUnitMapper, MeasurementUnitService>()

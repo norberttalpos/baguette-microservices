@@ -9,7 +9,7 @@ import com.norberttalpos.common.abstracts.service.AbstractFilterableService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.persistence.EntityNotFoundException
+import java.util.*
 
 @RestController
 abstract class AbstractGettableControllerImpl<
@@ -33,7 +33,7 @@ abstract class AbstractGettableControllerImpl<
     }
 
     @GetMapping("/{id}")
-    override fun getById(@PathVariable id: Long): ResponseEntity<DTO> {
+    override fun getById(@PathVariable id: UUID): ResponseEntity<DTO> {
         val entity = this.service.getById(id) ?: return ResponseEntity.notFound().build()
 
         val dto = this.mapper.toDto(entity)

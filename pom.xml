@@ -139,6 +139,11 @@
                         <goals>
                             <goal>compile</goal>
                         </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
                     </execution>
 
                     <execution>
@@ -175,7 +180,7 @@
                         </goals>
                         <configuration>
                             <sourceDirs>
-                                <sourceDir>src/test/kotlin</sourceDir>
+                                <sourceDir>src/test/java</sourceDir>
                                 <sourceDir>target/generated-sources/kapt/test</sourceDir>
                             </sourceDirs>
                         </configuration>

@@ -7,16 +7,16 @@ import javax.persistence.EntityNotFoundException
 class NotValidUpdateException(override val message: String? = "Not valid update") : Exception(message)
 
 @ExceptionHandler(EntityNotFoundException::class)
-fun handleException(e: EntityNotFoundException): ResponseEntity<Any> {
+fun handleEntityNotFoundException(): ResponseEntity<Any> {
     return ResponseEntity.notFound().build()
 }
 
 @ExceptionHandler(NotValidUpdateException::class)
-fun handleException(e: NotValidUpdateException): ResponseEntity<Any> {
+fun handleNotValidUpdateException(e: NotValidUpdateException): ResponseEntity<Any> {
     return ResponseEntity.badRequest().body(e.message)
 }
 
 @ExceptionHandler(NullPointerException::class)
-fun handleException(e: NullPointerException): ResponseEntity<Any> {
+fun handleNullPointerException(): ResponseEntity<Any> {
     return ResponseEntity.internalServerError().body("Internal server error occured")
 }

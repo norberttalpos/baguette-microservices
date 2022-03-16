@@ -12,6 +12,7 @@ import com.norberttalpos.common.exception.NotValidUpdateException
 import com.norberttalpos.product.api.client.CartProductResource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class CartService : AbstractDeletableService<Cart, CartFilter>() {
@@ -40,7 +41,7 @@ class CartService : AbstractDeletableService<Cart, CartFilter>() {
 
     override fun provideUniqunessCheckFilter(entity: Cart) = CartFilter(userId = entity.userId)
 
-    fun addProductToCart(userId: Long, productId: Long) {
+    fun addProductToCart(userId: UUID, productId: UUID) {
         val cart = this.getCartOfUser(userId)
 
         if(this.productGetterService.getProductById(productId) != null) {
@@ -54,7 +55,7 @@ class CartService : AbstractDeletableService<Cart, CartFilter>() {
         }
     }
 
-    fun modifyCartItem(userId: Long, cartItem: CartItem) {
+    fun modifyCartItem(userId: UUID, cartItem: CartItem) {
         val cart = this.getCartOfUser(userId)
         this.put(cart.apply {
             this.cartItems = this.cartItems?.
@@ -63,17 +64,17 @@ class CartService : AbstractDeletableService<Cart, CartFilter>() {
         })
     }
 
-    fun removeCartItem(userId: Long, cartItemId: Long) {
+    fun removeCartItem(userId: UUID, cartItemId: UUID) {
         val cart = this.getCartOfUser(userId)
         cart.cartItems?.filter { it.id == cartItemId }?.forEach { this.cartItemRepository.deleteById(it.id!!) }
     }
 
-    fun emptyCart(userId: Long) {
+    fun emptyCart(userId: UUID) {
         val cart = this.getCartOfUser(userId)
         cart.cartItems?.forEach { this.cartItemRepository.deleteById(it.id!!) }
     }
 
-    private fun getCartOfUser(userId: Long): Cart {
+    private fun getCartOfUser(userId: UUID): Cart {
         val carts = this.filter(CartFilter(userId = userId))
         if(carts.size == 1) {
             return carts.first()

@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/productCategory")
+@RequestMapping("/product-category")
 class ProductCategoryControllerImpl : ProductCategoryController,
     AbstractDeletableControllerImpl<ProductCategoryDto, ProductCategory, ProductCategoryFilter, ProductCategoryMapper, ProductCategoryService>()

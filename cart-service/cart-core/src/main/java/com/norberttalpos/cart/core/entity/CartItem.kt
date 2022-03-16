@@ -1,6 +1,7 @@
 package com.norberttalpos.cart.core.entity
 
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
+import java.util.*
 import javax.persistence.*
 
 @Entity(name = "CartItem")
@@ -15,5 +16,5 @@ class CartItem : AbstractEntity() {
     lateinit var cart: Cart
 
     @Column(name = "product_id", nullable = false)
-    var productId: Long? = null
+    var productId: UUID? = null
 }

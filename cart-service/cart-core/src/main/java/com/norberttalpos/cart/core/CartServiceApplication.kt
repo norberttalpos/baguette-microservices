@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
+import java.util.*
 
 @SpringBootApplication
 @EnableFeignClients(
@@ -22,14 +23,14 @@ class CartServiceApplication {
         cartItemRepository: CartItemRepository
     ) = CommandLineRunner {
         val cart = Cart().apply {
-            this.userId = 1
+            this.userId = UUID.randomUUID()
         }
 
         cartService.post(cart)
 
         val cartItems = arrayListOf(
             CartItem().apply {
-                this.productId = 1
+                this.productId = UUID.randomUUID()
                 this.amount = 10
                 this.cart = cart
             }
