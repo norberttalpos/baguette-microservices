@@ -12,10 +12,14 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-@EntityScan(basePackages = [ "com.norberttalpos.product.core.entity" ])
+@EnableEurekaClient
+@EntityScan(
+    basePackages = [ "com.norberttalpos.product.core.entity" ]
+)
 class ProductServiceApplication {
     @Bean
     fun run(

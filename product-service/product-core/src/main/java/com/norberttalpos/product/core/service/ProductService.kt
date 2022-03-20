@@ -33,7 +33,7 @@ class ProductService : AbstractDeletableService<Product, ProductFilter>() {
 
     override fun validateEntity(entity: Product) = true
 
-    override fun provideUniqunessCheckFilter(entity: Product) = ProductFilter(name = entity.name)
+    override fun provideUniquenessCheckFilter(entity: Product) = ProductFilter(name = entity.name)
 
     fun buyProduct(productName: String, amount: Int) = this.changeProductAmount(productName, -amount)
 

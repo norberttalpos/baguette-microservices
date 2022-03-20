@@ -39,7 +39,7 @@ class CartService : AbstractDeletableService<Cart, CartFilter>() {
 
     override fun validateEntity(entity: Cart) = true
 
-    override fun provideUniqunessCheckFilter(entity: Cart) = CartFilter(userId = entity.userId)
+    override fun provideUniquenessCheckFilter(entity: Cart) = CartFilter(userId = entity.userId)
 
     fun addProductToCart(userId: UUID, productId: UUID) {
         val cart = this.getCartOfUser(userId)

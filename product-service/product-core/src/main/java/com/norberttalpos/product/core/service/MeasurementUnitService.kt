@@ -27,5 +27,5 @@ class MeasurementUnitService : AbstractDeletableService<MeasurementUnit, Measure
 
     override fun validateEntity(entity: MeasurementUnit) = true
 
-    override fun provideUniqunessCheckFilter(entity: MeasurementUnit) = MeasurementUnitFilter(name = entity.name)
+    override fun provideUniquenessCheckFilter(entity: MeasurementUnit) = MeasurementUnitFilter(name = entity.name)
 }

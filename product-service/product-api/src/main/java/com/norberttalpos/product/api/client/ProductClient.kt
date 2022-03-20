@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import java.util.*
 
-@FeignClient(name = "product", url = "http://localhost:8080")
+@FeignClient("product")
 interface ProductClient : CartProductResource {
 
-    @GetMapping("/api/product/product/{id}")
+    @GetMapping("/api/product/{id}")
     override fun getProductById(@PathVariable id: UUID): ProductDto?
 }

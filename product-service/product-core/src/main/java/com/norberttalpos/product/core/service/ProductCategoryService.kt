@@ -27,5 +27,5 @@ class ProductCategoryService : AbstractDeletableService<ProductCategory, Product
 
     override fun validateEntity(entity: ProductCategory) = true
 
-    override fun provideUniqunessCheckFilter(entity: ProductCategory) = ProductCategoryFilter(name = entity.name)
+    override fun provideUniquenessCheckFilter(entity: ProductCategory) = ProductCategoryFilter(name = entity.name)
 }

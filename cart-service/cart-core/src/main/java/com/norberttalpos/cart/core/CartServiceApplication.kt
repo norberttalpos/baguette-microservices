@@ -7,11 +7,13 @@ import com.norberttalpos.cart.core.service.CartService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import java.util.*
 
 @SpringBootApplication
+@EnableEurekaClient
 @EnableFeignClients(
     basePackages = ["com.norberttalpos.product.api.client"]
 )

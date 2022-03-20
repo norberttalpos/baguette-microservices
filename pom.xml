@@ -25,6 +25,7 @@
         <module>tracking-service</module>
         <module>auth-server</module>
         <module>api-gateway</module>
+        <module>eureka-server</module>
     </modules>
 
     <name>baguette-microservices</name>
@@ -33,12 +34,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring.boot.maven.plugin.version>2.5.7</spring.boot.maven.plugin.version>
-        <spring.boot.dependencies.version>2.5.7</spring.boot.dependencies.version>
+        <spring.boot.maven.plugin.version>2.6.4</spring.boot.maven.plugin.version>
+        <spring.boot.dependencies.version>2.6.4</spring.boot.dependencies.version>
         <spring.cloud-version>2020.0.3</spring.cloud-version>
         <kotlin.version>1.6.10</kotlin.version>
         <kotlin.compiler.jvmTarget>${maven.compiler.source}</kotlin.compiler.jvmTarget>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <querydsl.version>5.0.0</querydsl.version>
     </properties>
 
     <dependencyManagement>
@@ -80,7 +82,7 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
-            <version>1.6.0</version>
+            <version>1.6.10</version>
         </dependency>
 
         <dependency>

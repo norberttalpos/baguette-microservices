@@ -27,5 +27,5 @@ class ProductBrandService : AbstractDeletableService<ProductBrand, ProductBrandF
 
     override fun validateEntity(entity: ProductBrand) = true
 
-    override fun provideUniqunessCheckFilter(entity: ProductBrand) = ProductBrandFilter(name = entity.name)
+    override fun provideUniquenessCheckFilter(entity: ProductBrand) = ProductBrandFilter(name = entity.name)
 }

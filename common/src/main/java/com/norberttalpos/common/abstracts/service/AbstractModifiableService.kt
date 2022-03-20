@@ -29,14 +29,14 @@ abstract class AbstractModifiableService<ENTITY : AbstractEntity, FILTER : Abstr
         }
     }
 
-    private fun validatePost(entity: ENTITY) = this.validateUniqueness(entity) && this.validateEntity(entity)
+    private fun validatePost(entity: ENTITY) = this.checkUniqueness(entity) && this.validateEntity(entity)
 
-    private fun validateUniqueness(entity: ENTITY): Boolean {
-        val collisions = this.filter(this.provideUniqunessCheckFilter(entity), WhereMode.OR)
+    private fun checkUniqueness(entity: ENTITY): Boolean {
+        val collisions = this.filter(this.provideUniquenessCheckFilter(entity), WhereMode.OR)
         return collisions.isEmpty()
     }
 
-    abstract fun provideUniqunessCheckFilter(entity: ENTITY): FILTER
+    abstract fun provideUniquenessCheckFilter(entity: ENTITY): FILTER
 
     abstract fun validateEntity(entity: ENTITY): Boolean
 }
