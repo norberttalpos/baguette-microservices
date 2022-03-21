@@ -17,10 +17,9 @@ abstract class AbstractDeletableControllerImpl<
         DTO : AbstractDto,
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
-        MAPPER : AbstractDtoMapper<ENTITY, DTO>,
         SERVICE : AbstractDeletableService<ENTITY, FILTER>
         >
-    : AbstractDeletableController<DTO, FILTER>, AbstractModifiableControllerImpl<DTO, ENTITY, FILTER, MAPPER, SERVICE>() {
+    : AbstractDeletableController<DTO, FILTER>, AbstractModifiableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
 
     @DeleteMapping("/{id}")
     override fun deleteById(@PathVariable id: UUID): ResponseEntity<Unit> {

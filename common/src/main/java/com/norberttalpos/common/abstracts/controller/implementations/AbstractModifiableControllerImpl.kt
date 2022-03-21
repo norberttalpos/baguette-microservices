@@ -19,10 +19,9 @@ abstract class AbstractModifiableControllerImpl<
         DTO : AbstractDto,
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
-        MAPPER : AbstractDtoMapper<ENTITY, DTO>,
         SERVICE : AbstractModifiableService<ENTITY, FILTER>
         >
-    : AbstractModifiableController<DTO, FILTER>, AbstractGettableControllerImpl<DTO, ENTITY, FILTER, MAPPER, SERVICE>() {
+    : AbstractModifiableController<DTO, FILTER>, AbstractGettableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
 
     @PutMapping
     override fun put(@RequestBody dto: DTO): ResponseEntity<Any> {

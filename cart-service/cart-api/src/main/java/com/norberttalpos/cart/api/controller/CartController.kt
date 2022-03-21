@@ -7,15 +7,22 @@ import com.norberttalpos.cart.api.dto.CartDto
 import com.norberttalpos.cart.api.filter.CartFilter
 import com.norberttalpos.common.abstracts.controller.interfaces.AbstractDeletableController
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
+@RestController
+@RequestMapping("/cart")
 interface CartController : AbstractDeletableController<CartDto, CartFilter> {
 
-    fun addProductToCart(request: AddCartItemToCartRequest)
+    @PostMapping("/add-product-to-cart")
+    fun addProductToCart(@RequestBody request: AddCartItemToCartRequest)
 
-    fun modifyCartItem(request: ModifyCartItemRequest)
+    @PutMapping("/modify-cart-item")
+    fun modifyCartItem(@RequestBody request: ModifyCartItemRequest)
 
-    fun removeCartItem(request: RemoveCartItemRequest)
+    @PutMapping("/remove-cart-item")
+    fun removeCartItem(@RequestBody request: RemoveCartItemRequest)
 
-    fun emptyCart(userId: UUID)
+    @PutMapping("/{userId}/empty")
+    fun emptyCart(@PathVariable userId: UUID)
 }

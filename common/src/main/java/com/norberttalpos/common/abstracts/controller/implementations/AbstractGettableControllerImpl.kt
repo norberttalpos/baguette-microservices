@@ -16,14 +16,13 @@ abstract class AbstractGettableControllerImpl<
         DTO : AbstractDto,
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
-        MAPPER : AbstractDtoMapper<ENTITY, DTO>,
         SERVICE : AbstractFilterableService<ENTITY, FILTER>>
     : AbstractGettableController<DTO, FILTER> {
 
     @Autowired
     lateinit var service: SERVICE
     @Autowired
-    lateinit var mapper: MAPPER
+    lateinit var mapper: AbstractDtoMapper<ENTITY, DTO>
 
     @GetMapping
     override fun getEntities(): ResponseEntity<List<DTO>> {
