@@ -41,6 +41,7 @@
         <kotlin.compiler.jvmTarget>${maven.compiler.source}</kotlin.compiler.jvmTarget>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <querydsl.version>5.0.0</querydsl.version>
+        <io.springfox.version>3.0.0</io.springfox.version>
     </properties>
 
     <dependencyManagement>
@@ -106,6 +107,27 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${io.springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${io.springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-web</artifactId>
+            <version>${io.springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-common</artifactId>
+            <version>${io.springfox.version}</version>
         </dependency>
 
     </dependencies>
