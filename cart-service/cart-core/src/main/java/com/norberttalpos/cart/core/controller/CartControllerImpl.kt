@@ -9,17 +9,15 @@ import com.norberttalpos.cart.api.filter.CartFilter
 import com.norberttalpos.cart.core.entity.Cart
 import com.norberttalpos.cart.core.mapper.CartItemMapper
 import com.norberttalpos.cart.core.service.CartService
-import com.norberttalpos.common.abstracts.controller.implementations.AbstractDeletableControllerImpl
-import org.springframework.beans.factory.annotation.Autowired
+import com.norberttalpos.common.abstracts.controller.implementations.AbstractModifiableControllerImpl
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 @RestController
-class CartControllerImpl : CartController,
-    AbstractDeletableControllerImpl<CartDto, Cart, CartFilter, CartService>() {
-
-    @Autowired
-    private lateinit var cartItemMapper: CartItemMapper
+class CartControllerImpl(
+    private var cartItemMapper: CartItemMapper,
+) : CartController,
+    AbstractModifiableControllerImpl<CartDto, Cart, CartFilter, CartService>() {
 
     override fun addProductToCart(request: AddCartItemToCartRequest) {
         this.service.addProductToCart(request.userId, request.productId)

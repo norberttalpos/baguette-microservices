@@ -1,6 +1,5 @@
 package com.norberttalpos.product.core
 
-import com.norberttalpos.common.configs.SwaggerConfig
 import com.norberttalpos.product.core.entity.MeasurementUnit
 import com.norberttalpos.product.core.entity.Product
 import com.norberttalpos.product.core.entity.ProductBrand
@@ -9,19 +8,22 @@ import com.norberttalpos.product.core.service.MeasurementUnitService
 import com.norberttalpos.product.core.service.ProductBrandService
 import com.norberttalpos.product.core.service.ProductCategoryService
 import com.norberttalpos.product.core.service.ProductService
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Import
 
 @SpringBootApplication
 @EnableEurekaClient
-@Import(*[SwaggerConfig::class])
 @EntityScan(
     basePackages = [ "com.norberttalpos.product.core.entity" ]
+)
+@OpenAPIDefinition(
+    info = Info(title = "Product API", version = "1.0", description = "Documentation Product API v1.0")
 )
 class ProductServiceApplication {
     @Bean

@@ -9,6 +9,6 @@ import java.util.*
 @FeignClient("product")
 interface ProductClient : CartProductResource {
 
-    @GetMapping("/api/product/{id}")
+    @GetMapping("/api/product/product/{id}")
     override fun getProductById(@PathVariable id: UUID): ProductDto?
 }

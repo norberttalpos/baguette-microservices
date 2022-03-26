@@ -2,12 +2,12 @@ package com.norberttalpos.cart.core.mapper
 
 import com.norberttalpos.cart.api.dto.CartItemDto
 import com.norberttalpos.cart.core.entity.CartItem
-import com.norberttalpos.product.api.client.CartProductResource
 import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
+import com.norberttalpos.product.api.client.CartProductResource
 import org.mapstruct.*
 import org.springframework.beans.factory.annotation.Autowired
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 abstract class CartItemMapper : AbstractDtoMapper<CartItem, CartItemDto>() {
 
     @Autowired

@@ -8,7 +8,7 @@ import com.norberttalpos.common.abstracts.filter.AbstractFilter
 import com.norberttalpos.common.abstracts.service.AbstractFilterableService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 @RestController
@@ -20,28 +20,25 @@ abstract class AbstractGettableControllerImpl<
     : AbstractGettableController<DTO, FILTER> {
 
     @Autowired
-    lateinit var service: SERVICE
-    @Autowired
-    lateinit var mapper: AbstractDtoMapper<ENTITY, DTO>
+    protected lateinit var service: SERVICE
 
-    @GetMapping
+    @Autowired
+    protected lateinit var mapper: AbstractDtoMapper<ENTITY, DTO>
+
     override fun getEntities(): ResponseEntity<List<DTO>> {
         val dtos = this.service.getEntities().map(this.mapper::toDto)
 
         return ResponseEntity.ok(dtos)
     }
 
-    @GetMapping("/{id}")
-    override fun getById(@PathVariable id: UUID): ResponseEntity<DTO> {
+    override fun getById(id: UUID): ResponseEntity<DTO> {
         val entity = this.service.getById(id) ?: return ResponseEntity.notFound().build()
-
         val dto = this.mapper.toDto(entity)
 
         return ResponseEntity.ok(dto)
     }
 
-    @PostMapping("/filter")
-    override fun filter(@RequestBody filter: FILTER): ResponseEntity<List<DTO>> {
+    override fun filter(filter: FILTER): ResponseEntity<List<DTO>> {
         val dtos = this.service.filter(filter).map(this.mapper::toDto)
 
         return ResponseEntity.ok(dtos)

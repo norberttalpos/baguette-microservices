@@ -16,31 +16,21 @@ import org.springframework.web.bind.annotation.RestController
 import java.lang.Exception
 
 @RestController
-abstract class AbstractModifiableControllerImpl<
+abstract class AbstractCreatableControllerImpl<
         DTO : AbstractDto,
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
         SERVICE : AbstractModifiableService<ENTITY, FILTER>
         >
-    : AbstractModifiableController<DTO, FILTER>, AbstractCreatableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
+    : AbstractCreatableController<DTO, FILTER>, AbstractGettableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
 
-    @PutMapping
-    override fun put(@RequestBody dto: DTO): ResponseEntity<Any> {
+    @PostMapping
+    override fun post(@RequestBody dto: DTO): ResponseEntity<Any> {
         return try {
-            val dtoId = dto.id
+            dto.id = null
+            val savedEntity = this.service.post(this.mapper.fromDto(dto))
 
-            if(dtoId == null) ResponseEntity.badRequest().body("provide an id for the request dto")
-            else {
-                val persistedEntity = this.service.getById(dtoId)
-
-                if(persistedEntity == null) ResponseEntity.badRequest().body("entity not found")
-                else {
-                    this.mapper.updateFromDto(dto, persistedEntity)
-                    val modifiedEntity = this.service.put(persistedEntity)
-
-                    return ResponseEntity.ok(this.mapper.toDto(modifiedEntity))
-                }
-            }
+            ResponseEntity.ok(this.mapper.toDto(savedEntity))
         } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message.toString())
         }

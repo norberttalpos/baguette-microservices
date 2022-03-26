@@ -1,7 +1,7 @@
 server:
   port: 8082
   servlet:
-    context-path: /api
+    context-path: /api/product
 
 spring:
   application:
@@ -26,3 +26,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+springdoc:
+  packagesToScan: com.norberttalpos.product

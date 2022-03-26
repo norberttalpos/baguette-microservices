@@ -10,27 +10,19 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: product
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /api/$\{path}/v3/api-docs
+
+        - id: product-service
           uri: lb://product-service
           predicates:
             - Path=/api/product/**
 
-        - id: product-brand
-          uri: lb://product-service
-          predicates:
-            - Path=/api/product-brand/**
-
-        - id: product-category
-          uri: lb://product-service
-          predicates:
-            - Path=/api/product-category/**
-
-        - id: measurement-unit
-          uri: lb://product-service
-          predicates:
-            - Path=/api/measurement-unit/**
-
-        - id: cart
+        - id: cart-service
           uri: lb://cart-service
           predicates:
             - Path=/api/cart/**
@@ -43,3 +35,11 @@ eureka:
     register-with-eureka: true
   instance:
     hostname: localhost
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: product
+        url: /v3/api-docs/product
+      - name: cart
+        url: /v3/api-docs/cart

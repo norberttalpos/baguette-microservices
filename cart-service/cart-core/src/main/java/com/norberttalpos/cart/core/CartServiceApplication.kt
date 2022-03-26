@@ -4,21 +4,23 @@ import com.norberttalpos.cart.core.entity.Cart
 import com.norberttalpos.cart.core.entity.CartItem
 import com.norberttalpos.cart.core.repository.CartItemRepository
 import com.norberttalpos.cart.core.service.CartService
-import com.norberttalpos.common.configs.SwaggerConfig
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Import
 import java.util.*
 
 @SpringBootApplication
 @EnableEurekaClient
-@Import(*[SwaggerConfig::class])
 @EnableFeignClients(
     basePackages = ["com.norberttalpos.product.api.client"]
+)
+@OpenAPIDefinition(
+    info = Info(title = "Cart API", version = "1.0", description = "Documentation Cart API v1.0")
 )
 class CartServiceApplication {
 

@@ -1,12 +1,11 @@
 package com.norberttalpos.common.abstracts.dto
 
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
-import com.norberttalpos.common.abstracts.service.AbstractGettableService
-import org.mapstruct.*
-import org.springframework.beans.factory.annotation.Autowired
+import org.mapstruct.InheritConfiguration
+import org.mapstruct.Mapping
+import org.mapstruct.MappingTarget
 import java.util.*
 import javax.persistence.EntityNotFoundException
-import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty0
 
 abstract class AbstractDtoMapper<ENTITY : AbstractEntity, DTO : AbstractDto> {
@@ -15,6 +14,10 @@ abstract class AbstractDtoMapper<ENTITY : AbstractEntity, DTO : AbstractDto> {
 
     abstract fun fromDto(dto: DTO): ENTITY
 
+    @InheritConfiguration
+    @Mapping(target = "id", ignore = true)
+    abstract fun updateFromDto(dto: DTO, @MappingTarget entity: ENTITY): ENTITY
+
     inline fun <reified T : AbstractEntity, S : AbstractDto> referenceResolver(
         dtoField: S?,
         entityField: KMutableProperty0<T>,
@@ -22,11 +25,15 @@ abstract class AbstractDtoMapper<ENTITY : AbstractEntity, DTO : AbstractDto> {
     ) {
         val id = dtoField?.id
 
-        if(id != null) {
-            entityField::set.invoke(dtoFieldGetter.invoke(id)
-                ?: throw EntityNotFoundException("field ${T::class.simpleName} with id $id not found"))
-        } else {
-            entityField::set.invoke(entityField.get())
-        }
+        id.ifNotNullOrElse({
+                entityField::set.invoke(dtoFieldGetter.invoke(it)
+                    ?: throw EntityNotFoundException("field ${T::class.simpleName} with id $it not found"))
+            }, {
+                entityField::set.invoke(entityField.get())
+            }
+        )
     }
 }
+
+inline fun <T : Any, R> T?.ifNotNullOrElse(ifNotNullPath: (T) -> R, elsePath: () -> R)
+        = let { if(it == null) elsePath() else ifNotNullPath(it) }

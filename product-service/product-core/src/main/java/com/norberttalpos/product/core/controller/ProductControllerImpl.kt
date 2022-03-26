@@ -7,8 +7,6 @@ import com.norberttalpos.product.api.dto.ProductDto
 import com.norberttalpos.product.api.filter.ProductFilter
 import com.norberttalpos.product.core.entity.Product
 import com.norberttalpos.product.core.service.ProductService
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController

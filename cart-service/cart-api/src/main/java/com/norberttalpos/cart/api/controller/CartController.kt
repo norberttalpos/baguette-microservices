@@ -5,14 +5,13 @@ import com.norberttalpos.cart.api.controller.restobjects.ModifyCartItemRequest
 import com.norberttalpos.cart.api.controller.restobjects.RemoveCartItemRequest
 import com.norberttalpos.cart.api.dto.CartDto
 import com.norberttalpos.cart.api.filter.CartFilter
-import com.norberttalpos.common.abstracts.controller.interfaces.AbstractDeletableController
-import org.springframework.http.ResponseEntity
+import com.norberttalpos.common.abstracts.controller.interfaces.AbstractModifiableController
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
 @RequestMapping("/cart")
-interface CartController : AbstractDeletableController<CartDto, CartFilter> {
+interface CartController : AbstractModifiableController<CartDto, CartFilter> {
 
     @PostMapping("/add-product-to-cart")
     fun addProductToCart(@RequestBody request: AddCartItemToCartRequest)

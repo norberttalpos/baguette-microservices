@@ -1,9 +1,11 @@
 package com.norberttalpos.cart.core.entity
 
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
-import org.hibernate.annotations.Cascade
 import java.util.*
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.OneToMany
+import javax.persistence.Table
 
 @Entity(name = "Cart")
 @Table(name = "cart")

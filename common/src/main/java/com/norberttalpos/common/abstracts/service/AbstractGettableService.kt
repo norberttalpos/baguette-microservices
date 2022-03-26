@@ -11,7 +11,7 @@ import java.util.*
 abstract class AbstractGettableService<ENTITY : AbstractEntity>() {
 
     @Autowired
-    lateinit var repository: AbstractRepository<ENTITY>
+    protected lateinit var repository: AbstractRepository<ENTITY>
 
     fun getEntities(): List<ENTITY> = this.repository.findAll()
 

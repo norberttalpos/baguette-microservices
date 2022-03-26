@@ -10,18 +10,14 @@ import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.common.exception.NotValidUpdateException
 import com.norberttalpos.product.api.client.CartProductResource
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class CartService : AbstractDeletableService<Cart, CartFilter>() {
-
-    @Autowired
-    private lateinit var cartItemRepository: CartItemRepository
-
-    @Autowired
-    private lateinit var productGetterService: CartProductResource
+class CartService(
+    private var cartItemRepository: CartItemRepository,
+    private var productGetterService: CartProductResource
+) : AbstractDeletableService<Cart, CartFilter>() {
 
     override fun filter(filter: CartFilter, whereMode: WhereMode): List<Cart> {
         val cart: QCart = QCart.cart

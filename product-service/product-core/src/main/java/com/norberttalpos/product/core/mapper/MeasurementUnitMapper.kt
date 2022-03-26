@@ -6,5 +6,5 @@ import com.norberttalpos.product.core.entity.MeasurementUnit
 import org.mapstruct.Mapper
 import org.mapstruct.NullValuePropertyMappingStrategy
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 abstract class MeasurementUnitMapper : AbstractDtoMapper<MeasurementUnit, MeasurementUnitDto>()

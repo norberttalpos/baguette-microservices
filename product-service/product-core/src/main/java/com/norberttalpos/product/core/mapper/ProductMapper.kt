@@ -10,7 +10,7 @@ import com.norberttalpos.product.core.entity.ProductCategory
 import org.mapstruct.*
 import org.springframework.beans.factory.annotation.Autowired
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT, uses = [
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = [
     ProductBrandMapper::class,
     ProductCategoryMapper::class,
     MeasurementUnitMapper::class
