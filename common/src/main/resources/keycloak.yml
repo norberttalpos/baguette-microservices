@@ -1,0 +1,6 @@
+keycloak:
+  auth-server-url: http://localhost:9000/auth
+  realm: baguette
+  resource: api-gateway-client
+  public-client: true
+  bearer-only: true

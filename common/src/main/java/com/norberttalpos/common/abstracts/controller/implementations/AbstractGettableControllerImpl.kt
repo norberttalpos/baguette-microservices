@@ -26,14 +26,12 @@ abstract class AbstractGettableControllerImpl<
     @Autowired
     protected lateinit var mapper: AbstractDtoMapper<ENTITY, DTO>
 
-    @RolesAllowed("user")
     override fun getEntities(): ResponseEntity<List<DTO>> {
         val dtos = this.service.getEntities().map(this.mapper::toDto)
 
         return ResponseEntity.ok(dtos)
     }
 
-    @RolesAllowed("admin")
     override fun getById(id: UUID): ResponseEntity<DTO> {
         val entity = this.service.getById(id) ?: return ResponseEntity.notFound().build()
         val dto = this.mapper.toDto(entity)

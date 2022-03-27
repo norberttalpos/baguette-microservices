@@ -29,6 +29,23 @@ services:
       - postgres
     restart: unless-stopped
 
+  keycloak:
+    container_name: keycloak
+    image: jboss/keycloak:latest
+    environment:
+      KEYCLOAK_USER: norberttalpos
+      KEYCLOAK_PASSWORD: Passw0rd
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_PORT: 5432
+      DB_DATABASE: keycloak
+      DB_USER: norberttalpos
+      DB_PASSWORD: Passw0rd
+    ports:
+      - "9000:8080"
+    networks:
+      - postgres
+
 networks:
   postgres:
     driver: bridge

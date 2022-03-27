@@ -1,6 +1,11 @@
 spring:
   application:
     name: eureka-server
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/auth/realms/baguette/protocol/openid-connect/certs
 
 server:
   port: 8761
