@@ -6,11 +6,13 @@ import com.norberttalpos.cart.api.controller.restobjects.RemoveCartItemRequest
 import com.norberttalpos.cart.api.dto.CartDto
 import com.norberttalpos.cart.api.filter.CartFilter
 import com.norberttalpos.common.abstracts.controller.interfaces.AbstractModifiableController
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
 @RequestMapping("/cart")
+@Tag(name = "Cart")
 interface CartController : AbstractModifiableController<CartDto, CartFilter> {
 
     @PostMapping("/add-product-to-cart")

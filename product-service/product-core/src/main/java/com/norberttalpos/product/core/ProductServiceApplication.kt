@@ -1,5 +1,6 @@
 package com.norberttalpos.product.core
 
+import com.norberttalpos.common.configs.ResourceServerWebSecurityConfig
 import com.norberttalpos.product.core.entity.MeasurementUnit
 import com.norberttalpos.product.core.entity.Product
 import com.norberttalpos.product.core.entity.ProductBrand
@@ -16,11 +17,15 @@ import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
 
 @SpringBootApplication
 @EnableEurekaClient
 @EntityScan(
     basePackages = [ "com.norberttalpos.product.core.entity" ]
+)
+@Import(
+    ResourceServerWebSecurityConfig::class
 )
 @OpenAPIDefinition(
     info = Info(title = "Product API", version = "1.0", description = "Documentation Product API v1.0")
