@@ -39,8 +39,11 @@ class AuthController(
                 loginRequest.password,
             )
         )
+
         SecurityContextHolder.getContext().authentication = authentication
+
         val token = tokenProvider.createToken(authentication)
+
         return ResponseEntity.ok(AuthResponse(token))
     }
 
@@ -50,22 +53,21 @@ class AuthController(
             throw BadRequestException("Email address already in use.")
         }
 
-        // Creating user's account
         val user = User().apply {
             this.name = signUpRequest.name
             this.email = signUpRequest.email
             this.password = signUpRequest.password
             this.provider = AuthProvider.local
             this.password = passwordEncoder.encode(this.password)
-
         }
 
-        val result: User = userRepository.save(user)
+        val result = userRepository.save(user)
 
         val location = ServletUriComponentsBuilder
             .fromCurrentContextPath().path("/user/me")
             .buildAndExpand(result.id).toUri()
+
         return ResponseEntity.created(location)
-            .body<Any>(ApiResponse(true, "User registered successfully@"))
+            .body(ApiResponse(true, "User registered successfully"))
     }
 }

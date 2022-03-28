@@ -5,7 +5,7 @@ class GithubOAuth2UserInfo(attributes: Map<String, Any>) :
     override val id: String
         get() = (attributes["id"] as Int?).toString()
     override val name: String?
-        get() = attributes["name"] as String?
+        get() = attributes["login"] as String?
     override val email: String?
         get() = attributes["email"] as String?
     override val imageUrl: String?

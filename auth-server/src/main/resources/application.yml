@@ -1,7 +1,5 @@
 server:
   port: 9000
-  servlet:
-    context-path: /api/auth
 
 spring:
   application:
@@ -43,3 +41,13 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+springdoc:
+  packagesToScan: com.norberttalpos.auth

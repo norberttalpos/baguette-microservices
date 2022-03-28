@@ -9,11 +9,14 @@ import java.util.*
 
 
 @Service
-class TokenProvider(private val appProperties: AppProperties) {
+class TokenProvider(
+    private val appProperties: AppProperties
+) {
     fun createToken(authentication: Authentication): String {
-        val userPrincipal: UserPrincipal = authentication.principal as UserPrincipal
+        val userPrincipal = authentication.principal as UserPrincipal
         val now = Date()
         val expiryDate = Date(now.time + appProperties.auth.tokenExpirationMsec)
+
         return Jwts.builder()
             .setSubject(userPrincipal.id.toString())
             .setIssuedAt(Date())
@@ -22,17 +25,23 @@ class TokenProvider(private val appProperties: AppProperties) {
             .compact()
     }
 
-    fun getUserIdFromToken(token: String?): Long {
-        val claims = Jwts.parser()
+    fun getUserIdFromToken(token: String?): UUID {
+        val claims = Jwts.parserBuilder()
             .setSigningKey(appProperties.auth.tokenSecret)
+            .build()
             .parseClaimsJws(token)
             .body
-        return claims.subject.toLong()
+
+        return UUID.fromString(claims.subject)
     }
 
     fun validateToken(authToken: String?): Boolean {
         try {
-            Jwts.parser().setSigningKey(appProperties.auth.tokenSecret).parseClaimsJws(authToken)
+            Jwts.parserBuilder()
+                .setSigningKey(appProperties.auth.tokenSecret)
+                .build()
+                .parseClaimsJws(authToken)
+
             return true
         } catch (ex: SignatureException) {
             println("Invalid JWT signature")

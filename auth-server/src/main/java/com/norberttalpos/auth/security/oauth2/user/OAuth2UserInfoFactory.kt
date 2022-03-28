@@ -1,7 +1,7 @@
 package com.norberttalpos.auth.security.oauth2.user
 
+import com.norberttalpos.auth.exception.OAuth2AuthenticationProcessingException
 import com.norberttalpos.auth.model.AuthProvider
-import org.springframework.security.core.AuthenticationException
 
 object OAuth2UserInfoFactory {
     fun getOAuth2UserInfo(registrationId: String, attributes: Map<String, Any>): OAuth2UserInfo {
@@ -11,9 +11,4 @@ object OAuth2UserInfoFactory {
             throw OAuth2AuthenticationProcessingException("Sorry! Login with $registrationId is not supported yet.")
         }
     }
-}
-
-class OAuth2AuthenticationProcessingException : AuthenticationException {
-    constructor(msg: String?, t: Throwable?) : super(msg, t) {}
-    constructor(msg: String?) : super(msg) {}
 }

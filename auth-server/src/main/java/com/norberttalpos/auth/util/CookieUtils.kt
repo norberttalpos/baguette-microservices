@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletResponse
 
 
 object CookieUtils {
-    fun getCookie(request: HttpServletRequest, name: String): Optional<Cookie> {
+    fun getCookie(request: HttpServletRequest, name: String): Cookie? {
         val cookies = request.cookies
-        if (cookies != null && cookies.size > 0) {
+        if (cookies != null && cookies.isNotEmpty()) {
             for (cookie in cookies) {
                 if (cookie.name == name) {
-                    return Optional.of(cookie)
+                    return cookie
                 }
             }
         }
-        return Optional.empty()
+        return null
     }
 
     fun addCookie(response: HttpServletResponse, name: String?, value: String?, maxAge: Int) {
@@ -30,7 +30,7 @@ object CookieUtils {
 
     fun deleteCookie(request: HttpServletRequest, response: HttpServletResponse, name: String) {
         val cookies = request.cookies
-        if (cookies != null && cookies.size > 0) {
+        if (cookies != null && cookies.isNotEmpty()) {
             for (cookie in cookies) {
                 if (cookie.name == name) {
                     cookie.value = ""

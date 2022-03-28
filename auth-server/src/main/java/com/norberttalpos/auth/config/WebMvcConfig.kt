@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 class WebMvcConfig : WebMvcConfigurer {
-    private val MAX_AGE_SECS: Long = 3600
 
     @Value("\${app.cors.allowedOrigins}")
     private lateinit var allowedOrigins: Array<String>
@@ -22,3 +21,5 @@ class WebMvcConfig : WebMvcConfigurer {
             .maxAge(MAX_AGE_SECS)
     }
 }
+
+private const val MAX_AGE_SECS: Long = 3600

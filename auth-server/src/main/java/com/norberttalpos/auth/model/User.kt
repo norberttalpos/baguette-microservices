@@ -1,6 +1,7 @@
 package com.norberttalpos.auth.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
@@ -9,9 +10,10 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(name = "users", uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("email"))])
 class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: UUID? = null
 
     @Column(nullable = false)
     var name: String? = null

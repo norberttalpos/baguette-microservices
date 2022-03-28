@@ -11,8 +11,6 @@ spring:
       discovery:
         locator:
           enabled: true
-      default-filters:
-        - TokenRelay
       routes:
         - id: openapi
           uri: http://localhost:${server.port}
@@ -30,19 +28,11 @@ spring:
           uri: lb://cart-service
           predicates:
             - Path=/api/cart/**
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:9000/auth/realms/baguette
-        registration:
-          keycloak-api-gateway-client:
-            provider: keycloak
-            client-id: api-gateway-client
-            client-secret: qfcF7tPvTUSo2PmN8esPzEFErMlDKqDT
-            authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+
+        - id: auth-server
+          uri: lb://auth-server
+          predicates:
+            - Path=/auth/**,/oauth2/**,/user/me
 
 eureka:
   client:
@@ -60,6 +50,8 @@ springdoc:
         url: /v3/api-docs/product
       - name: cart
         url: /v3/api-docs/cart
+      - name: auth
+        url: /v3/api-docs/auth
 
 logging:
   level:
