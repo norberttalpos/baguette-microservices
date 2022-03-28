@@ -27,6 +27,8 @@ class ResourceServerWebSecurityConfig : WebSecurityConfigurerAdapter() {
                     jwtAuthenticationConverter()
                 )
             }
+
+        http.csrf().disable()
     }
 
     private fun jwtAuthenticationConverter(): Converter<Jwt, out AbstractAuthenticationToken> {

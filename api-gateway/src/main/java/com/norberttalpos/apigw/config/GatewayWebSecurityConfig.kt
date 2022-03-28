@@ -1,5 +1,7 @@
 package com.norberttalpos.apigw.config
 
+import org.apache.catalina.Server
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
@@ -9,24 +11,30 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 @EnableWebFluxSecurity
 class GatewayWebSecurityConfig {
 
-    fun configure(http: ServerHttpSecurity): SecurityWebFilterChain {
-        http
-                .authorizeExchange()
-                .pathMatchers(
-                    "/swagger**",
-                    "/swagger-resources/**",
-                    "/swagger-ui/**",
-                    "/webjars/swagger-ui/**",
-                    "/v3/api-docs**",
-                    "/**/v3/api-docs"
-                ).permitAll()
-            .and()
-                .authorizeExchange()
-                .anyExchange()
-                .authenticated()
-            .and()
-                .oauth2Login()
+    fun configure(httpSecurity: ServerHttpSecurity): SecurityWebFilterChain {
+        httpSecurity
+            .authorizeExchange()
+            .pathMatchers(
+                "/swagger**",
+                "/swagger-resources/**",
+                "/swagger-ui/**",
+                "/webjars/swagger-ui/**",
+                "/v3/api-docs**",
+                "/**/v3/api-docs"
+            )
+            .permitAll()
 
-        return http.build()
+        httpSecurity
+            .authorizeExchange()
+            .anyExchange().authenticated()
+            .and()
+            .cors()
+            .and()
+            .csrf()
+            .disable()
+            .oauth2ResourceServer()
+            .jwt()
+
+        return httpSecurity.build()
     }
 }
