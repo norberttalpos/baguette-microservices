@@ -25,6 +25,7 @@
         <module>tracking-service</module>
         <module>api-gateway</module>
         <module>eureka-server</module>
+        <module>auth-server</module>
     </modules>
 
     <name>baguette-microservices</name>
