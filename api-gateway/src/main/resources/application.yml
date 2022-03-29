@@ -32,7 +32,7 @@ spring:
         - id: auth-server
           uri: lb://auth-server
           predicates:
-            - Path=/auth/**,/oauth2/**,/user/me
+            - Path=/api/auth/**
 
 eureka:
   client:

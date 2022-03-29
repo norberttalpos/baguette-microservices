@@ -59,7 +59,11 @@ class UserPrincipal(
 
     companion object {
         fun create(user: User): UserPrincipal {
-            val authorities = listOf<GrantedAuthority>(SimpleGrantedAuthority("ROLE_USER"))
+            val authorities = mutableListOf<GrantedAuthority>(SimpleGrantedAuthority("ROLE_USER"))
+
+            if(user.email == "norberttalpos@gmail.com")
+                authorities.add(SimpleGrantedAuthority("ROLE_ADMIN"))
+
             return UserPrincipal(
                 user.id,
                 user.email,
