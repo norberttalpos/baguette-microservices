@@ -11,6 +11,17 @@ spring:
       discovery:
         locator:
           enabled: true
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
       routes:
         - id: openapi
           uri: http://localhost:${server.port}

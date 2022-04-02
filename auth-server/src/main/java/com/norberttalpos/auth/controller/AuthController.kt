@@ -57,7 +57,7 @@ class AuthController(
             this.name = signUpRequest.name
             this.email = signUpRequest.email
             this.password = signUpRequest.password
-            this.provider = AuthProvider.local
+            this.provider = AuthProvider.LOCAL
             this.password = passwordEncoder.encode(this.password)
         }
 

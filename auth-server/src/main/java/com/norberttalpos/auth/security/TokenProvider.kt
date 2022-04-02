@@ -43,17 +43,27 @@ class TokenProvider(
                 .parseClaimsJws(authToken)
 
             return true
-        } catch (ex: SignatureException) {
-            println("Invalid JWT signature")
-        } catch (ex: MalformedJwtException) {
-            println("Invalid JWT token")
-        } catch (ex: ExpiredJwtException) {
-            println("Expired JWT token")
-        } catch (ex: UnsupportedJwtException) {
-            println("Unsupported JWT token")
-        } catch (ex: IllegalArgumentException) {
-            println("JWT claims string is empty.")
+
+        } catch (ex: Exception) {
+            when(ex) {
+                is SignatureException -> {
+                    println("Invalid JWT signature")
+                }
+                is MalformedJwtException -> {
+                    println("Invalid JWT token")
+                }
+                is ExpiredJwtException -> {
+                    println("Expired JWT token")
+                }
+                is UnsupportedJwtException -> {
+                    println("Unsupported JWT token")
+                }
+                is IllegalArgumentException -> {
+                    println("JWT claims string is empty.")
+                }
+            }
+
+            return false
         }
-        return false
     }
 }

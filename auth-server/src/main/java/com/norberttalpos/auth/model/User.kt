@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull
 
 
 @Entity
-@Table(name = "users", uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("email"))])
+@Table(name = "users")
 class User {
 
     @Id
@@ -19,7 +19,7 @@ class User {
     var name: String? = null
 
     @Email
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     var email: String? = null
 
     var imageUrl: String? = null
@@ -38,5 +38,5 @@ class User {
 }
 
 enum class AuthProvider {
-    local, github
+    LOCAL, GITHUB, GOOGLE
 }
