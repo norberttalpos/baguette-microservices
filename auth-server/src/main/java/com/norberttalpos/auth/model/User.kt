@@ -38,5 +38,5 @@ class User {
 }
 
 enum class AuthProvider {
-    LOCAL, GITHUB, GOOGLE
+    local, github, google
 }
