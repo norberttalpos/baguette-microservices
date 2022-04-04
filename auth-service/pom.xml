@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common</artifactId>
+    <artifactId>auth-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>common-abstract</module>
-        <module>common-config</module>
+        <module>auth-api</module>
+        <module>auth-core</module>
     </modules>
 
     <properties>
@@ -23,26 +23,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.norberttalpos</groupId>
+            <artifactId>common-abstract</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-common</artifactId>
-            <version>1.6.6</version>
-        </dependency>
-
     </dependencies>
 
 </project>
