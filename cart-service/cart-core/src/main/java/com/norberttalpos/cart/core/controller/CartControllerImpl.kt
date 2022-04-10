@@ -1,9 +1,9 @@
 package com.norberttalpos.cart.core.controller
 
 import com.norberttalpos.cart.api.controller.CartController
-import com.norberttalpos.cart.api.controller.restobjects.AddCartItemToCartRequest
-import com.norberttalpos.cart.api.controller.restobjects.ModifyCartItemRequest
-import com.norberttalpos.cart.api.controller.restobjects.RemoveCartItemRequest
+import com.norberttalpos.cart.api.controller.payload.AddCartItemToCartRequest
+import com.norberttalpos.cart.api.controller.payload.ModifyCartItemRequest
+import com.norberttalpos.cart.api.controller.payload.RemoveCartItemRequest
 import com.norberttalpos.cart.api.dto.CartDto
 import com.norberttalpos.cart.api.filter.CartFilter
 import com.norberttalpos.cart.core.entity.Cart

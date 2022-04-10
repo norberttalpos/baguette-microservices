@@ -1,7 +1,7 @@
 package com.norberttalpos.product.api.controller
 
 import com.norberttalpos.common.abstracts.controller.interfaces.AbstractDeletableController
-import com.norberttalpos.product.api.controller.restobjects.ProductAmountChangeRequest
+import com.norberttalpos.product.api.controller.payload.ProductAmountChangeRequest
 import com.norberttalpos.product.api.dto.ProductDto
 import com.norberttalpos.product.api.filter.ProductFilter
 import io.swagger.v3.oas.annotations.tags.Tag

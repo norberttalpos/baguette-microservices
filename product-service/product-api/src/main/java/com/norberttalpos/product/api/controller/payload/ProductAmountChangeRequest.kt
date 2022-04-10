@@ -1,4 +1,4 @@
-package com.norberttalpos.product.api.controller.restobjects
+package com.norberttalpos.product.api.controller.payload
 
 data class ProductAmountChangeRequest(
     val productName: String,

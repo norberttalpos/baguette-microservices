@@ -2,7 +2,7 @@ package com.norberttalpos.product.core.controller
 
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractDeletableControllerImpl
 import com.norberttalpos.product.api.controller.ProductController
-import com.norberttalpos.product.api.controller.restobjects.ProductAmountChangeRequest
+import com.norberttalpos.product.api.controller.payload.ProductAmountChangeRequest
 import com.norberttalpos.product.api.dto.ProductDto
 import com.norberttalpos.product.api.filter.ProductFilter
 import com.norberttalpos.product.core.entity.Product

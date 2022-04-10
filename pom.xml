@@ -16,8 +16,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>customer-service</module>
-        <module>customer-service/customer-api</module>
-        <module>customer-service/customer-core</module>
         <module>cart-service</module>
         <module>common</module>
         <module>order-service</module>
