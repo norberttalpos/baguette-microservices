@@ -4,6 +4,7 @@ import com.norberttalpos.cart.core.entity.Cart
 import com.norberttalpos.cart.core.entity.CartItem
 import com.norberttalpos.cart.core.repository.CartItemRepository
 import com.norberttalpos.cart.core.service.CartService
+import com.norberttalpos.cart.core.security.CartServiceWebSecurityConfig
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.CommandLineRunner
@@ -18,9 +19,10 @@ import java.util.*
 @SpringBootApplication
 @EnableEurekaClient
 @EnableFeignClients(
-    basePackages = ["com.norberttalpos.product.api.client"]
+    basePackages = ["com.norberttalpos.product.api.client", "com.norberttalpos.auth.api.client"]
 )
 @Import(
+    CartServiceWebSecurityConfig::class
 )
 @OpenAPIDefinition(
     info = Info(title = "Cart API", version = "1.0", description = "Documentation Cart API v1.0")

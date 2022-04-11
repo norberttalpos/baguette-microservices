@@ -1,6 +1,6 @@
 package com.norberttalpos.customer.core
 
-import com.norberttalpos.common.security.ResourceServerWebSecurityConfig
+import com.norberttalpos.customer.core.security.CustomerServiceWebSecurityConfig
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -13,13 +13,13 @@ import org.springframework.context.annotation.Import
 @SpringBootApplication
 @EnableEurekaClient
 @EntityScan(
-    basePackages = [ "com.norberttalpos.customer.core.entity" ]
+    basePackages = [ "com.norberttalpos.customer.core.entity"]
 )
 @EnableFeignClients(
     basePackages = ["com.norberttalpos.auth.api.client"]
 )
 @Import(
-    ResourceServerWebSecurityConfig::class
+    CustomerServiceWebSecurityConfig::class
 )
 @OpenAPIDefinition(
     info = Info(title = "Customer API", version = "1.0", description = "Documentation Customer API v1.0")

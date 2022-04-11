@@ -50,8 +50,8 @@ spring:
           predicates:
             - Path=/api/order/**
 
-        - id: auth-server
-          uri: lb://auth-server
+        - id: auth-service
+          uri: lb://auth-service
           predicates:
             - Path=/api/auth/**
 

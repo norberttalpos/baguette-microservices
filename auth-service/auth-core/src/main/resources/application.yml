@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: auth-server
+    name: auth-service
   datasource:
     url: jdbc:postgresql://localhost:5432/auth?createDatabaseIfNotExist=true
     username: norberttalpos

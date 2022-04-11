@@ -1,6 +1,6 @@
 package com.norberttalpos.product.core
 
-import com.norberttalpos.common.security.ResourceServerWebSecurityConfig
+import com.norberttalpos.product.core.security.ProductServiceWebSecurityConfig
 import com.norberttalpos.product.core.entity.MeasurementUnit
 import com.norberttalpos.product.core.entity.Product
 import com.norberttalpos.product.core.entity.ProductBrand
@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Import
     basePackages = ["com.norberttalpos.auth.api.client"]
 )
 @Import(
-    ResourceServerWebSecurityConfig::class
+    ProductServiceWebSecurityConfig::class
 )
 @OpenAPIDefinition(
     info = Info(title = "Product API", version = "1.0", description = "Documentation Product API v1.0")
