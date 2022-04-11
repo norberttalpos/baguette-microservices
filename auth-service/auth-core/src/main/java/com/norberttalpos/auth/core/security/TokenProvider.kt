@@ -21,6 +21,13 @@ class TokenProvider(
             .setSubject(userPrincipal.id.toString())
             .setIssuedAt(Date())
             .setExpiration(expiryDate)
+            .setClaims(
+                mapOf(
+                    Pair("roles", userPrincipal.authorities),
+                    Pair("email", userPrincipal.email),
+                    Pair("userid", userPrincipal.id),
+                )
+            )
             .signWith(SignatureAlgorithm.HS512, appProperties.auth.tokenSecret)
             .compact()
     }
@@ -32,7 +39,7 @@ class TokenProvider(
             .parseClaimsJws(token)
             .body
 
-        return UUID.fromString(claims.subject)
+        return UUID.fromString(claims["userid"] as? String)
     }
 
     fun validateToken(authToken: String?): Boolean {

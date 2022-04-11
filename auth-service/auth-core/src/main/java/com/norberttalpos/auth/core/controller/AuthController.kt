@@ -1,14 +1,17 @@
 package com.norberttalpos.auth.core.controller
 
 import com.norberttalpos.auth.core.exception.BadRequestException
-import com.norberttalpos.auth.core.model.AuthProvider
-import com.norberttalpos.auth.core.model.User
+import com.norberttalpos.auth.core.model.entity.AuthProvider
+import com.norberttalpos.auth.core.model.entity.User
 import com.norberttalpos.auth.core.payload.ApiResponse
 import com.norberttalpos.auth.core.payload.AuthResponse
 import com.norberttalpos.auth.core.payload.LoginRequest
 import com.norberttalpos.auth.core.payload.SignUpRequest
 import com.norberttalpos.auth.core.repository.UserRepository
 import com.norberttalpos.auth.core.security.TokenProvider
+import com.norberttalpos.auth.core.util.RoleDeterminerService
+import com.norberttalpos.customer.api.client.CustomerClient
+import com.norberttalpos.customer.api.dto.CustomerDto
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -28,7 +31,9 @@ class AuthController(
     private val authenticationManager: AuthenticationManager,
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val tokenProvider: TokenProvider
+    private val tokenProvider: TokenProvider,
+    private val customerClient: CustomerClient,
+    private val roleDeterminerService: RoleDeterminerService,
 ) {
 
     @PostMapping("/login")
@@ -54,14 +59,24 @@ class AuthController(
         }
 
         val user = User().apply {
-            this.name = signUpRequest.name
             this.email = signUpRequest.email
-            this.password = signUpRequest.password
             this.provider = AuthProvider.local
             this.password = passwordEncoder.encode(this.password)
+            this.roles = roleDeterminerService.determineRoles(signUpRequest.email)
         }
 
         val result = userRepository.save(user)
+
+        this.customerClient.registerCustomer(
+            CustomerDto(
+                id = result.id,
+                name = signUpRequest.name,
+                email = signUpRequest.email,
+                phoneNumber = null, // TODO
+                imageUrl = null,
+                address = null
+            )
+        )
 
         val location = ServletUriComponentsBuilder
             .fromCurrentContextPath().path("/user/me")

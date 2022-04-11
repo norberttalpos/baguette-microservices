@@ -22,7 +22,7 @@ abstract class AbstractCreatableControllerImpl<
         FILTER : AbstractFilter,
         SERVICE : AbstractModifiableService<ENTITY, FILTER>
         >
-    : AbstractCreatableController<DTO, FILTER>, com.norberttalpos.common.abstracts.controller.implementations.AbstractGettableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
+    : AbstractCreatableController<DTO, FILTER>, AbstractGettableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
 
     @PostMapping
     override fun post(@RequestBody dto: DTO): ResponseEntity<Any> {

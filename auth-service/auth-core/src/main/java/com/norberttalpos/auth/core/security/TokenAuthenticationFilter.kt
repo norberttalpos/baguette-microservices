@@ -37,7 +37,7 @@ class TokenAuthenticationFilter() : OncePerRequestFilter() {
                 SecurityContextHolder.getContext().authentication = authentication
             }
         } catch (ex: Exception) {
-            // nop
+            print(ex.message)
         }
 
         filterChain.doFilter(request, response)

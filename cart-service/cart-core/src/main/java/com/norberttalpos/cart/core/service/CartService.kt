@@ -54,20 +54,26 @@ class CartService(
     fun modifyCartItem(userId: UUID, cartItem: CartItem) {
         val cart = this.getCartOfUser(userId)
         this.put(cart.apply {
-            this.cartItems = this.cartItems?.
-            filter { it.id == cartItem.id }?.
-            map { it.apply { this.amount = cartItem.amount } }
+            this.cartItems = this.cartItems
+                ?.filter { it.id == cartItem.id }
+                ?.map { it.apply { this.amount = cartItem.amount } }
         })
     }
 
     fun removeCartItem(userId: UUID, cartItemId: UUID) {
         val cart = this.getCartOfUser(userId)
-        cart.cartItems?.filter { it.id == cartItemId }?.forEach { this.cartItemRepository.deleteById(it.id!!) }
+        cart.cartItems
+            ?.filter { it.id == cartItemId }
+            ?.forEach { this.cartItemRepository.deleteById(it.id!!) }
     }
 
     fun emptyCart(userId: UUID) {
         val cart = this.getCartOfUser(userId)
         cart.cartItems?.forEach { this.cartItemRepository.deleteById(it.id!!) }
+    }
+
+    fun createOrder(userId: UUID) {
+        // TODO
     }
 
     private fun getCartOfUser(userId: UUID): Cart {

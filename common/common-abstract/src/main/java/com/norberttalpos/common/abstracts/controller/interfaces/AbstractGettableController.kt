@@ -5,7 +5,6 @@ import com.norberttalpos.common.abstracts.filter.AbstractFilter
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -13,16 +12,10 @@ import java.util.*
 interface AbstractGettableController<DTO : AbstractDto, FILTER : AbstractFilter> {
 
     @GetMapping
-/*
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-*/
     @Operation(description = "gets all entities")
     fun getEntities(@RequestHeader headers: HttpHeaders): ResponseEntity<List<DTO>>
 
     @GetMapping("/{id}")
-/*
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-*/
     @Operation(description = "gets an entity by id")
     fun getById(@PathVariable id: UUID): ResponseEntity<DTO>
 

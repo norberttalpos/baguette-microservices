@@ -26,4 +26,7 @@ interface CartController : AbstractModifiableController<CartDto, CartFilter> {
 
     @PutMapping("/{userId}/empty")
     fun emptyCart(@PathVariable userId: UUID)
+
+    @PutMapping("/{userId}/create-order")
+    fun createOrder(@PathVariable userId: UUID)
 }

@@ -34,4 +34,8 @@ class CartControllerImpl(
     override fun emptyCart(userId: UUID) {
         this.service.emptyCart(userId)
     }
+
+    override fun createOrder(userId: UUID) {
+        this.service.createOrder(userId)
+    }
 }

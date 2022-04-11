@@ -9,4 +9,5 @@ data class UserDto(
     var email: String?,
     var imageUrl: String?,
     var emailVerified: Boolean?,
+    var roles: List<RoleDto>?,
 ) : AbstractDto

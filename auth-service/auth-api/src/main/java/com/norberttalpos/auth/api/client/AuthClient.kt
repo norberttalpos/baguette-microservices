@@ -6,7 +6,10 @@ import org.springframework.http.HttpHeaders
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 
-@FeignClient("auth")
+@FeignClient(
+    value = "auth",
+    url = "http://localhost:9000"
+)
 interface AuthClient {
 
     @GetMapping("/api/auth/user/me")

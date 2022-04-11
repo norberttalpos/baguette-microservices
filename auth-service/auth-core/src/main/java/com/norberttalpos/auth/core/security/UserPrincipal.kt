@@ -1,8 +1,8 @@
 package com.norberttalpos.auth.core.security
 
-import com.norberttalpos.auth.core.model.User
+import com.norberttalpos.auth.api.util.asSimpleGrantedAuthority
+import com.norberttalpos.auth.core.model.entity.User
 import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.oauth2.core.user.OAuth2User
 import java.util.*
@@ -59,10 +59,7 @@ class UserPrincipal(
 
     companion object {
         fun create(user: User): UserPrincipal {
-            val authorities = mutableListOf<GrantedAuthority>(SimpleGrantedAuthority("ROLE_USER"))
-
-            if(user.email == "norberttalpos@gmail.com")
-                authorities.add(SimpleGrantedAuthority("ROLE_ADMIN"))
+            val authorities = user.roles?.map { asSimpleGrantedAuthority(it.name!!) } ?: emptyList()
 
             return UserPrincipal(
                 user.id,

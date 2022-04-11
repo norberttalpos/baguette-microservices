@@ -1,4 +1,4 @@
-package com.norberttalpos.auth.core.security
+package com.norberttalpos.auth.api.util
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 

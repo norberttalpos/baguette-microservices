@@ -1,6 +1,7 @@
 package com.norberttalpos.common.security
 
 import com.norberttalpos.auth.api.client.AuthClient
+import com.norberttalpos.auth.api.util.asSimpleGrantedAuthority
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
@@ -26,7 +27,12 @@ class JwtToUserConverterFilter(
                 val user = authClient.getUser(jwt)
 
                 // TODO: valódi authorities-al
-                val authentication = UsernamePasswordAuthenticationToken(user, null, emptySet())
+                val authentication =
+                    UsernamePasswordAuthenticationToken(
+                        user,
+                        null,
+                        user.roles!!.map { asSimpleGrantedAuthority(it.name!!) }
+                    )
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 
                 SecurityContextHolder.getContext().authentication = authentication
@@ -40,10 +46,6 @@ class JwtToUserConverterFilter(
     }
 
     private fun getJwtFromRequest(request: HttpServletRequest): String? {
-        val bearerToken = request.getHeader("Authorization")
-
-        return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            bearerToken.substring(7, bearerToken.length)
-        } else null
+        return request.getHeader("Authorization")
     }
 }

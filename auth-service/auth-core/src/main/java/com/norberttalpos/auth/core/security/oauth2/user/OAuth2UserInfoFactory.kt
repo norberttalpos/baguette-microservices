@@ -1,7 +1,7 @@
 package com.norberttalpos.auth.core.security.oauth2.user
 
 import com.norberttalpos.auth.core.exception.OAuth2AuthenticationProcessingException
-import com.norberttalpos.auth.core.model.AuthProvider
+import com.norberttalpos.auth.core.model.entity.AuthProvider
 
 object OAuth2UserInfoFactory {
     fun getOAuth2UserInfo(registrationId: String, attributes: Map<String, Any>): OAuth2UserInfo {

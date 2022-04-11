@@ -1,23 +1,30 @@
 package com.norberttalpos.auth.core.security.oauth2
 
 import com.norberttalpos.auth.core.exception.OAuth2AuthenticationProcessingException
-import com.norberttalpos.auth.core.model.AuthProvider
-import com.norberttalpos.auth.core.model.User
+import com.norberttalpos.auth.core.model.entity.AuthProvider
+import com.norberttalpos.auth.core.model.entity.User
 import com.norberttalpos.auth.core.repository.UserRepository
 import com.norberttalpos.auth.core.security.UserPrincipal
 import com.norberttalpos.auth.core.security.oauth2.user.OAuth2UserInfo
 import com.norberttalpos.auth.core.security.oauth2.user.OAuth2UserInfoFactory
+import com.norberttalpos.auth.core.util.RoleDeterminerService
+import com.norberttalpos.customer.api.client.CustomerClient
+import com.norberttalpos.customer.api.dto.CustomerDto
 import org.springframework.security.authentication.InternalAuthenticationServiceException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Isolation
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.StringUtils
 
 @Service
 class CustomOAuth2UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val customerClient: CustomerClient,
+    private val roleDeterminerService: RoleDeterminerService,
 ) : DefaultOAuth2UserService() {
 
     override fun loadUser(oAuth2UserRequest: OAuth2UserRequest): OAuth2User {
@@ -61,21 +68,45 @@ class CustomOAuth2UserService(
         return UserPrincipal.create(user, oAuth2User.attributes)
     }
 
-    private fun registerNewUser(oAuth2UserRequest: OAuth2UserRequest, oAuth2UserInfo: OAuth2UserInfo): User {
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
+    fun registerNewUser(oAuth2UserRequest: OAuth2UserRequest, oAuth2UserInfo: OAuth2UserInfo): User {
         val user = User().apply {
+            this.email = oAuth2UserInfo.email
             this.provider = AuthProvider.valueOf(oAuth2UserRequest.clientRegistration.registrationId)
             this.providerId = oAuth2UserInfo.id
-            this.name = oAuth2UserInfo.name
-            this.email = oAuth2UserInfo.email
-            this.imageUrl = oAuth2UserInfo.imageUrl
+            this.roles = roleDeterminerService.determineRoles(oAuth2UserInfo.email!!)
         }
 
-        return userRepository.save(user)
+        val result = userRepository.save(user)
+
+        this.customerClient.registerCustomer(
+            CustomerDto(
+                id = result.id,
+                name = oAuth2UserInfo.name ?: "",
+                email = result.email,
+                phoneNumber = null, // TODO
+                imageUrl = oAuth2UserInfo.imageUrl,
+                address = null
+            )
+        )
+
+        return result
     }
 
-    private fun updateExistingUser(existingUser: User, oAuth2UserInfo: OAuth2UserInfo): User {
-        existingUser.name = oAuth2UserInfo.name
-        existingUser.imageUrl = oAuth2UserInfo.imageUrl
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
+    fun updateExistingUser(existingUser: User, oAuth2UserInfo: OAuth2UserInfo): User {
+/*        this.customerClient.registerCustomer(
+            CustomerDto(
+                id = result.id,
+                name = oAuth2UserInfo.name,
+                email = result.email,
+                phoneNumber = null,
+                imageUrl = oAuth2UserInfo.imageUrl,
+                address = null
+            )
+        )*/
+
+        // TODO
 
         return userRepository.save(existingUser)
     }

@@ -1,0 +1,25 @@
+package com.norberttalpos.customer.core.entity
+
+import com.norberttalpos.common.abstracts.entity.AbstractEntity
+import javax.persistence.*
+
+@Entity(name = "Customer")
+@Table(name = "customer")
+class Customer : AbstractEntity() {
+
+    @Column(name = "name", nullable = false)
+    var name: String = ""
+
+    @Column(name = "email", nullable = false, unique = true)
+    var email: String = ""
+
+    @Column(name = "phone_number")
+    var phoneNumber: String? = ""
+
+    @Column(name = "image_url")
+    var imageUrl: String? = null
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    var address: Address? = null
+}

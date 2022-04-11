@@ -1,0 +1,37 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /api/customer
+
+spring:
+  application:
+    name: customer-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/customer?createDatabaseIfNotExist=true
+    username: norberttalpos
+    password: Passw0rd
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    generate-ddl: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+springdoc:
+  packagesToScan: com.norberttalpos.customer
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

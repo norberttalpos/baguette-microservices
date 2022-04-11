@@ -40,6 +40,16 @@ spring:
           predicates:
             - Path=/api/cart/**
 
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/api/customer/**
+
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/order/**
+
         - id: auth-server
           uri: lb://auth-server
           predicates:
@@ -61,6 +71,10 @@ springdoc:
         url: /v3/api-docs/product
       - name: cart
         url: /v3/api-docs/cart
+      - name: customer
+        url: /v3/api-docs/customer
+      - name: order
+        url: /v3/api-docs/order
       - name: auth
         url: /v3/api-docs/auth
 

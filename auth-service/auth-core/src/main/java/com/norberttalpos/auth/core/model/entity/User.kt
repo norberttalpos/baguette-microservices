@@ -1,4 +1,4 @@
-package com.norberttalpos.auth.core.model
+package com.norberttalpos.auth.core.model.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
@@ -6,19 +6,13 @@ import javax.persistence.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
 
-
 @Entity
 @Table(name = "users")
 class User : AbstractEntity() {
 
-    @Column(nullable = false)
-    var name: String? = null
-
     @Email
     @Column(nullable = false, unique = true)
     var email: String? = null
-
-    var imageUrl: String? = null
 
     @Column(nullable = false)
     val emailVerified = false
@@ -31,6 +25,14 @@ class User : AbstractEntity() {
     var provider: AuthProvider? = null
 
     var providerId: String? = null
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_role_join",
+        joinColumns = [JoinColumn(name = "user_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
+    )
+    var roles: List<Role>? = emptyList()
 }
 
 enum class AuthProvider {

@@ -1,5 +1,6 @@
 package com.norberttalpos.product.core.controller
 
+import com.norberttalpos.auth.api.dto.UserDto
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractDeletableControllerImpl
 import com.norberttalpos.product.api.controller.ProductController
 import com.norberttalpos.product.api.controller.payload.ProductAmountChangeRequest
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class ProductControllerImpl : ProductController,
     AbstractDeletableControllerImpl<ProductDto, Product, ProductFilter, ProductService>() {
 
-    override fun buyProduct(request: ProductAmountChangeRequest)
+    override fun buyProduct(request: ProductAmountChangeRequest, user: UserDto)
         = this.service.buyProduct(request.productName, request.amount)
 
     override fun addProductToStore(request: ProductAmountChangeRequest)

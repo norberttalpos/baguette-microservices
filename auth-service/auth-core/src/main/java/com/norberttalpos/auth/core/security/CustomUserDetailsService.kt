@@ -1,7 +1,7 @@
 package com.norberttalpos.auth.core.security
 
 import com.norberttalpos.auth.core.exception.ResourceNotFoundException
-import com.norberttalpos.auth.core.model.User
+import com.norberttalpos.auth.core.model.entity.User
 import com.norberttalpos.auth.core.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.UserDetails
