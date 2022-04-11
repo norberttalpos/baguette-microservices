@@ -7,6 +7,9 @@ import com.norberttalpos.product.core.entity.MeasurementUnit
 import com.norberttalpos.product.core.entity.Product
 import com.norberttalpos.product.core.entity.ProductBrand
 import com.norberttalpos.product.core.entity.ProductCategory
+import com.norberttalpos.product.core.repository.MeasurementUnitRepository
+import com.norberttalpos.product.core.repository.ProductBrandRepository
+import com.norberttalpos.product.core.repository.ProductCategoryRepository
 import org.mapstruct.*
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -18,13 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired
 abstract class ProductMapper : AbstractDtoMapper<Product, ProductDto>() {
 
     @Autowired
-    private lateinit var productBrandService: AbstractGettableService<ProductBrand>
+    private lateinit var productBrandService: AbstractGettableService<ProductBrand, ProductBrandRepository>
 
     @Autowired
-    private lateinit var productCategoryService: AbstractGettableService<ProductCategory>
+    private lateinit var productCategoryService: AbstractGettableService<ProductCategory, ProductCategoryRepository>
 
     @Autowired
-    private lateinit var measurementUnitService: AbstractGettableService<MeasurementUnit>
+    private lateinit var measurementUnitService: AbstractGettableService<MeasurementUnit, MeasurementUnitRepository>
 
     @Mapping(target = "brand.products", ignore = true)
     @Mapping(target = "category.products", ignore = true)

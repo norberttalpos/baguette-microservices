@@ -6,10 +6,12 @@ import com.norberttalpos.common.abstracts.service.AbstractModifiableService
 import com.norberttalpos.product.api.filter.MeasurementUnitFilter
 import com.norberttalpos.product.core.entity.MeasurementUnit
 import com.norberttalpos.product.core.entity.QMeasurementUnit
+import com.norberttalpos.product.core.repository.MeasurementUnitRepository
 import org.springframework.stereotype.Service
 
 @Service
-class MeasurementUnitService : AbstractModifiableService<MeasurementUnit, MeasurementUnitFilter>() {
+class MeasurementUnitService
+    : AbstractModifiableService<MeasurementUnit, MeasurementUnitFilter, MeasurementUnitRepository>() {
 
     override fun filter(filter: MeasurementUnitFilter, whereMode: WhereMode): List<MeasurementUnit> {
         val measurementUnit: QMeasurementUnit = QMeasurementUnit.measurementUnit

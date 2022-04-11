@@ -99,7 +99,7 @@ class SecurityConfig(
                     "/**/*.js"
                 )
                     .permitAll()
-                .antMatchers("/auth/**", "/oauth2/**", "/v3/api-docs/**")
+                .antMatchers("/auth/**", "/user/**", "/oauth2/**", "/v3/api-docs/**")
                     .permitAll()
                 .anyRequest()
                     .authenticated()

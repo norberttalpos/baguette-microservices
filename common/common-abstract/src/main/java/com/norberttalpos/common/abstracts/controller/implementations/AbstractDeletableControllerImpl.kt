@@ -4,6 +4,7 @@ import com.norberttalpos.common.abstracts.controller.interfaces.AbstractDeletabl
 import com.norberttalpos.common.abstracts.dto.AbstractDto
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
 import com.norberttalpos.common.abstracts.filter.AbstractFilter
+import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
@@ -14,7 +15,7 @@ abstract class AbstractDeletableControllerImpl<
         DTO : AbstractDto,
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
-        SERVICE : AbstractDeletableService<ENTITY, FILTER>
+        SERVICE : AbstractDeletableService<ENTITY, FILTER, out AbstractRepository<ENTITY>>
         >
     : AbstractDeletableController<DTO, FILTER>, AbstractModifiableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
 

@@ -30,7 +30,7 @@ class JwtToUserConverterFilter(
                 val authentication =
                     UsernamePasswordAuthenticationToken(
                         user,
-                        null,
+                        jwt,
                         user.roles!!.map { asSimpleGrantedAuthority(it.name!!) }
                     )
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)

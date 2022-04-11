@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-abstract class AbstractGettableService<ENTITY : AbstractEntity>() {
+abstract class AbstractGettableService<
+        ENTITY : AbstractEntity,
+        REPOSITORY : AbstractRepository<ENTITY>
+        > {
 
     @Autowired
-    protected lateinit var repository: AbstractRepository<ENTITY>
+    protected lateinit var repository: REPOSITORY
 
     fun getEntities(): List<ENTITY> = this.repository.findAll()
 

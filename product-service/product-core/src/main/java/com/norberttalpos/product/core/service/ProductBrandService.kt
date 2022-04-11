@@ -6,10 +6,11 @@ import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.product.api.filter.ProductBrandFilter
 import com.norberttalpos.product.core.entity.ProductBrand
 import com.norberttalpos.product.core.entity.QProductBrand
+import com.norberttalpos.product.core.repository.ProductBrandRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ProductBrandService : AbstractDeletableService<ProductBrand, ProductBrandFilter>() {
+class ProductBrandService : AbstractDeletableService<ProductBrand, ProductBrandFilter, ProductBrandRepository>() {
 
     override fun filter(filter: ProductBrandFilter, whereMode: WhereMode): List<ProductBrand> {
         val productBrand: QProductBrand = QProductBrand.productBrand

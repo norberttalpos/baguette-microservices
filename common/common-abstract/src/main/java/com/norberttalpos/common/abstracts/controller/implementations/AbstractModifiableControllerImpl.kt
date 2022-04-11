@@ -20,7 +20,7 @@ abstract class AbstractModifiableControllerImpl<
         DTO : AbstractDto,
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
-        SERVICE : AbstractModifiableService<ENTITY, FILTER>
+        SERVICE : AbstractModifiableService<ENTITY, FILTER, out AbstractRepository<ENTITY>>
         >
     : AbstractModifiableController<DTO, FILTER>, AbstractCreatableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
 

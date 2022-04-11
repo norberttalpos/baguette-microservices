@@ -1,32 +1,56 @@
 package com.norberttalpos.cart.api.controller
 
+import com.norberttalpos.auth.api.dto.UserDto
+import com.norberttalpos.auth.api.util.CurrentUser
 import com.norberttalpos.cart.api.controller.payload.AddCartItemToCartRequest
+import com.norberttalpos.cart.api.controller.payload.CreateCartRequest
 import com.norberttalpos.cart.api.controller.payload.ModifyCartItemRequest
 import com.norberttalpos.cart.api.controller.payload.RemoveCartItemRequest
 import com.norberttalpos.cart.api.dto.CartDto
 import com.norberttalpos.cart.api.filter.CartFilter
+import com.norberttalpos.common.abstracts.controller.interfaces.AbstractGettableController
 import com.norberttalpos.common.abstracts.controller.interfaces.AbstractModifiableController
+import com.norberttalpos.common.abstracts.service.AbstractFilterableService
+import com.norberttalpos.common.exception.NotValidUpdateException
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
 @RequestMapping("/cart")
 @Tag(name = "Cart")
-interface CartController : AbstractModifiableController<CartDto, CartFilter> {
+interface CartController : AbstractGettableController<CartDto, CartFilter> {
 
-    @PostMapping("/add-product-to-cart")
-    fun addProductToCart(@RequestBody request: AddCartItemToCartRequest)
+    @PostMapping
+    fun create(@RequestBody createCartRequest: CreateCartRequest): ResponseEntity<UUID>
+
+    @PutMapping("/add-product-to-cart")
+    fun addProductToCart(
+        @RequestBody request: AddCartItemToCartRequest,
+        @CurrentUser currentUser: UserDto
+    ): ResponseEntity<CartDto>
 
     @PutMapping("/modify-cart-item")
-    fun modifyCartItem(@RequestBody request: ModifyCartItemRequest)
+    fun modifyCartItem(
+        @RequestBody request: ModifyCartItemRequest,
+        @CurrentUser currentUser: UserDto
+    ): ResponseEntity<CartDto>
 
     @PutMapping("/remove-cart-item")
-    fun removeCartItem(@RequestBody request: RemoveCartItemRequest)
+    fun removeCartItem(
+        @RequestBody request: RemoveCartItemRequest,
+        @CurrentUser currentUser: UserDto
+    ): ResponseEntity<CartDto>
 
-    @PutMapping("/{userId}/empty")
-    fun emptyCart(@PathVariable userId: UUID)
+    @PutMapping("/empty")
+    fun emptyCart(
+        @CurrentUser currentUser: UserDto
+    ): ResponseEntity<CartDto>
 
     @PutMapping("/{userId}/create-order")
-    fun createOrder(@PathVariable userId: UUID)
+    fun createOrder(
+        @PathVariable userId: UUID,
+        @CurrentUser currentUser: UserDto
+    )
 }

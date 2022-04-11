@@ -18,6 +18,11 @@ abstract class AbstractResourceServerWebSecurityConfig : WebSecurityConfigurerAd
     @Autowired
     private lateinit var authClient: AuthClient
 
+    companion object {
+        const val USER = "USER"
+        const val ADMIN = "ADMIN"
+    }
+
     override fun configure(http: HttpSecurity) {
 
         this.convenientEndpointSecurityInfo().forEach {
@@ -30,7 +35,7 @@ abstract class AbstractResourceServerWebSecurityConfig : WebSecurityConfigurerAd
 
         http
             .authorizeRequests()
-            .anyRequest().hasAnyRole("ADMIN")
+            .anyRequest().hasAnyRole(ADMIN)
 
         println(this.getEndpointSecurityInfo())
 

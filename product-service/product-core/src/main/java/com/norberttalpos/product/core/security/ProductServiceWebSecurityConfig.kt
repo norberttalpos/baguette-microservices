@@ -8,7 +8,7 @@ class ProductServiceWebSecurityConfig : AbstractResourceServerWebSecurityConfig(
 
     override fun getEndpointSecurityInfo(): List<EndpointSecurityInfo> {
         return listOf(
-            EndpointSecurityInfo("/product/buy/**", HttpMethod.PUT, mutableListOf("USER")),
+            EndpointSecurityInfo("/product/buy/**", HttpMethod.PUT, mutableListOf(USER)),
 
             EndpointSecurityInfo("/product/**", HttpMethod.GET, mutableListOf()),
             EndpointSecurityInfo("/product-brand/**", HttpMethod.GET, mutableListOf()),

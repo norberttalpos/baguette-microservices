@@ -5,4 +5,7 @@ import com.norberttalpos.customer.core.entity.Customer
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CustomerRepository : AbstractRepository<Customer>
+interface CustomerRepository : AbstractRepository<Customer> {
+
+    fun getByEmail(email: String): Customer?
+}

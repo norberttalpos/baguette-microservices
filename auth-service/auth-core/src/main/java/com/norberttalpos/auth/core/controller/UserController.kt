@@ -8,7 +8,10 @@ import com.norberttalpos.auth.core.repository.UserRepository
 import com.norberttalpos.auth.core.security.UserPrincipal
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
+import javax.validation.constraints.Email
 
 
 @RestController
@@ -26,5 +29,11 @@ class UserController(
             return userMapper.toDto(user)
         else
             throw ResourceNotFoundException("User", "id", userPrincipal.id ?: "null")
+    }
+
+    @GetMapping("/user/{email}/exists")
+    fun getUserExistsById(@PathVariable email: @Email String): Boolean {
+
+        return userRepository.findByEmail(email) != null
     }
 }

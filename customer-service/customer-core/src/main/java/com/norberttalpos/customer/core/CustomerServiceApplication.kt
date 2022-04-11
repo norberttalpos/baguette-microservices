@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import
     basePackages = [ "com.norberttalpos.customer.core.entity"]
 )
 @EnableFeignClients(
-    basePackages = ["com.norberttalpos.auth.api.client"]
+    basePackages = ["com.norberttalpos.auth.api.client", "com.norberttalpos.cart.api.client"]
 )
 @Import(
     CustomerServiceWebSecurityConfig::class

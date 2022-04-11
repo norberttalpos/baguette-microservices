@@ -15,6 +15,7 @@ import com.norberttalpos.customer.api.dto.CustomerDto
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
@@ -65,7 +66,7 @@ class AuthController(
             this.roles = roleDeterminerService.determineRoles(signUpRequest.email)
         }
 
-        val result = userRepository.save(user)
+        val result = userRepository.saveAndFlush(user)
 
         this.customerClient.registerCustomer(
             CustomerDto(

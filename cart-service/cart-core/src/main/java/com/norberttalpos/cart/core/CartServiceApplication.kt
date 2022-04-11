@@ -19,7 +19,11 @@ import java.util.*
 @SpringBootApplication
 @EnableEurekaClient
 @EnableFeignClients(
-    basePackages = ["com.norberttalpos.product.api.client", "com.norberttalpos.auth.api.client"]
+    basePackages = [
+        "com.norberttalpos.product.api.client",
+        "com.norberttalpos.auth.api.client",
+        "com.norberttalpos.customer.api.client",
+    ]
 )
 @Import(
     CartServiceWebSecurityConfig::class
@@ -34,7 +38,7 @@ class CartServiceApplication {
         cartService: CartService,
         cartItemRepository: CartItemRepository
     ) = CommandLineRunner {
-        val cart = Cart().apply {
+/*        val cart = Cart().apply {
             this.userId = UUID.randomUUID()
         }
 
@@ -48,7 +52,7 @@ class CartServiceApplication {
             }
         )
 
-        cartItemRepository.saveAll(cartItems)
+        cartItemRepository.saveAll(cartItems)*/
     }
 }
 

@@ -5,7 +5,7 @@ import java.util.*
 
 data class AddressDto(
     override var id: UUID?,
-    val city: String?,
-    val street: String?,
-    val postalCode: Int?,
+    var city: String?,
+    var street: String?,
+    var postalCode: Int?,
 ) : AbstractDto

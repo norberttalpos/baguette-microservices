@@ -5,6 +5,7 @@ import com.norberttalpos.common.abstracts.dto.AbstractDto
 import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
 import com.norberttalpos.common.abstracts.filter.AbstractFilter
+import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import com.norberttalpos.common.abstracts.service.AbstractFilterableService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -18,7 +19,8 @@ abstract class AbstractGettableControllerImpl<
         DTO : AbstractDto,
         ENTITY: AbstractEntity,
         FILTER : AbstractFilter,
-        SERVICE : AbstractFilterableService<ENTITY, FILTER>>
+        SERVICE : AbstractFilterableService<ENTITY, FILTER, out AbstractRepository<ENTITY>>
+        >
     : AbstractGettableController<DTO, FILTER> {
 
     @Autowired

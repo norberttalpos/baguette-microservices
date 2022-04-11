@@ -4,6 +4,7 @@ import com.norberttalpos.auth.core.exception.OAuth2AuthenticationProcessingExcep
 import com.norberttalpos.auth.core.model.entity.AuthProvider
 import com.norberttalpos.auth.core.model.entity.User
 import com.norberttalpos.auth.core.repository.UserRepository
+import com.norberttalpos.auth.core.security.TokenProvider
 import com.norberttalpos.auth.core.security.UserPrincipal
 import com.norberttalpos.auth.core.security.oauth2.user.OAuth2UserInfo
 import com.norberttalpos.auth.core.security.oauth2.user.OAuth2UserInfoFactory
@@ -12,6 +13,7 @@ import com.norberttalpos.customer.api.client.CustomerClient
 import com.norberttalpos.customer.api.dto.CustomerDto
 import org.springframework.security.authentication.InternalAuthenticationServiceException
 import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.user.OAuth2User
@@ -25,6 +27,7 @@ class CustomOAuth2UserService(
     private val userRepository: UserRepository,
     private val customerClient: CustomerClient,
     private val roleDeterminerService: RoleDeterminerService,
+    private val tokenProvider: TokenProvider,
 ) : DefaultOAuth2UserService() {
 
     override fun loadUser(oAuth2UserRequest: OAuth2UserRequest): OAuth2User {
@@ -77,7 +80,7 @@ class CustomOAuth2UserService(
             this.roles = roleDeterminerService.determineRoles(oAuth2UserInfo.email!!)
         }
 
-        val result = userRepository.save(user)
+        val result = userRepository.saveAndFlush(user)
 
         this.customerClient.registerCustomer(
             CustomerDto(
@@ -87,7 +90,7 @@ class CustomOAuth2UserService(
                 phoneNumber = null, // TODO
                 imageUrl = oAuth2UserInfo.imageUrl,
                 address = null
-            )
+            ),
         )
 
         return result
