@@ -12,6 +12,7 @@ import com.norberttalpos.customer.api.filter.CustomerFilter
 import com.norberttalpos.customer.core.entity.Address
 import com.norberttalpos.customer.core.entity.Customer
 import com.norberttalpos.customer.core.entity.QCustomer
+import com.norberttalpos.customer.core.repository.AddressRepository
 import com.norberttalpos.customer.core.repository.CustomerRepository
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -21,7 +22,8 @@ import javax.validation.constraints.Email
 @Service
 class CustomerService(
     private val authClient: AuthClient,
-    private val cartClient: CartClient
+    private val cartClient: CartClient,
+    private val addressRepository: AddressRepository,
 ) : AbstractDeletableService<Customer, CustomerFilter, CustomerRepository>() {
 
     override fun filter(filter: CustomerFilter, whereMode: WhereMode): List<Customer> {
@@ -57,11 +59,13 @@ class CustomerService(
         val currentCustomer = this.repository.getByEmail(currentUser.email!!)
 
         if(currentCustomer != null) {
-            currentCustomer.apply {
-                this.address = address
+            if(!this.addressRepository.existsByStreet(address.street)) {
+                this.addressRepository.save(address)
             }
 
-            this.put(currentCustomer)
+            this.put(currentCustomer.apply {
+                this.address = address
+            })
         } else {
             throw NotValidUpdateException("Customer not found")
         }

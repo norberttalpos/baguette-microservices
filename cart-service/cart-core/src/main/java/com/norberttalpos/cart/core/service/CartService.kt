@@ -30,7 +30,7 @@ class CartService(
             where.add(cart.id.eq(filter.id))
         }
         filter.userId?.let {
-            where.add(cart.id.eq(filter.userId))
+            where.add(cart.userId.eq(filter.userId))
         }
 
         return this.repository.findAll(where.getBuilder()).toList()
@@ -114,6 +114,8 @@ class CartService(
         val carts = this.filter(CartFilter(userId = userId))
         if(carts.size == 1) {
             return carts.first()
-        } else throw NotValidUpdateException("user with id $userId doesn't have a cart")
+        } else {
+            throw NotValidUpdateException("user with id $userId doesn't have a cart")
+        }
     }
 }
