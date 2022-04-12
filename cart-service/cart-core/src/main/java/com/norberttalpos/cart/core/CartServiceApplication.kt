@@ -23,6 +23,7 @@ import java.util.*
         "com.norberttalpos.product.api.client",
         "com.norberttalpos.auth.api.client",
         "com.norberttalpos.customer.api.client",
+        "com.norberttalpos.order.api.client",
     ]
 )
 @Import(

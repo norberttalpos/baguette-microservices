@@ -48,9 +48,8 @@ interface CartController : AbstractGettableController<CartDto, CartFilter> {
         @CurrentUser currentUser: UserDto
     ): ResponseEntity<CartDto>
 
-    @PutMapping("/{userId}/create-order")
+    @PutMapping("/create-order")
     fun createOrder(
-        @PathVariable userId: UUID,
         @CurrentUser currentUser: UserDto
-    )
+    ): ResponseEntity<Any>
 }

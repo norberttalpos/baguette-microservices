@@ -24,7 +24,7 @@ class MeasurementUnitService
             where.addUniqueStringPred(measurementUnit.name, filter.name)
         }
 
-        return this.repository.findAll(where.getBuilder()).toList()
+        return this.repository.findAll(where.builder).toList()
     }
 
     override fun validateEntity(entity: MeasurementUnit) = true

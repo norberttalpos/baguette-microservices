@@ -2,6 +2,7 @@ package com.norberttalpos.auth.core.model.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
+import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
@@ -13,6 +14,9 @@ class User : AbstractEntity() {
     @Email
     @Column(nullable = false, unique = true)
     var email: String? = null
+
+    @Column(nullable = false)
+    val customerId: UUID? = null
 
     @Column(nullable = false)
     val emailVerified = false

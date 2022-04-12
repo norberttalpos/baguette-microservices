@@ -23,7 +23,7 @@ class ProductBrandService : AbstractDeletableService<ProductBrand, ProductBrandF
             where.addUniqueStringPred(productBrand.name, filter.name)
         }
 
-        return this.repository.findAll(where.getBuilder()).toList()
+        return this.repository.findAll(where.builder).toList()
     }
 
     override fun validateEntity(entity: ProductBrand) = true

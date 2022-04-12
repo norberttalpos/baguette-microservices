@@ -6,7 +6,7 @@ import com.querydsl.core.types.dsl.StringPath
 
 class QueryBuilder(
     private val whereMode: WhereMode,
-    private val builder: BooleanBuilder = BooleanBuilder(),
+    val builder: BooleanBuilder = BooleanBuilder(),
 ) {
 
     fun add(predicate: Predicate) =
@@ -24,8 +24,6 @@ class QueryBuilder(
             builder.and(path.containsIgnoreCase(str))
         else
             builder.or(path.eq(str))
-
-    fun getBuilder(): BooleanBuilder = this.builder
 }
 
 enum class WhereMode {

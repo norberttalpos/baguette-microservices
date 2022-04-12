@@ -15,6 +15,7 @@ import com.norberttalpos.cart.core.service.CartService
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractCreatableControllerImpl
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractGettableControllerImpl
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractModifiableControllerImpl
+import com.norberttalpos.customer.api.client.CustomerClient
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
@@ -22,7 +23,7 @@ import java.util.*
 @RestController
 class CartControllerImpl(
     private val cartItemMapper: CartItemMapper,
-    private val cartMapper: CartMapper
+    private val cartMapper: CartMapper,
 ) : CartController,
     AbstractGettableControllerImpl<CartDto, Cart, CartFilter, CartService>() {
 
@@ -69,7 +70,7 @@ class CartControllerImpl(
         )
     }
 
-    override fun createOrder(userId: UUID, currentUser: UserDto) {
-
+    override fun createOrder(currentUser: UserDto): ResponseEntity<Any> {
+        return ResponseEntity.ok(this.service.createOrder(currentUser.id!!))
     }
 }

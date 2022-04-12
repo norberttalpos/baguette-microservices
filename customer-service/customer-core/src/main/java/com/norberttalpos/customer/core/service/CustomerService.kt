@@ -40,7 +40,7 @@ class CustomerService(
             where.add(customer.name.containsIgnoreCase(filter.name))
         }
 
-        return this.repository.findAll(where.getBuilder()).toList()
+        return this.repository.findAll(where.builder).toList()
     }
 
     override fun provideUniquenessCheckFilter(entity: Customer) = CustomerFilter(email = entity.email)

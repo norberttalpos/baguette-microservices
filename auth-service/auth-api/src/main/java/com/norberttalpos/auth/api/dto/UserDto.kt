@@ -7,5 +7,6 @@ data class UserDto(
     override var id: UUID?,
     var name: String?,
     var email: String?,
+    var customerId: UUID?,
     var roles: List<RoleDto>?,
 ) : AbstractDto

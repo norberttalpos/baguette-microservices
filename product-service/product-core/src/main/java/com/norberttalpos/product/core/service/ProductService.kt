@@ -29,7 +29,7 @@ class ProductService : AbstractDeletableService<Product, ProductFilter, ProductR
             where.add(product.category.name.containsIgnoreCase(filter.categoryName))
         }
 
-        return this.repository.findAll(where.getBuilder()).toList()
+        return this.repository.findAll(where.builder).toList()
     }
 
     override fun validateEntity(entity: Product) = true

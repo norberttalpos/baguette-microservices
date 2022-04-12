@@ -11,7 +11,10 @@ import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
 import com.norberttalpos.common.exception.NotValidUpdateException
 import com.norberttalpos.customer.api.client.CustomerClient
+import com.norberttalpos.order.api.client.OrderClient
+import com.norberttalpos.order.api.dto.OrderDto
 import com.norberttalpos.product.api.client.CartProductResource
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -19,7 +22,8 @@ import java.util.*
 class CartService(
     private val cartItemRepository: CartItemRepository,
     private val productGetterService: CartProductResource,
-    private val customerClient: CustomerClient
+    private val customerClient: CustomerClient,
+    private val orderClient: OrderClient,
 ) : AbstractDeletableService<Cart, CartFilter, CartRepository>() {
 
     override fun filter(filter: CartFilter, whereMode: WhereMode): List<Cart> {
@@ -33,7 +37,7 @@ class CartService(
             where.add(cart.userId.eq(filter.userId))
         }
 
-        return this.repository.findAll(where.getBuilder()).toList()
+        return this.repository.findAll(where.builder).toList()
     }
 
     override fun validateEntity(entity: Cart) = true
@@ -84,7 +88,16 @@ class CartService(
     }
 
     fun createOrder(userId: UUID) {
-        // TODO
+        val cartId = this.getCartOfUser(userId).id!!
+
+        val jwtToken = SecurityContextHolder.getContext().authentication.credentials as? String
+
+        jwtToken?.let {
+            this.orderClient.createOrder(
+                OrderDto(customerId = userId, cartId = cartId),
+                jwtToken
+            )
+        } ?: throw NotValidUpdateException("Operation requires a user token")
     }
 
     fun createCart(userId: UUID): UUID {
