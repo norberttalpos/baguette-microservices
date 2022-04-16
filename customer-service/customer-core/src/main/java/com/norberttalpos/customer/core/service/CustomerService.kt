@@ -66,8 +66,12 @@ class CustomerService(
             this.put(currentCustomer.apply {
                 this.address = address
             })
+
+            logger.info { "Added address info for customer ${currentUser.id}" }
+
         } else {
-            throw NotValidUpdateException("Customer not found")
+            logger.info { "Customer not found with id ${currentUser.id}" }
+            throw NotValidUpdateException("Customer not found with id ${currentUser.id}")
         }
     }
 

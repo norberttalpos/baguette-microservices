@@ -2,6 +2,7 @@ package com.norberttalpos.auth.core.security
 
 import com.norberttalpos.auth.core.config.AppProperties
 import io.jsonwebtoken.*
+import mu.KotlinLogging
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import java.security.SignatureException
@@ -12,6 +13,9 @@ import java.util.*
 class TokenProvider(
     private val appProperties: AppProperties
 ) {
+
+    private val logger = KotlinLogging.logger {}
+
     fun createToken(authentication: Authentication): String {
         val userPrincipal = authentication.principal as UserPrincipal
         val now = Date()
@@ -54,19 +58,19 @@ class TokenProvider(
         } catch (ex: Exception) {
             when(ex) {
                 is SignatureException -> {
-                    println("Invalid JWT signature")
+                    logger.error { "Invalid JWT signature" }
                 }
                 is MalformedJwtException -> {
-                    println("Invalid JWT token")
+                    logger.error { "Invalid JWT token" }
                 }
                 is ExpiredJwtException -> {
-                    println("Expired JWT token")
+                    logger.error { "Expired JWT token" }
                 }
                 is UnsupportedJwtException -> {
-                    println("Unsupported JWT token")
+                    logger.error { "Unsupported JWT token" }
                 }
                 is IllegalArgumentException -> {
-                    println("JWT claims string is empty.")
+                    logger.error { "JWT claims string is empty" }
                 }
             }
 

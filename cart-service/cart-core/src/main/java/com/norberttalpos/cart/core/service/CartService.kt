@@ -61,7 +61,11 @@ class CartService(
                     }
                 )
             }
+
+            logger.info { "Added product $productId to cart ${cart.id}" }
         } catch(e: Exception) {
+
+            logger.error { "Product by id $productId not found" }
             throw NotValidUpdateException("Product by id $productId not found")
         }
 
@@ -76,6 +80,8 @@ class CartService(
                 ?.map { it.apply { this.amount = cartItem.amount } }
         })
 
+        logger.info { "Modified cart item ${cartItem.id}" }
+
         return cart
     }
 
@@ -85,12 +91,16 @@ class CartService(
             ?.filter { it.id == cartItemId }
             ?.forEach { this.cartItemRepository.deleteById(it.id!!) }
 
+        logger.info { "Removed cart item $cartItemId" }
+
         return cart
     }
 
     fun emptyCart(userId: UUID): Cart {
         val cart = this.getCartOfUser(userId)
         cart.cartItems?.forEach { this.cartItemRepository.deleteById(it.id!!) }
+
+        logger.info { "Emptied the cart of user $userId" }
 
         return cart
     }
@@ -106,14 +116,21 @@ class CartService(
                 this.active = false
             })
 
+            logger.info { "Trying to create order for user $userId" }
+
             this.orderClient.createOrder(
                 OrderDto(customerId = userId, cartId = cartOfUser.id!!),
                 jwtToken
             )
 
+            logger.info { "Created order for user $userId" }
+
             this.createCart(userId)
 
-        } ?: throw NotValidUpdateException("Operation requires a user token")
+        } ?: run {
+            logger.error { "Operation requires a user token" }
+            throw NotValidUpdateException("Operation requires a user token")
+        }
     }
 
     fun createCart(userId: UUID): UUID {
@@ -130,13 +147,18 @@ class CartService(
                     }
                 )
 
+                logger.info { "Created cart for customer $userId" }
+
                 return cartCreated.id!!
             }
         } else {
-            throw NotValidUpdateException("Customer by id doesn't exist")
+            logger.info { "Customer $userId already has an active cart" }
+            throw NotValidUpdateException("Customer by id $userId doesn't exist")
         }
 
-        throw NotValidUpdateException("Customer already has a cart")
+        logger.info { "Customer $userId already has an active cart" }
+
+        throw NotValidUpdateException("Customer $userId already has an active cart")
     }
 
     fun getCartOfUser(userId: UUID): Cart {
@@ -144,6 +166,7 @@ class CartService(
         if(carts.size == 1) {
             return carts.first()
         } else {
+            logger.error { "Illegal state: Customer $userId doesn't have exactly 1 active cart" }
             throw IllegalStateException()
         }
     }

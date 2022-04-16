@@ -1,9 +1,10 @@
 package com.norberttalpos.common.security.resourceserver
 
 import com.norberttalpos.auth.api.client.AuthClient
-import com.norberttalpos.common.security.JwtToUserConverterFilter
+import com.norberttalpos.common.security.ResourceServerJwtAuthFilter
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.security.SecurityScheme
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -31,6 +32,8 @@ abstract class AbstractResourceServerWebSecurityConfig : WebSecurityConfigurerAd
     @Autowired
     private lateinit var authClient: AuthClient
 
+    private val logger = KotlinLogging.logger {}
+
     companion object {
         const val USER = "USER"
         const val ADMIN = "ADMIN"
@@ -54,34 +57,15 @@ abstract class AbstractResourceServerWebSecurityConfig : WebSecurityConfigurerAd
             .authorizeRequests()
             .anyRequest().hasAnyRole(ADMIN)
 
-        println(this.getEndpointSecurityInfo())
+        logger.info { "defined endpoint securitiy: $this.getEndpointSecurityInfo()" }
 
         http.csrf().disable()
-
-        http.cors()
 
         http.addFilterBefore(jwtToUserConverterFilter(), UsernamePasswordAuthenticationFilter::class.java)
     }
 
-    @Bean
-    fun corsWebFilter(): CorsWebFilter {
-        val corsConfiguration = CorsConfiguration().apply {
-            this.allowCredentials = true
-            this.addAllowedOriginPattern("*")
-            this.addAllowedMethod("*")
-            this.addAllowedOrigin("*")
-            this.addExposedHeader(HttpHeaders.SET_COOKIE)
-        }
-
-        val corsConfigurationSource = UrlBasedCorsConfigurationSource().apply {
-            registerCorsConfiguration("/**", corsConfiguration)
-        }
-
-        return CorsWebFilter(corsConfigurationSource)
-    }
-
-    private fun jwtToUserConverterFilter(): JwtToUserConverterFilter {
-        return JwtToUserConverterFilter(authClient)
+    private fun jwtToUserConverterFilter(): ResourceServerJwtAuthFilter {
+        return ResourceServerJwtAuthFilter(authClient)
     }
 
     abstract fun getEndpointSecurityInfo(): List<EndpointSecurityInfo>
