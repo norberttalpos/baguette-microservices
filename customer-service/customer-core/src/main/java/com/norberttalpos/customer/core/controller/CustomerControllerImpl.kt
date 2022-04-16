@@ -22,6 +22,9 @@ class CustomerControllerImpl(
 ) : CustomerController,
     AbstractDeletableControllerImpl<CustomerDto, Customer, CustomerFilter, CustomerService>() {
 
+    override val clearId: Boolean
+        get() = false
+
     override fun addAddressInfo(addressInfo: AddressDto, currentUser: UserDto) {
         this.service.addAddressInfo(addressMapper.fromDto(addressInfo), currentUser)
     }

@@ -1,11 +1,16 @@
 package com.norberttalpos.customer.core.entity
 
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
+import java.util.*
 import javax.persistence.*
 
 @Entity(name = "Customer")
 @Table(name = "customer")
-class Customer : AbstractEntity() {
+class Customer : AbstractEntity {
+
+    @Id
+    @Column(name = "id", nullable = false)
+    override var id: UUID? = null
 
     @Column(name = "name", nullable = false)
     var name: String = ""
