@@ -9,7 +9,7 @@ import java.util.*
 
 @FeignClient(
     value = "cart",
-    url = "http://localhost:8081"
+    url = "http://localhost:8080"
 )
 interface CartClient {
 

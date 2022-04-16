@@ -9,7 +9,7 @@ data class ProductDto(
     val unitPrice: Int?,
     val amount: Double?,
     var price: Double?,
-    val available: Int?,
+    val quantity: Int?,
     val rating: Double?,
     val brand: ProductBrandDto?,
     val measurementUnit: MeasurementUnitDto?,

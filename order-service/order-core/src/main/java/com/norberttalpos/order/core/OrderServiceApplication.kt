@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Import
     OrderServiceWebSecurityConfig::class
 )
 @OpenAPIDefinition(
-    info = Info(title = "Product API", version = "1.0", description = "Documentation Product API v1.0")
+    info = Info(title = "Order API", version = "1.0", description = "Order Product API v1.0")
 )class OrderServiceApplication
 
 fun main(args: Array<String>) {

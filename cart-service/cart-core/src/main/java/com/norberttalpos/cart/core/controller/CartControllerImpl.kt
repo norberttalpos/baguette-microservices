@@ -30,12 +30,19 @@ class CartControllerImpl(
     override fun create(createCartRequest: CreateCartRequest): ResponseEntity<UUID> {
         return try {
             val createdCartId = this.service.createCart(createCartRequest.userId!!)
-
             ResponseEntity.ok(createdCartId)
-        } catch (e: Exception) {
 
+        } catch (e: Exception) {
             ResponseEntity.badRequest().build()
         }
+    }
+
+    override fun getCurrentCartOfCustomer(currentUser: UserDto): ResponseEntity<CartDto> {
+        return ResponseEntity.ok(
+            this.cartMapper.toDto(
+                this.service.getCartOfUser(currentUser.id!!)
+            )
+        )
     }
 
     override fun addProductToCart(request: AddCartItemToCartRequest, currentUser: UserDto): ResponseEntity<CartDto> {

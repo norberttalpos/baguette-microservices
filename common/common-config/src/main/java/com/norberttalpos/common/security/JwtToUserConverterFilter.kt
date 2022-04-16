@@ -26,7 +26,6 @@ class JwtToUserConverterFilter(
             if(jwt != null) {
                 val user = authClient.getUser(jwt)
 
-                // TODO: valódi authorities-al
                 val authentication =
                     UsernamePasswordAuthenticationToken(
                         user,

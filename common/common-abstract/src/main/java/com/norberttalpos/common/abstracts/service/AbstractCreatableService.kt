@@ -33,7 +33,7 @@ abstract class AbstractCreatableService<
 
     private fun validatePost(entity: ENTITY) = this.checkUniqueness(entity) && this.validateEntity(entity)
 
-    private fun checkUniqueness(entity: ENTITY): Boolean {
+    protected fun checkUniqueness(entity: ENTITY): Boolean {
         val collisions = this.filter(this.provideUniquenessCheckFilter(entity), WhereMode.OR)
         return collisions.isEmpty()
     }

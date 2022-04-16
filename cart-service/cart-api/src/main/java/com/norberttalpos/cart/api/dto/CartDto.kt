@@ -6,6 +6,7 @@ import java.util.*
 data class CartDto(
     override var id: UUID?,
     var userId: UUID?,
+    var active: Boolean?,
     var totalPrice: Double?,
-    var cartItems: List<CartItemDto>?
+    var cartItems: List<CartItemDto>?,
 ) : AbstractDto

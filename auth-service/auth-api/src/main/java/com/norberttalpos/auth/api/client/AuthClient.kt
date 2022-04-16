@@ -11,7 +11,7 @@ import javax.validation.constraints.Email
 
 @FeignClient(
     value = "auth",
-    url = "http://localhost:9000"
+    url = "http://localhost:8080"
 )
 interface AuthClient {
 

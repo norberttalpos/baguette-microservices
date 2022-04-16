@@ -15,6 +15,10 @@ class ProductServiceWebSecurityConfig : AbstractResourceServerWebSecurityConfig(
             EndpointSecurityInfo("/product-category/**", HttpMethod.GET, mutableListOf()),
             EndpointSecurityInfo("/measurement-unit/**", HttpMethod.GET, mutableListOf()),
 
+            EndpointSecurityInfo("/product/filter", HttpMethod.POST, mutableListOf()),
+            EndpointSecurityInfo("/product-brand/filter", HttpMethod.POST, mutableListOf()),
+            EndpointSecurityInfo("/product-category/filter", HttpMethod.POST, mutableListOf()),
+            EndpointSecurityInfo("/measurement-unit/filter", HttpMethod.POST, mutableListOf()),
             )
     }
 }

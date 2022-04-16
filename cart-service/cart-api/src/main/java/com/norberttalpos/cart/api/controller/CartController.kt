@@ -25,6 +25,9 @@ interface CartController : AbstractGettableController<CartDto, CartFilter> {
     @PostMapping
     fun create(@RequestBody createCartRequest: CreateCartRequest): ResponseEntity<UUID>
 
+    @GetMapping("/current-cart")
+    fun getCurrentCartOfCustomer(@CurrentUser currentUser: UserDto): ResponseEntity<CartDto>
+
     @PutMapping("/add-product-to-cart")
     fun addProductToCart(
         @RequestBody request: AddCartItemToCartRequest,

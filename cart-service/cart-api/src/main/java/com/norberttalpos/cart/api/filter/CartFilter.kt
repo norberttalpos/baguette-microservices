@@ -6,4 +6,5 @@ import java.util.*
 data class CartFilter(
     override val id: UUID? = null,
     val userId: UUID? = null,
+    val active: Boolean? = null,
 ) : AbstractFilter

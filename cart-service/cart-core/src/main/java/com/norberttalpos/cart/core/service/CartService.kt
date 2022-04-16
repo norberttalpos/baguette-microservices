@@ -16,6 +16,7 @@ import com.norberttalpos.order.api.dto.OrderDto
 import com.norberttalpos.product.api.client.CartProductResource
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.web.client.HttpClientErrorException
 import java.util.*
 
 @Service
@@ -36,6 +37,9 @@ class CartService(
         filter.userId?.let {
             where.add(cart.userId.eq(filter.userId))
         }
+        filter.active?.let {
+            where.add(cart.active.eq(filter.active))
+        }
 
         return this.repository.findAll(where.builder).toList()
     }
@@ -47,14 +51,18 @@ class CartService(
     fun addProductToCart(userId: UUID, productId: UUID): Cart {
         val cart = this.getCartOfUser(userId)
 
-        if(this.productGetterService.getProductById(productId) != null) {
-            this.cartItemRepository.save(
-                CartItem().apply {
-                    this.productId = productId
-                    this.amount = 1
-                    this.cart = cart
-                }
-            )
+        try {
+            if(this.productGetterService.getProductById(productId) != null) {
+                this.cartItemRepository.save(
+                    CartItem().apply {
+                        this.productId = productId
+                        this.amount = 1
+                        this.cart = cart
+                    }
+                )
+            }
+        } catch(e: Exception) {
+            throw NotValidUpdateException("Product by id $productId not found")
         }
 
         return cart
@@ -88,15 +96,23 @@ class CartService(
     }
 
     fun createOrder(userId: UUID) {
-        val cartId = this.getCartOfUser(userId).id!!
+        val cartOfUser = this.getCartOfUser(userId)
 
         val jwtToken = SecurityContextHolder.getContext().authentication.credentials as? String
 
         jwtToken?.let {
+
+            this.put(cartOfUser.apply {
+                this.active = false
+            })
+
             this.orderClient.createOrder(
-                OrderDto(customerId = userId, cartId = cartId),
+                OrderDto(customerId = userId, cartId = cartOfUser.id!!),
                 jwtToken
             )
+
+            this.createCart(userId)
+
         } ?: throw NotValidUpdateException("Operation requires a user token")
     }
 
@@ -123,12 +139,12 @@ class CartService(
         throw NotValidUpdateException("Customer already has a cart")
     }
 
-    private fun getCartOfUser(userId: UUID): Cart {
-        val carts = this.filter(CartFilter(userId = userId))
+    fun getCartOfUser(userId: UUID): Cart {
+        val carts = this.filter(CartFilter(userId = userId, active = true))
         if(carts.size == 1) {
             return carts.first()
         } else {
-            throw NotValidUpdateException("user with id $userId doesn't have a cart")
+            throw IllegalStateException()
         }
     }
 }

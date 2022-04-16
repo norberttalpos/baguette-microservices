@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 
 @FeignClient(
     value = "order",
-    url = "http://localhost:8083"
+    url = "http://localhost:8080"
 )
 interface OrderClient {
 

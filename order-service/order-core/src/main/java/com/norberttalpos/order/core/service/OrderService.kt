@@ -28,6 +28,9 @@ class OrderService(
         filter.customerId?.let {
             where.add(order.customerId.eq(filter.customerId))
         }
+        filter.status?.let {
+            where.add(order.status.eq(filter.status))
+        }
 
         return this.repository.findAll(where.builder).toList()
     }
@@ -37,5 +40,10 @@ class OrderService(
 
     override fun validateEntity(entity: Order): Boolean {
         return this.customerClient.userExistsById(entity.customerId!!).body!!
+    }
+
+    override fun checkUniqueness(entity: Order): Boolean {
+        val collisions = this.filter(this.provideUniquenessCheckFilter(entity), WhereMode.AND)
+        return collisions.isEmpty()
     }
 }

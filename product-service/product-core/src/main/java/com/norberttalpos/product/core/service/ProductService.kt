@@ -36,13 +36,13 @@ class ProductService : AbstractDeletableService<Product, ProductFilter, ProductR
 
     override fun provideUniquenessCheckFilter(entity: Product) = ProductFilter(name = entity.name)
 
-    fun buyProduct(productName: String, amount: Int) = this.changeProductAmount(productName, -amount)
+    fun buyProduct(productName: String, amount: Int) = this.changeProductQuantity(productName, -amount)
 
-    fun addProduct(productName: String, amount: Int) = this.changeProductAmount(productName, amount)
+    fun addProduct(productName: String, amount: Int) = this.changeProductQuantity(productName, amount)
 
-    private fun changeProductAmount(productName: String, amount: Int) {
+    private fun changeProductQuantity(productName: String, amount: Int) {
         this.filter(ProductFilter(name = productName)).forEach {
-            it.amount += amount
+            it.quantity += amount
             this.put(it)
         }
     }

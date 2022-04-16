@@ -10,7 +10,9 @@ import com.norberttalpos.product.core.service.ProductBrandService
 import com.norberttalpos.product.core.service.ProductCategoryService
 import com.norberttalpos.product.core.service.ProductService
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.info.Info
+import io.swagger.v3.oas.annotations.security.SecurityScheme
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
@@ -61,7 +63,7 @@ class ProductServiceApplication {
         val product = Product().apply {
             this.name = "Téliszalámi"
             this.amount = 0.5
-            this.available = 100
+            this.quantity = 100
             this.rating = 9.1
             this.unitPrice = 5000
             this.brand = productBrand

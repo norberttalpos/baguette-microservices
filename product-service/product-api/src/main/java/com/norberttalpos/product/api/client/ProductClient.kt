@@ -8,7 +8,7 @@ import java.util.*
 
 @FeignClient(
     value = "product",
-    url = "http://localhost:8081"
+    url = "http://localhost:8080"
 )
 interface ProductClient : CartProductResource {
 

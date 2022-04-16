@@ -11,7 +11,7 @@ import java.util.*
 
 @FeignClient(
     value = "customer",
-    url = "http://localhost:8084"
+    url = "http://localhost:8080"
 )
 interface CustomerClient {
 

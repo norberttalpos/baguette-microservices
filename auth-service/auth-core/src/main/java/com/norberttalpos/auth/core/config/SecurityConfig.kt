@@ -7,6 +7,8 @@ import com.norberttalpos.auth.core.security.oauth2.CustomOAuth2UserService
 import com.norberttalpos.auth.core.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository
 import com.norberttalpos.auth.core.security.oauth2.OAuth2AuthenticationFailureHandler
 import com.norberttalpos.auth.core.security.oauth2.OAuth2AuthenticationSuccessHandler
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
+import io.swagger.v3.oas.annotations.security.SecurityScheme
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
@@ -30,6 +32,12 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@SecurityScheme(
+    name = "bearerAuth",
+    type = SecuritySchemeType.HTTP,
+    bearerFormat = "JWT",
+    scheme = "bearer"
+)
 class SecurityConfig(
     private val customUserDetailsService: CustomUserDetailsService,
     private val customOAuth2UserService: CustomOAuth2UserService,

@@ -8,10 +8,9 @@ class OrderServiceWebSecurityConfig : AbstractResourceServerWebSecurityConfig() 
 
     override fun getEndpointSecurityInfo(): List<EndpointSecurityInfo> {
         return listOf(
-            EndpointSecurityInfo("/order/**", HttpMethod.GET, mutableListOf(USER)),
-            EndpointSecurityInfo("/order/**", HttpMethod.PUT, mutableListOf(ADMIN)),
+            EndpointSecurityInfo("/order/customer-orders", HttpMethod.GET, mutableListOf(USER)),
             EndpointSecurityInfo("/order/**", HttpMethod.POST, mutableListOf(USER)),
-            EndpointSecurityInfo("/order/**", HttpMethod.DELETE, mutableListOf(ADMIN)),
-        )
+            EndpointSecurityInfo("/order/**", HttpMethod.GET, mutableListOf(ADMIN)),
+            )
     }
 }
