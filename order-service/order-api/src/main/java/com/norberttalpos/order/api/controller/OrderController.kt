@@ -7,6 +7,7 @@ import com.norberttalpos.order.api.dto.OrderDto
 import com.norberttalpos.order.api.filter.OrderFilter
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -18,4 +19,9 @@ interface OrderController : AbstractDeletableController<OrderDto, OrderFilter> {
 
     @GetMapping("/customer-orders")
     fun getOrdersOfCustomer(@CurrentUser currentUser: UserDto): ResponseEntity<List<OrderDto>>
+
+    @DeleteMapping("/delete-customer-orders")
+    fun deleteCustomerOrders(
+        @CurrentUser currentUser: UserDto
+    ): ResponseEntity<Unit>
 }

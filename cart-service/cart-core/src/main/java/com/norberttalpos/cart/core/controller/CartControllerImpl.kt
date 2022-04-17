@@ -12,13 +12,9 @@ import com.norberttalpos.cart.core.entity.Cart
 import com.norberttalpos.cart.core.mapper.CartItemMapper
 import com.norberttalpos.cart.core.mapper.CartMapper
 import com.norberttalpos.cart.core.service.CartService
-import com.norberttalpos.common.abstracts.controller.implementations.AbstractCreatableControllerImpl
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractGettableControllerImpl
-import com.norberttalpos.common.abstracts.controller.implementations.AbstractModifiableControllerImpl
-import com.norberttalpos.customer.api.client.CustomerClient
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
 
 @RestController
 class CartControllerImpl(
@@ -27,57 +23,57 @@ class CartControllerImpl(
 ) : CartController,
     AbstractGettableControllerImpl<CartDto, Cart, CartFilter, CartService>() {
 
-    override fun create(createCartRequest: CreateCartRequest): ResponseEntity<UUID> {
-        return try {
-            val createdCartId = this.service.createCart(createCartRequest.userId!!)
-            ResponseEntity.ok(createdCartId)
-
-        } catch (e: Exception) {
-            ResponseEntity.badRequest().build()
+    override fun create(createCartRequest: CreateCartRequest)
+        = this.commandMethod {
+            this.service.createCart(createCartRequest.userId!!)
         }
-    }
 
-    override fun getCurrentCartOfCustomer(currentUser: UserDto): ResponseEntity<CartDto> {
-        return ResponseEntity.ok(
+
+    override fun getCurrentCartOfCustomer(currentUser: UserDto)
+        = this.commandMethod {
             this.cartMapper.toDto(
                 this.service.getCartOfUser(currentUser.id!!)
             )
-        )
-    }
+        }
 
-    override fun addProductToCart(request: AddCartItemToCartRequest, currentUser: UserDto): ResponseEntity<CartDto> {
-        return ResponseEntity.ok(
+    override fun addProductToCart(request: AddCartItemToCartRequest, currentUser: UserDto)
+        = this.commandMethod {
             this.cartMapper.toDto(
                 this.service.addProductToCart(currentUser.id!!, request.productId!!)
             )
-        )
-    }
+        }
 
-    override fun modifyCartItem(request: ModifyCartItemRequest, currentUser: UserDto): ResponseEntity<CartDto> {
-        return ResponseEntity.ok(
+    override fun modifyCartItem(request: ModifyCartItemRequest, currentUser: UserDto)
+        = this.commandMethod {
             this.cartMapper.toDto(
-                this.service.modifyCartItem(currentUser.id!!, this.cartItemMapper.fromDto(request.cartItem!!))
+                this.service.modifyCartItem(
+                    currentUser.id!!,
+                    this.cartItemMapper.fromDto(request.cartItem!!)
+                )
             )
-        )
-    }
+        }
 
-    override fun removeCartItem(request: RemoveCartItemRequest, currentUser: UserDto): ResponseEntity<CartDto> {
-        return ResponseEntity.ok(
+    override fun removeCartItem(request: RemoveCartItemRequest, currentUser: UserDto)
+        = this.commandMethod {
             this.cartMapper.toDto(
                 this.service.removeCartItem(currentUser.id!!, request.cartItemId!!)
             )
-        )
-    }
+        }
 
-    override fun emptyCart(currentUser: UserDto): ResponseEntity<CartDto> {
-        return ResponseEntity.ok(
+    override fun emptyCart(currentUser: UserDto)
+        = this.commandMethod {
             this.cartMapper.toDto(
                 this.service.emptyCart(currentUser.id!!)
             )
-        )
-    }
+        }
 
-    override fun createOrder(currentUser: UserDto): ResponseEntity<Any> {
-        return ResponseEntity.ok(this.service.createOrder(currentUser.id!!))
-    }
+    override fun createOrder(currentUser: UserDto)
+        = this.commandMethod {
+            this.service.createOrder(currentUser.id!!)
+        }
+
+    override fun deleteCustomerCarts(currentUser: UserDto): ResponseEntity<Unit>
+        = this.commandMethod {
+            this.service.deleteCustomerCarts(currentUser.id!!)
+        }
 }

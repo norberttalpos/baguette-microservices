@@ -54,5 +54,10 @@ interface CartController : AbstractGettableController<CartDto, CartFilter> {
     @PutMapping("/create-order")
     fun createOrder(
         @CurrentUser currentUser: UserDto
-    ): ResponseEntity<Any>
+    ): ResponseEntity<Unit>
+
+    @DeleteMapping("/delete-customer-carts")
+    fun deleteCustomerCarts(
+        @CurrentUser currentUser: UserDto
+    ): ResponseEntity<Unit>
 }

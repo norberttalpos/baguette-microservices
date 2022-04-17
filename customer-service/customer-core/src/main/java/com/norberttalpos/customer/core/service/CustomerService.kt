@@ -16,6 +16,8 @@ import com.norberttalpos.customer.core.repository.AddressRepository
 import com.norberttalpos.customer.core.repository.CustomerRepository
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Isolation
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import javax.validation.constraints.Email
 
@@ -55,6 +57,7 @@ class CustomerService(
         )
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
     fun addAddressInfo(address: Address, currentUser: UserDto) {
         val currentCustomer = this.repository.getByEmail(currentUser.email!!)
 
@@ -81,5 +84,13 @@ class CustomerService(
 
     fun userExistsById(id: UUID): Boolean {
         return this.repository.existsById(id)
+    }
+
+    override fun deleteById(id: UUID) {
+        super.deleteById(id)
+
+        this.jwtRequiredMethod {
+            this.cartClient.deleteCustomerCarts(it)
+        }
     }
 }

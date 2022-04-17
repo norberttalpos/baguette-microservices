@@ -9,6 +9,9 @@ import com.norberttalpos.order.core.entity.Order
 import com.norberttalpos.order.core.entity.QOrder
 import com.norberttalpos.order.core.repository.OrderRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Isolation
+import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class OrderService(
@@ -39,11 +42,22 @@ class OrderService(
         OrderFilter(cartId = entity.cartId, customerId = entity.customerId)
 
     override fun validateEntity(entity: Order): Boolean {
-        return this.customerClient.userExistsById(entity.customerId!!).body!!
+        return try {
+            this.customerClient.userExistsById(entity.customerId!!).body!!
+        } catch (e: Exception) {
+            throw IllegalArgumentException()
+        }
     }
 
     override fun checkUniqueness(entity: Order): Boolean {
         val collisions = this.filter(this.provideUniquenessCheckFilter(entity), WhereMode.AND)
         return collisions.isEmpty()
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    fun deleteCustomerOrders(customerId: UUID) {
+        val ordersOfCustomer = this.filter(OrderFilter(customerId = customerId))
+
+        this.repository.deleteAll(ordersOfCustomer)
     }
 }

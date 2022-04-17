@@ -47,4 +47,14 @@ abstract class AbstractGettableControllerImpl<
 
         return ResponseEntity.ok(dtos)
     }
+
+    protected fun <T> commandMethod(command: () -> T?): ResponseEntity<T> {
+        return try {
+            ResponseEntity.ok(
+                command.invoke()
+            )
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().build()
+        }
+    }
 }

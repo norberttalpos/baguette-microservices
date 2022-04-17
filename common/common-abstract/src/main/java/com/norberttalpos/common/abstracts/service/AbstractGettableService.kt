@@ -2,9 +2,11 @@ package com.norberttalpos.common.abstracts.service
 
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
 import com.norberttalpos.common.abstracts.repository.AbstractRepository
+import com.norberttalpos.common.exception.NotValidUpdateException
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.*
 

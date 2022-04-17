@@ -27,7 +27,6 @@ class CustomOAuth2UserService(
     private val userRepository: UserRepository,
     private val customerClient: CustomerClient,
     private val roleDeterminerService: RoleDeterminerService,
-    private val tokenProvider: TokenProvider,
 ) : DefaultOAuth2UserService() {
 
     override fun loadUser(oAuth2UserRequest: OAuth2UserRequest): OAuth2User {
@@ -87,9 +86,7 @@ class CustomOAuth2UserService(
                 id = result.id,
                 name = oAuth2UserInfo.name ?: "",
                 email = result.email,
-                phoneNumber = null, // TODO
                 imageUrl = oAuth2UserInfo.imageUrl,
-                address = null
             ),
         )
 
@@ -98,19 +95,22 @@ class CustomOAuth2UserService(
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
     fun updateExistingUser(existingUser: User, oAuth2UserInfo: OAuth2UserInfo): User {
-/*        this.customerClient.registerCustomer(
+
+        val updatedUser = existingUser.apply {
+            email = oAuth2UserInfo.email
+        }
+
+        val result = userRepository.saveAndFlush(updatedUser)
+
+        this.customerClient.updateCustomer(
             CustomerDto(
                 id = result.id,
                 name = oAuth2UserInfo.name,
                 email = result.email,
-                phoneNumber = null,
                 imageUrl = oAuth2UserInfo.imageUrl,
-                address = null
             )
-        )*/
+        )
 
-        // TODO
-
-        return userRepository.save(existingUser)
+        return result
     }
 }

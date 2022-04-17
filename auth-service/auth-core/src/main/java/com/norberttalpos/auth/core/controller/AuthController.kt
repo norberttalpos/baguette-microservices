@@ -73,9 +73,6 @@ class AuthController(
                 id = result.id,
                 name = signUpRequest.name,
                 email = signUpRequest.email,
-                phoneNumber = null, // TODO
-                imageUrl = null,
-                address = null
             )
         )
 

@@ -3,10 +3,7 @@ package com.norberttalpos.customer.api.client
 import com.norberttalpos.customer.api.dto.CustomerDto
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @FeignClient(
@@ -17,6 +14,9 @@ interface CustomerClient {
 
     @PostMapping("/api/customer/customer/")
     fun registerCustomer(customer: CustomerDto)
+
+    @PutMapping("/api/customer/customer/")
+    fun updateCustomer(customer: CustomerDto)
 
     @GetMapping("/api/customer/customer/{id}/userExistsById")
     fun userExistsById(@PathVariable id: UUID): ResponseEntity<Boolean>

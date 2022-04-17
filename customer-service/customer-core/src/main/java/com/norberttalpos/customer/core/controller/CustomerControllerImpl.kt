@@ -2,6 +2,7 @@ package com.norberttalpos.customer.core.controller
 
 import com.norberttalpos.auth.api.dto.UserDto
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractDeletableControllerImpl
+import com.norberttalpos.common.abstracts.controller.implementations.AbstractModifiableControllerImpl
 import com.norberttalpos.customer.api.controller.CustomerController
 import com.norberttalpos.customer.api.dto.AddressDto
 import com.norberttalpos.customer.api.dto.CustomerDto
@@ -20,7 +21,7 @@ import java.util.*
 class CustomerControllerImpl(
     private val addressMapper: AddressMapper,
 ) : CustomerController,
-    AbstractDeletableControllerImpl<CustomerDto, Customer, CustomerFilter, CustomerService>() {
+    AbstractModifiableControllerImpl<CustomerDto, Customer, CustomerFilter, CustomerService>() {
 
     override val clearId: Boolean
         get() = false
@@ -35,5 +36,9 @@ class CustomerControllerImpl(
 
     override fun userExistsById(id: UUID): ResponseEntity<Boolean> {
         return ResponseEntity.ok(this.service.userExistsById(id))
+    }
+
+    override fun deleteUser(currentUser: UserDto): ResponseEntity<Any> {
+        return ResponseEntity.ok(this.service.deleteById(currentUser.id!!))
     }
 }

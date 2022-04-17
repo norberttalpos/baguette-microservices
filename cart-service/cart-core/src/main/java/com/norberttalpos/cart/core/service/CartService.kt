@@ -16,6 +16,8 @@ import com.norberttalpos.order.api.dto.OrderDto
 import com.norberttalpos.product.api.client.CartProductResource
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Isolation
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.HttpClientErrorException
 import java.util.*
 
@@ -48,6 +50,7 @@ class CartService(
 
     override fun provideUniquenessCheckFilter(entity: Cart) = CartFilter(userId = entity.userId)
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
     fun addProductToCart(userId: UUID, productId: UUID): Cart {
         val cart = this.getCartOfUser(userId)
 
@@ -72,6 +75,7 @@ class CartService(
         return cart
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
     fun modifyCartItem(userId: UUID, cartItem: CartItem): Cart {
         val cart = this.getCartOfUser(userId)
         this.put(cart.apply {
@@ -85,6 +89,7 @@ class CartService(
         return cart
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
     fun removeCartItem(userId: UUID, cartItemId: UUID): Cart {
         val cart = this.getCartOfUser(userId)
         cart.cartItems
@@ -96,6 +101,7 @@ class CartService(
         return cart
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
     fun emptyCart(userId: UUID): Cart {
         val cart = this.getCartOfUser(userId)
         cart.cartItems?.forEach { this.cartItemRepository.deleteById(it.id!!) }
@@ -105,13 +111,11 @@ class CartService(
         return cart
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
     fun createOrder(userId: UUID) {
         val cartOfUser = this.getCartOfUser(userId)
 
-        val jwtToken = SecurityContextHolder.getContext().authentication.credentials as? String
-
-        jwtToken?.let {
-
+        this.jwtRequiredMethod {
             this.put(cartOfUser.apply {
                 this.active = false
             })
@@ -120,19 +124,16 @@ class CartService(
 
             this.orderClient.createOrder(
                 OrderDto(customerId = userId, cartId = cartOfUser.id!!),
-                jwtToken
+                it
             )
 
             logger.info { "Created order for user $userId" }
 
             this.createCart(userId)
-
-        } ?: run {
-            logger.error { "Operation requires a user token" }
-            throw NotValidUpdateException("Operation requires a user token")
         }
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
     fun createCart(userId: UUID): UUID {
 
         if(this.customerClient.userExistsById(userId).body!!) {
@@ -152,15 +153,15 @@ class CartService(
                 return cartCreated.id!!
             }
         } else {
-            logger.info { "Customer $userId already has an active cart" }
+            logger.info { "Customer by id $userId doesn't exist" }
             throw NotValidUpdateException("Customer by id $userId doesn't exist")
         }
 
         logger.info { "Customer $userId already has an active cart" }
-
         throw NotValidUpdateException("Customer $userId already has an active cart")
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     fun getCartOfUser(userId: UUID): Cart {
         val carts = this.filter(CartFilter(userId = userId, active = true))
         if(carts.size == 1) {
@@ -168,6 +169,17 @@ class CartService(
         } else {
             logger.error { "Illegal state: Customer $userId doesn't have exactly 1 active cart" }
             throw IllegalStateException()
+        }
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    fun deleteCustomerCarts(customerId: UUID) {
+        val cartsOfCustomer = this.filter(CartFilter(userId = customerId))
+
+        this.repository.deleteAll(cartsOfCustomer)
+
+        this.jwtRequiredMethod {
+            this.orderClient.deleteCustomerOrders(it)
         }
     }
 }

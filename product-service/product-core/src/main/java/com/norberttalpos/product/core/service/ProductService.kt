@@ -41,9 +41,12 @@ class ProductService : AbstractDeletableService<Product, ProductFilter, ProductR
     fun addProduct(productName: String, amount: Int) = this.changeProductQuantity(productName, amount)
 
     private fun changeProductQuantity(productName: String, amount: Int) {
-        this.filter(ProductFilter(name = productName)).forEach {
-            it.quantity += amount
-            this.put(it)
+        val product = this.filter(ProductFilter(name = productName)).first()
+
+        product.apply {
+            this.quantity += amount
         }
+
+        this.put(product)
     }
 }

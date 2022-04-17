@@ -4,10 +4,10 @@ import com.norberttalpos.common.abstracts.dto.AbstractDto
 import java.util.*
 
 data class CustomerDto(
-    override var id: UUID?,
-    val name: String?,
-    val email: String?,
-    val phoneNumber: String?,
-    val imageUrl: String?,
-    val address: AddressDto?,
+    override var id: UUID? = null,
+    val name: String? = null,
+    val email: String? = null,
+    val phoneNumber: String? = null,
+    val imageUrl: String? = null,
+    val address: AddressDto? = null,
 ) : AbstractDto

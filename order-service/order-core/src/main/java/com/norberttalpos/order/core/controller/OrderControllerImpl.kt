@@ -17,4 +17,9 @@ class OrderControllerImpl : OrderController,
     override fun getOrdersOfCustomer(currentUser: UserDto): ResponseEntity<List<OrderDto>> {
         return this.filter(OrderFilter(customerId = currentUser.id))
     }
+
+    override fun deleteCustomerOrders(currentUser: UserDto)
+        = this.commandMethod {
+            this.service.deleteCustomerOrders(currentUser.id!!)
+        }
 }
