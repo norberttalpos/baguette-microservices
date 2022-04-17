@@ -5,9 +5,7 @@ import com.norberttalpos.common.abstracts.filter.AbstractFilter
 import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import com.norberttalpos.common.exception.NotValidUpdateException
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
-import javax.persistence.EntityNotFoundException
 
 abstract class AbstractCreatableService<
         ENTITY : AbstractEntity,
@@ -43,15 +41,14 @@ abstract class AbstractCreatableService<
     abstract fun provideUniquenessCheckFilter(entity: ENTITY): FILTER
 
     abstract fun validateEntity(entity: ENTITY): Boolean
+}
 
-    protected fun jwtRequiredMethod(command: (jwt: String) -> Unit) {
-        val jwtToken = SecurityContextHolder.getContext().authentication.credentials as? String
+fun jwtRequiredMethod(command: (jwt: String) -> Unit) {
+    val jwtToken = SecurityContextHolder.getContext().authentication.credentials as? String
 
-        jwtToken?.let {
-            command.invoke(jwtToken)
-        } ?: run {
-            logger.error { "Operation requires a user token" }
-            throw NotValidUpdateException("Operation requires a user token")
-        }
+    jwtToken?.let {
+        command.invoke(jwtToken)
+    } ?: run {
+        throw NotValidUpdateException("Operation requires a user token")
     }
 }

@@ -5,6 +5,6 @@ import java.util.*
 
 data class OrderDto(
     override var id: UUID? = null,
-    var cartId: UUID? = null,
-    var customerId: UUID? = null,
+    var cartId: UUID?,
+    var customerId: UUID?,
 ) : AbstractDto

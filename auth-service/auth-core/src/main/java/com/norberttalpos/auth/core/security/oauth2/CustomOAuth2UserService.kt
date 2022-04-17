@@ -1,5 +1,6 @@
 package com.norberttalpos.auth.core.security.oauth2
 
+import com.norberttalpos.auth.api.util.asSimpleGrantedAuthority
 import com.norberttalpos.auth.core.exception.OAuth2AuthenticationProcessingException
 import com.norberttalpos.auth.core.model.entity.AuthProvider
 import com.norberttalpos.auth.core.model.entity.User
@@ -9,11 +10,11 @@ import com.norberttalpos.auth.core.security.UserPrincipal
 import com.norberttalpos.auth.core.security.oauth2.user.OAuth2UserInfo
 import com.norberttalpos.auth.core.security.oauth2.user.OAuth2UserInfoFactory
 import com.norberttalpos.auth.core.util.RoleDeterminerService
+import com.norberttalpos.common.abstracts.service.jwtRequiredMethod
 import com.norberttalpos.customer.api.client.CustomerClient
 import com.norberttalpos.customer.api.dto.CustomerDto
 import org.springframework.security.authentication.InternalAuthenticationServiceException
 import org.springframework.security.core.AuthenticationException
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.user.OAuth2User
@@ -27,6 +28,7 @@ class CustomOAuth2UserService(
     private val userRepository: UserRepository,
     private val customerClient: CustomerClient,
     private val roleDeterminerService: RoleDeterminerService,
+    private val tokenProvider: TokenProvider,
 ) : DefaultOAuth2UserService() {
 
     override fun loadUser(oAuth2UserRequest: OAuth2UserRequest): OAuth2User {
@@ -87,7 +89,10 @@ class CustomOAuth2UserService(
                 name = oAuth2UserInfo.name ?: "",
                 email = result.email,
                 imageUrl = oAuth2UserInfo.imageUrl,
+                phoneNumber = null,
+                address = null,
             ),
+            "Bearer ${createMockToken(result)}"
         )
 
         return result
@@ -108,9 +113,20 @@ class CustomOAuth2UserService(
                 name = oAuth2UserInfo.name,
                 email = result.email,
                 imageUrl = oAuth2UserInfo.imageUrl,
-            )
+                phoneNumber = null,
+                address = null,
+            ),
+            "Bearer ${createMockToken(result)}"
         )
 
         return result
     }
+
+    //TODO: kényszermegoldás
+    fun createMockToken(user: User) =
+        tokenProvider.createToken(
+            user.id.toString(),
+            user.email!!,
+            user.roles!!.map { asSimpleGrantedAuthority(it.name!!) }
+        )
 }

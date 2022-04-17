@@ -15,8 +15,11 @@ import java.util.*
 )
 interface CartClient {
 
-    @PostMapping("/api/cart/cart")
-    fun createCart(@RequestBody createCartRequest: CreateCartRequest): ResponseEntity<UUID>
+    @PostMapping("/api/cart/cart/")
+    fun createCart(
+        @RequestBody createCartRequest: CreateCartRequest,
+        @RequestHeader("Authorization") token: String
+    ): ResponseEntity<UUID>
 
     @DeleteMapping("/api/cart/cart/delete-customer-carts")
     fun deleteCustomerCarts(@RequestHeader("Authorization") token: String): ResponseEntity<UUID>

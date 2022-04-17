@@ -6,7 +6,6 @@ import mu.KotlinLogging
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
-import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
@@ -16,7 +15,7 @@ class ResourceServerJwtAuthFilter(
     private val authClient: AuthClient
 ) : OncePerRequestFilter() {
 
-    private val logger = KotlinLogging.logger {}
+    private val _logger = KotlinLogging.logger {}
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -24,37 +23,39 @@ class ResourceServerJwtAuthFilter(
         filterChain: FilterChain
     ) {
         try {
-            val jwt = getJwtFromRequest(request)
+            val authString = getAuthenticationFromRequest(request)
+            if(authString != null) {
+                if(authString.startsWith("Bearer")) {
 
-            if(jwt != null) {
+                    _logger.info { "Found jwt $authString in request" }
 
-                logger.info { "Found jwt $jwt in request"}
+                    val user = authClient.getUser(authString)
 
-                val user = authClient.getUser(jwt)
+                    _logger.info { "User ${user.email} retrieved via jwt" }
 
-                logger.info { "User ${user.email} retrieved via jwt"}
+                    val authentication =
+                        UsernamePasswordAuthenticationToken(
+                            user,
+                            authString,
+                            user.roles!!.map { asSimpleGrantedAuthority(it.name!!) }
+                        )
 
-                val authentication =
-                    UsernamePasswordAuthenticationToken(
-                        user,
-                        jwt,
-                        user.roles!!.map { asSimpleGrantedAuthority(it.name!!) }
-                    )
-                authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+                    authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+                    SecurityContextHolder.getContext().authentication = authentication
 
-                SecurityContextHolder.getContext().authentication = authentication
+                    _logger.info { "Added security context authentication for user ${user.email}" }
 
-                logger.info { "Added security context authentication for user ${user.email}"}
+                }
             }
 
         } catch (ex: Exception) {
-            logger.error { ex.message }
+            _logger.error { ex.message }
         }
 
         filterChain.doFilter(request, response)
     }
 
-    private fun getJwtFromRequest(request: HttpServletRequest): String? {
+    private fun getAuthenticationFromRequest(request: HttpServletRequest): String? {
         return request.getHeader("Authorization")
     }
 }

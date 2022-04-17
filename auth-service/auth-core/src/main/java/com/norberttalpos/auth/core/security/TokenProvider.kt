@@ -4,6 +4,7 @@ import com.norberttalpos.auth.core.config.AppProperties
 import io.jsonwebtoken.*
 import mu.KotlinLogging
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.stereotype.Service
 import java.security.SignatureException
 import java.util.*
@@ -30,6 +31,25 @@ class TokenProvider(
                     Pair("roles", userPrincipal.authorities),
                     Pair("email", userPrincipal.email),
                     Pair("userid", userPrincipal.id),
+                )
+            )
+            .signWith(SignatureAlgorithm.HS512, appProperties.auth.tokenSecret)
+            .compact()
+    }
+
+    fun createToken(id: String, email: String, authorities: Collection<GrantedAuthority>): String {
+        val now = Date()
+        val expiryDate = Date(now.time + appProperties.auth.tokenExpirationMsec)
+
+        return Jwts.builder()
+            .setSubject(id)
+            .setIssuedAt(Date())
+            .setExpiration(expiryDate)
+            .setClaims(
+                mapOf(
+                    Pair("roles", authorities),
+                    Pair("email", email),
+                    Pair("userid", id),
                 )
             )
             .signWith(SignatureAlgorithm.HS512, appProperties.auth.tokenSecret)

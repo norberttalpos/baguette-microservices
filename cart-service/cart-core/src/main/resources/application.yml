@@ -4,28 +4,12 @@ server:
     context-path: /api/cart
 
 spring:
+  profiles:
+    active: db,eurekaclient,feign,security
   application:
     name: cart-service
   datasource:
     url: jdbc:postgresql://localhost:5432/cart?createDatabaseIfNotExist=true
-    username: norberttalpos
-    password: Passw0rd
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: true
-    generate-ddl: true
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-    fetch-registry: true
-    register-with-eureka: true
 
 springdoc:
   packagesToScan: com.norberttalpos.cart

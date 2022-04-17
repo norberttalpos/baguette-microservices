@@ -3,6 +3,7 @@ package com.norberttalpos.order.core.service
 import com.norberttalpos.common.abstracts.filter.QueryBuilder
 import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
+import com.norberttalpos.common.abstracts.service.jwtRequiredMethod
 import com.norberttalpos.customer.api.client.CustomerClient
 import com.norberttalpos.order.api.filter.OrderFilter
 import com.norberttalpos.order.core.entity.Order
@@ -42,8 +43,13 @@ class OrderService(
         OrderFilter(cartId = entity.cartId, customerId = entity.customerId)
 
     override fun validateEntity(entity: Order): Boolean {
-        return try {
-            this.customerClient.userExistsById(entity.customerId!!).body!!
+        try {
+            var success = false
+            jwtRequiredMethod { jwtToken: String ->
+                 success = this.customerClient.userExistsById(entity.customerId!!, jwtToken).body!!
+            }
+            return success
+
         } catch (e: Exception) {
             throw IllegalArgumentException()
         }

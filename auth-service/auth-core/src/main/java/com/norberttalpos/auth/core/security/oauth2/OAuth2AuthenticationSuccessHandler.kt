@@ -30,7 +30,7 @@ class OAuth2AuthenticationSuccessHandler @Autowired internal constructor(
         val targetUrl = determineTargetUrl(request, response, authentication)
 
         if (response.isCommitted) {
-            logger.debug("Response has already been committed. Unable to redirect to $targetUrl")
+            logger.debug { "Response has already been committed. Unable to redirect to $targetUrl" }
             return
         }
 

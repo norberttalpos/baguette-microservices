@@ -1,7 +1,6 @@
 package com.norberttalpos.product.core.controller
 
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractCreatableControllerImpl
-import com.norberttalpos.common.abstracts.controller.implementations.AbstractModifiableControllerImpl
 import com.norberttalpos.product.api.controller.MeasurementUnitController
 import com.norberttalpos.product.api.dto.MeasurementUnitDto
 import com.norberttalpos.product.api.filter.MeasurementUnitFilter

@@ -7,6 +7,7 @@ import com.norberttalpos.cart.api.controller.payload.CreateCartRequest
 import com.norberttalpos.common.abstracts.filter.QueryBuilder
 import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
+import com.norberttalpos.common.abstracts.service.jwtRequiredMethod
 import com.norberttalpos.common.exception.NotValidUpdateException
 import com.norberttalpos.customer.api.filter.CustomerFilter
 import com.norberttalpos.customer.core.entity.Address
@@ -52,9 +53,12 @@ class CustomerService(
     }
 
     override fun postCreation(entity: Customer) {
-        this.cartClient.createCart(
-            CreateCartRequest(entity.id!!)
-        )
+        jwtRequiredMethod { jwtToken: String ->
+            this.cartClient.createCart(
+                CreateCartRequest(entity.id!!),
+                jwtToken
+            )
+        }
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
@@ -89,8 +93,8 @@ class CustomerService(
     override fun deleteById(id: UUID) {
         super.deleteById(id)
 
-        this.jwtRequiredMethod {
-            this.cartClient.deleteCustomerCarts(it)
+        jwtRequiredMethod { jwtToken: String ->
+            this.cartClient.deleteCustomerCarts(jwtToken)
         }
     }
 }

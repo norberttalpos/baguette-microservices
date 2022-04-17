@@ -2,7 +2,6 @@ package com.norberttalpos.common.abstracts.service
 
 import com.norberttalpos.common.abstracts.entity.AbstractEntity
 import com.norberttalpos.common.abstracts.filter.AbstractFilter
-import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import com.norberttalpos.common.exception.NotValidUpdateException
 import javax.persistence.EntityNotFoundException

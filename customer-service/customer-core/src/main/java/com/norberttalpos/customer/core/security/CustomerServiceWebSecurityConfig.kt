@@ -9,8 +9,8 @@ class CustomerServiceWebSecurityConfig : AbstractResourceServerWebSecurityConfig
     override fun getEndpointSecurityInfo(): List<EndpointSecurityInfo> {
         return listOf(
             EndpointSecurityInfo("/customer/me", HttpMethod.GET, mutableListOf(USER)),
-            EndpointSecurityInfo("/customer/{id}/userExistsById", HttpMethod.GET, mutableListOf()),
-            EndpointSecurityInfo("/customer/**", HttpMethod.POST, mutableListOf()),
+            EndpointSecurityInfo("/customer/{id}/userExistsById", HttpMethod.GET, mutableListOf(USER)),
+            EndpointSecurityInfo("/customer/**", HttpMethod.POST, mutableListOf(USER)),
             EndpointSecurityInfo("/customer/**", HttpMethod.PUT, mutableListOf(USER)),
         )
     }

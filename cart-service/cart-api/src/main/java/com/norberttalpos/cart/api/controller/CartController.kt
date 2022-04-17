@@ -9,9 +9,6 @@ import com.norberttalpos.cart.api.controller.payload.RemoveCartItemRequest
 import com.norberttalpos.cart.api.dto.CartDto
 import com.norberttalpos.cart.api.filter.CartFilter
 import com.norberttalpos.common.abstracts.controller.interfaces.AbstractGettableController
-import com.norberttalpos.common.abstracts.controller.interfaces.AbstractModifiableController
-import com.norberttalpos.common.abstracts.service.AbstractFilterableService
-import com.norberttalpos.common.exception.NotValidUpdateException
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

@@ -13,11 +13,14 @@ import java.util.*
 interface CustomerClient {
 
     @PostMapping("/api/customer/customer/")
-    fun registerCustomer(customer: CustomerDto)
+    fun registerCustomer(customer: CustomerDto, @RequestHeader("Authorization") token: String)
 
     @PutMapping("/api/customer/customer/")
-    fun updateCustomer(customer: CustomerDto)
+    fun updateCustomer(customer: CustomerDto, @RequestHeader("Authorization") token: String)
 
     @GetMapping("/api/customer/customer/{id}/userExistsById")
-    fun userExistsById(@PathVariable id: UUID): ResponseEntity<Boolean>
+    fun userExistsById(
+        @PathVariable id: UUID,
+        @RequestHeader("Authorization") token: String
+    ): ResponseEntity<Boolean>
 }

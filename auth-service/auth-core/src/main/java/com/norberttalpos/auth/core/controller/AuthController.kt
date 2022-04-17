@@ -1,5 +1,6 @@
 package com.norberttalpos.auth.core.controller
 
+import com.norberttalpos.auth.api.util.asSimpleGrantedAuthority
 import com.norberttalpos.auth.core.exception.BadRequestException
 import com.norberttalpos.auth.core.model.entity.AuthProvider
 import com.norberttalpos.auth.core.model.entity.User
@@ -9,13 +10,13 @@ import com.norberttalpos.auth.core.payload.LoginRequest
 import com.norberttalpos.auth.core.payload.SignUpRequest
 import com.norberttalpos.auth.core.repository.UserRepository
 import com.norberttalpos.auth.core.security.TokenProvider
+import com.norberttalpos.auth.core.security.UserPrincipal
 import com.norberttalpos.auth.core.util.RoleDeterminerService
 import com.norberttalpos.customer.api.client.CustomerClient
 import com.norberttalpos.customer.api.dto.CustomerDto
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
@@ -49,6 +50,10 @@ class AuthController(
         SecurityContextHolder.getContext().authentication = authentication
 
         val token = tokenProvider.createToken(authentication)
+        val principal = SecurityContextHolder.getContext().authentication.principal as? UserPrincipal
+
+        SecurityContextHolder.getContext().authentication =
+            UsernamePasswordAuthenticationToken(principal, token, principal?.authorities)
 
         return ResponseEntity.ok(AuthResponse(token))
     }
@@ -73,7 +78,11 @@ class AuthController(
                 id = result.id,
                 name = signUpRequest.name,
                 email = signUpRequest.email,
-            )
+                phoneNumber = null,
+                imageUrl = null,
+                address = null,
+            ),
+            "Bearer ${createMockToken(result)}"
         )
 
         val location = ServletUriComponentsBuilder
@@ -83,4 +92,12 @@ class AuthController(
         return ResponseEntity.created(location)
             .body(ApiResponse(true, "User registered successfully"))
     }
+
+    //TODO: kényszermegoldás
+    fun createMockToken(user: User) =
+        tokenProvider.createToken(
+            user.id.toString(),
+            user.email!!,
+            user.roles!!.map { asSimpleGrantedAuthority(it.name!!) }
+        )
 }

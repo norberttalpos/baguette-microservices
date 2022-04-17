@@ -6,17 +6,12 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.reactive.CorsWebFilter
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
@@ -72,7 +67,7 @@ abstract class AbstractResourceServerWebSecurityConfig : WebSecurityConfigurerAd
 
     private fun convenientEndpointSecurityInfo(): List<EndpointSecurityInfo> {
 
-        return this.getEndpointSecurityInfo().map {
+        var list = this.getEndpointSecurityInfo().map {
             it.apply {
                 if(it.requiredRoles.size > 0) {
                     val role = it.requiredRoles.first()
@@ -82,5 +77,15 @@ abstract class AbstractResourceServerWebSecurityConfig : WebSecurityConfigurerAd
                 }
             }
         }
+
+        val slashAdded = list.map { it.copy() }
+
+        slashAdded.filter { it.route.endsWith("/**") }
+            .map { it.route = it.route.substring(0, it.route.length - 3) }
+
+        list = mutableListOf(*list.toTypedArray())
+        list.addAll(slashAdded)
+
+        return list
     }
 }

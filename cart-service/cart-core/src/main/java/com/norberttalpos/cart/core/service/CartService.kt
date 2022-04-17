@@ -9,16 +9,15 @@ import com.norberttalpos.cart.core.repository.CartRepository
 import com.norberttalpos.common.abstracts.filter.QueryBuilder
 import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
+import com.norberttalpos.common.abstracts.service.jwtRequiredMethod
 import com.norberttalpos.common.exception.NotValidUpdateException
 import com.norberttalpos.customer.api.client.CustomerClient
 import com.norberttalpos.order.api.client.OrderClient
 import com.norberttalpos.order.api.dto.OrderDto
 import com.norberttalpos.product.api.client.CartProductResource
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.client.HttpClientErrorException
 import java.util.*
 
 @Service
@@ -115,7 +114,7 @@ class CartService(
     fun createOrder(userId: UUID) {
         val cartOfUser = this.getCartOfUser(userId)
 
-        this.jwtRequiredMethod {
+        jwtRequiredMethod { jwtToken: String ->
             this.put(cartOfUser.apply {
                 this.active = false
             })
@@ -124,7 +123,7 @@ class CartService(
 
             this.orderClient.createOrder(
                 OrderDto(customerId = userId, cartId = cartOfUser.id!!),
-                it
+                jwtToken
             )
 
             logger.info { "Created order for user $userId" }
@@ -135,30 +134,37 @@ class CartService(
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
     fun createCart(userId: UUID): UUID {
+        var createdCartId: UUID? = null
 
-        if(this.customerClient.userExistsById(userId).body!!) {
-            try {
-                this.getCartOfUser(userId)
+        jwtRequiredMethod { jwtToken: String ->
+            if(this.customerClient.userExistsById(userId, jwtToken).body!!) {
+                try {
+                    this.getCartOfUser(userId)
 
-            } catch (e: Exception) {
+                } catch (e: Exception) {
 
-                val cartCreated = this.repository.saveAndFlush(
-                    Cart().apply {
-                        this.userId = userId
-                    }
-                )
+                    val cartCreated = this.repository.saveAndFlush(
+                        Cart().apply {
+                            this.userId = userId
+                        }
+                    )
 
-                logger.info { "Created cart for customer $userId" }
+                    logger.info { "Created cart for customer $userId" }
 
-                return cartCreated.id!!
+                    createdCartId = cartCreated.id!!
+                }
+            } else {
+                logger.info { "Customer by id $userId doesn't exist" }
+                throw NotValidUpdateException("Customer by id $userId doesn't exist")
             }
-        } else {
-            logger.info { "Customer by id $userId doesn't exist" }
-            throw NotValidUpdateException("Customer by id $userId doesn't exist")
+
+            if(createdCartId == null) {
+                logger.info { "Customer $userId already has an active cart" }
+                throw NotValidUpdateException("Customer $userId already has an active cart")
+            }
         }
 
-        logger.info { "Customer $userId already has an active cart" }
-        throw NotValidUpdateException("Customer $userId already has an active cart")
+        return createdCartId!!
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
@@ -178,8 +184,8 @@ class CartService(
 
         this.repository.deleteAll(cartsOfCustomer)
 
-        this.jwtRequiredMethod {
-            this.orderClient.deleteCustomerOrders(it)
+        jwtRequiredMethod { jwtToken: String ->
+            this.orderClient.deleteCustomerOrders(jwtToken)
         }
     }
 }

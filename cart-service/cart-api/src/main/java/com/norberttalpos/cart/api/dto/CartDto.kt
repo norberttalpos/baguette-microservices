@@ -4,9 +4,9 @@ import com.norberttalpos.common.abstracts.dto.AbstractDto
 import java.util.*
 
 data class CartDto(
-    override var id: UUID? = null,
-    var userId: UUID? = null,
-    var active: Boolean? = null,
-    var totalPrice: Double? = null,
-    var cartItems: List<CartItemDto>? = null,
+    override var id: UUID?,
+    var userId: UUID?,
+    var active: Boolean?,
+    var totalPrice: Double?,
+    var cartItems: List<CartItemDto>?,
 ) : AbstractDto

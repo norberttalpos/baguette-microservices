@@ -1,18 +1,16 @@
 package com.norberttalpos.product.core
 
-import com.norberttalpos.product.core.security.ProductServiceWebSecurityConfig
 import com.norberttalpos.product.core.entity.MeasurementUnit
 import com.norberttalpos.product.core.entity.Product
 import com.norberttalpos.product.core.entity.ProductBrand
 import com.norberttalpos.product.core.entity.ProductCategory
+import com.norberttalpos.product.core.security.ProductServiceWebSecurityConfig
 import com.norberttalpos.product.core.service.MeasurementUnitService
 import com.norberttalpos.product.core.service.ProductBrandService
 import com.norberttalpos.product.core.service.ProductCategoryService
 import com.norberttalpos.product.core.service.ProductService
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.info.Info
-import io.swagger.v3.oas.annotations.security.SecurityScheme
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
