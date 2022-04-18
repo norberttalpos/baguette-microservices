@@ -5,6 +5,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy
 
 @MapperConfig(
     componentModel = "spring",
-    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+    //nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 interface MapstructConfig

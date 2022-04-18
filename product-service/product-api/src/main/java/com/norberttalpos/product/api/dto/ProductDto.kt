@@ -11,6 +11,7 @@ data class ProductDto(
     var price: Double?,
     val quantity: Int?,
     val rating: Double?,
+    val imageUrl: String?,
     val brand: ProductBrandDto?,
     val measurementUnit: MeasurementUnitDto?,
     val category: ProductCategoryDto?,
