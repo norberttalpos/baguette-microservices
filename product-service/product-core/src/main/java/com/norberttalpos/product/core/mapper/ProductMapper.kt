@@ -1,6 +1,7 @@
 package com.norberttalpos.product.core.mapper
 
 import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
+import com.norberttalpos.common.abstracts.dto.MapstructConfig
 import com.norberttalpos.common.abstracts.service.AbstractGettableService
 import com.norberttalpos.product.api.dto.ProductDto
 import com.norberttalpos.product.core.entity.MeasurementUnit
@@ -13,11 +14,14 @@ import com.norberttalpos.product.core.repository.ProductCategoryRepository
 import org.mapstruct.*
 import org.springframework.beans.factory.annotation.Autowired
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = [
-    ProductBrandMapper::class,
-    ProductCategoryMapper::class,
-    MeasurementUnitMapper::class
-])
+@Mapper(
+    config = MapstructConfig::class,
+    uses = [
+        ProductBrandMapper::class,
+        ProductCategoryMapper::class,
+        MeasurementUnitMapper::class
+    ]
+)
 abstract class ProductMapper : AbstractDtoMapper<Product, ProductDto>() {
 
     @Autowired

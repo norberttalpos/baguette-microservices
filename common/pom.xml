@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>common-abstract</module>
-        <module>common-config</module>
+        <module>common-resourceserver</module>
     </modules>
 
     <properties>

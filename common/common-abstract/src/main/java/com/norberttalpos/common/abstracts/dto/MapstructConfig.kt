@@ -1,4 +1,4 @@
-package com.norberttalpos.common.configs
+package com.norberttalpos.common.abstracts.dto
 
 import org.mapstruct.MapperConfig
 import org.mapstruct.NullValuePropertyMappingStrategy
@@ -7,4 +7,4 @@ import org.mapstruct.NullValuePropertyMappingStrategy
     componentModel = "spring",
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
-interface MapperSpringConfig
+interface MapstructConfig

@@ -2,9 +2,10 @@ package com.norberttalpos.cart.core.mapper
 
 import com.norberttalpos.cart.api.dto.ProductDto
 import com.norberttalpos.common.abstracts.dto.AbstractDtoToDtoMapper
+import com.norberttalpos.common.abstracts.dto.MapstructConfig
 import org.mapstruct.*
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(config = MapstructConfig::class)
 abstract class ProductProductDtoToCartProductDtoMapper
     : AbstractDtoToDtoMapper<com.norberttalpos.product.api.dto.ProductDto, ProductDto>() {
 

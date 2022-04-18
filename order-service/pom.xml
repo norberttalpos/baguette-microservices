@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>com.norberttalpos</groupId>
-            <artifactId>common-config</artifactId>
+            <artifactId>common-resourceserver</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

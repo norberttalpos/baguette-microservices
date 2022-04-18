@@ -5,7 +5,7 @@ server:
 
 spring:
   profiles:
-    active: db,eurekaclient,feign,security
+    active: db,eurekaclient,feign,security,zipkin
   application:
     name: customer-service
   datasource:

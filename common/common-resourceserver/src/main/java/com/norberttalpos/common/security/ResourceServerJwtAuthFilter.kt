@@ -24,9 +24,9 @@ class ResourceServerJwtAuthFilter(
     ) {
         try {
             val authString = getAuthenticationFromRequest(request)
+
             if(authString != null) {
                 if(authString.startsWith("Bearer")) {
-
                     _logger.info { "Found jwt $authString in request" }
 
                     val user = authClient.getUser(authString)
@@ -44,7 +44,6 @@ class ResourceServerJwtAuthFilter(
                     SecurityContextHolder.getContext().authentication = authentication
 
                     _logger.info { "Added security context authentication for user ${user.email}" }
-
                 }
             }
 
