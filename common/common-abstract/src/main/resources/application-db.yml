@@ -1,4 +1,7 @@
 spring:
+  sql:
+    init:
+      mode: always
   datasource:
     username: norberttalpos
     password: Passw0rd
@@ -11,3 +14,4 @@ spring:
         format_sql: true
     show-sql: true
     generate-ddl: true
+    defer-datasource-initialization: true

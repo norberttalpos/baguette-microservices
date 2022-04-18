@@ -17,7 +17,7 @@ interface AbstractGettableController<DTO : AbstractDto, FILTER : AbstractFilter>
 
     @GetMapping("/{id}")
     @Operation(description = "gets an entity by id")
-    fun getById(@PathVariable id: UUID): ResponseEntity<DTO>
+    fun getById(@PathVariable id: Long): ResponseEntity<DTO>
 
     @PostMapping("/filter")
     @Operation(description = "gets the entities satisfying a provided filter")

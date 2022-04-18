@@ -50,7 +50,7 @@ class CartService(
     override fun provideUniquenessCheckFilter(entity: Cart) = CartFilter(userId = entity.userId)
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
-    fun addProductToCart(userId: UUID, productId: UUID): Cart {
+    fun addProductToCart(userId: Long, productId: Long): Cart {
         val cart = this.getCartOfUser(userId)
 
         try {
@@ -75,7 +75,7 @@ class CartService(
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
-    fun modifyCartItem(userId: UUID, cartItem: CartItem): Cart {
+    fun modifyCartItem(userId: Long, cartItem: CartItem): Cart {
         val cart = this.getCartOfUser(userId)
         this.put(cart.apply {
             this.cartItems = this.cartItems
@@ -89,7 +89,7 @@ class CartService(
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
-    fun removeCartItem(userId: UUID, cartItemId: UUID): Cart {
+    fun removeCartItem(userId: Long, cartItemId: Long): Cart {
         val cart = this.getCartOfUser(userId)
         cart.cartItems
             ?.filter { it.id == cartItemId }
@@ -101,7 +101,7 @@ class CartService(
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
-    fun emptyCart(userId: UUID): Cart {
+    fun emptyCart(userId: Long): Cart {
         val cart = this.getCartOfUser(userId)
         cart.cartItems?.forEach { this.cartItemRepository.deleteById(it.id!!) }
 
@@ -111,7 +111,7 @@ class CartService(
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
-    fun createOrder(userId: UUID) {
+    fun createOrder(userId: Long) {
         val cartOfUser = this.getCartOfUser(userId)
 
         jwtRequiredMethod { jwtToken: String ->
@@ -133,8 +133,8 @@ class CartService(
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
-    fun createCart(userId: UUID): UUID {
-        var createdCartId: UUID? = null
+    fun createCart(userId: Long): Long {
+        var createdCartId: Long? = null
 
         jwtRequiredMethod { jwtToken: String ->
             if(this.customerClient.userExistsById(userId, jwtToken).body!!) {
@@ -168,7 +168,7 @@ class CartService(
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    fun getCartOfUser(userId: UUID): Cart {
+    fun getCartOfUser(userId: Long): Cart {
         val carts = this.filter(CartFilter(userId = userId, active = true))
         if(carts.size == 1) {
             return carts.first()
@@ -179,7 +179,7 @@ class CartService(
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    fun deleteCustomerCarts(customerId: UUID) {
+    fun deleteCustomerCarts(customerId: Long) {
         val cartsOfCustomer = this.filter(CartFilter(userId = customerId))
 
         this.repository.deleteAll(cartsOfCustomer)

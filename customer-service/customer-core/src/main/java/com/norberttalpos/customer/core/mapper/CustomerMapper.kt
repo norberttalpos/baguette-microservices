@@ -6,7 +6,6 @@ import com.norberttalpos.customer.api.dto.CustomerDto
 import com.norberttalpos.customer.core.entity.Customer
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import org.mapstruct.NullValuePropertyMappingStrategy
 
 @Mapper(
     config = MapstructConfig::class,

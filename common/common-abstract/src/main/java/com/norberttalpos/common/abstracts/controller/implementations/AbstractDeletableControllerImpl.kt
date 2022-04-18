@@ -19,7 +19,7 @@ abstract class AbstractDeletableControllerImpl<
         >
     : AbstractDeletableController<DTO, FILTER>, AbstractModifiableControllerImpl<DTO, ENTITY, FILTER, SERVICE>() {
 
-    override fun deleteById(id: UUID): ResponseEntity<Unit> {
+    override fun deleteById(id: Long): ResponseEntity<Unit> {
         this.service.deleteById(id)
 
         return ResponseEntity.ok(null)

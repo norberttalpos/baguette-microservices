@@ -5,5 +5,5 @@ import org.springframework.web.bind.annotation.PathVariable
 import java.util.*
 
 interface CartProductResource {
-    fun getProductById(@PathVariable id: UUID): ProductDto?
+    fun getProductById(@PathVariable id: Long): ProductDto?
 }

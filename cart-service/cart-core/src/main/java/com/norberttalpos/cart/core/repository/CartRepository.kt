@@ -17,5 +17,5 @@ interface CartRepository : AbstractRepository<Cart> {
     override fun findAll(predicate: Predicate): MutableIterable<Cart>
 
     @EntityGraph(attributePaths = ["cartItems"])
-    override fun findById(id: UUID): Optional<Cart>
+    override fun findById(id: Long): Optional<Cart>
 }

@@ -5,8 +5,8 @@ import com.norberttalpos.order.api.dto.OrderStatus
 import java.util.*
 
 data class OrderFilter(
-    override val id: UUID? = null,
-    var cartId: UUID? = null,
-    var customerId: UUID? = null,
+    override val id: Long? = null,
+    var cartId: Long? = null,
+    var customerId: Long? = null,
     var status: OrderStatus? = null,
 ) : AbstractFilter

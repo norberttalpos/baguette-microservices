@@ -4,6 +4,6 @@ import com.norberttalpos.common.abstracts.dto.AbstractDto
 import java.util.*
 
 class MeasurementUnitDto(
-    override var id: UUID?,
+    override var id: Long?,
     val name: String?,
 ) : AbstractDto

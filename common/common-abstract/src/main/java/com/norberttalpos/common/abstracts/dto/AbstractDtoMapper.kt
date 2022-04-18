@@ -21,7 +21,7 @@ abstract class AbstractDtoMapper<ENTITY : AbstractEntity, DTO : AbstractDto> {
     inline fun <reified T : AbstractEntity, S : AbstractDto> referenceResolver(
         dtoField: S?,
         entityField: KMutableProperty0<T>,
-        dtoFieldGetter: (UUID) -> T?,
+        dtoFieldGetter: (Long) -> T?,
     ) {
         val id = dtoField?.id
 

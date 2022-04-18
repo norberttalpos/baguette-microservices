@@ -4,7 +4,7 @@ import com.norberttalpos.common.abstracts.dto.AbstractDto
 import java.util.*
 
 data class CartItemDto(
-    override var id: UUID?,
+    override var id: Long?,
     var amount: Int?,
     var price: Double?,
     var product: ProductDto?,

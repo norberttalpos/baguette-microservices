@@ -56,14 +56,14 @@ class TokenProvider(
             .compact()
     }
 
-    fun getUserIdFromToken(token: String?): UUID {
+    fun getUserIdFromToken(token: String?): Long {
         val claims = Jwts.parserBuilder()
             .setSigningKey(appProperties.auth.tokenSecret)
             .build()
             .parseClaimsJws(token)
             .body
 
-        return UUID.fromString(claims["userid"] as? String)
+        return claims["userid"].toString().toLong()
     }
 
     fun validateToken(authToken: String?): Boolean {

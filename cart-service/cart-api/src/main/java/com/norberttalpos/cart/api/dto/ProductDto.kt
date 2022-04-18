@@ -4,7 +4,7 @@ import com.norberttalpos.common.abstracts.dto.AbstractDto
 import java.util.*
 
 data class ProductDto(
-    override var id : UUID?,
+    override var id : Long?,
     val name: String?,
     val amount: Double?,
     val price: Double?,

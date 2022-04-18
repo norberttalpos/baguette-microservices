@@ -18,5 +18,5 @@ interface OrderClient {
     fun createOrder(order: OrderDto, @RequestHeader("Authorization") token: String)
 
     @DeleteMapping("/api/order/order/delete-customer-orders")
-    fun deleteCustomerOrders(@RequestHeader("Authorization") token: String): ResponseEntity<UUID>
+    fun deleteCustomerOrders(@RequestHeader("Authorization") token: String): ResponseEntity<Long>
 }

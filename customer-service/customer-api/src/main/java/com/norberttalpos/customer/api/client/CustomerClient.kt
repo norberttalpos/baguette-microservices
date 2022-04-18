@@ -20,7 +20,7 @@ interface CustomerClient {
 
     @GetMapping("/api/customer/customer/{id}/userExistsById")
     fun userExistsById(
-        @PathVariable id: UUID,
+        @PathVariable id: Long,
         @RequestHeader("Authorization") token: String
     ): ResponseEntity<Boolean>
 }

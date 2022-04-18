@@ -20,5 +20,5 @@ interface CustomerRepository : AbstractRepository<Customer> {
     override fun findAll(predicate: Predicate): MutableIterable<Customer>
 
     @EntityGraph(attributePaths = ["address"])
-    override fun findById(id: UUID): Optional<Customer>
+    override fun findById(id: Long): Optional<Customer>
 }

@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User
 import java.util.*
 
 class UserPrincipal(
-    val id: UUID?,
+    val id: Long?,
     val email: String?,
     private val password: String?,
     private val authorities: Collection<GrantedAuthority>

@@ -2,7 +2,6 @@ package com.norberttalpos.customer.api.controller
 
 import com.norberttalpos.auth.api.dto.UserDto
 import com.norberttalpos.auth.api.util.CurrentUser
-import com.norberttalpos.common.abstracts.controller.interfaces.AbstractDeletableController
 import com.norberttalpos.common.abstracts.controller.interfaces.AbstractModifiableController
 import com.norberttalpos.customer.api.dto.AddressDto
 import com.norberttalpos.customer.api.dto.CustomerDto
@@ -24,7 +23,7 @@ interface CustomerController : AbstractModifiableController<CustomerDto, Custome
     fun currentUser(@CurrentUser currentUser: UserDto): ResponseEntity<CustomerDto>
 
     @GetMapping("/{id}/userExistsById")
-    fun userExistsById(@PathVariable id: UUID): ResponseEntity<Boolean>
+    fun userExistsById(@PathVariable id: Long): ResponseEntity<Boolean>
 
     @DeleteMapping
     fun deleteUser(@CurrentUser currentUser: UserDto): ResponseEntity<Any>

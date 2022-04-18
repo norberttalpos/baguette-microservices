@@ -10,7 +10,7 @@ class Customer : AbstractEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    override var id: UUID? = null
+    override var id: Long? = null
 
     @Column(name = "name", nullable = false)
     var name: String = ""

@@ -6,7 +6,6 @@ import com.querydsl.core.types.Predicate
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.stereotype.Repository
 import java.util.*
-import javax.persistence.NamedEntityGraph
 
 @Repository
 interface ProductRepository : AbstractRepository<Product> {
@@ -18,5 +17,5 @@ interface ProductRepository : AbstractRepository<Product> {
     override fun findAll(predicate: Predicate): MutableIterable<Product>
 
     @EntityGraph(attributePaths = ["brand", "category", "measurementUnit"])
-    override fun findById(id: UUID): Optional<Product>
+    override fun findById(id: Long): Optional<Product>
 }

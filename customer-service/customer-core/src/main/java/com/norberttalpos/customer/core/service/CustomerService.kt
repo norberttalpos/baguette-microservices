@@ -15,7 +15,6 @@ import com.norberttalpos.customer.core.entity.Customer
 import com.norberttalpos.customer.core.entity.QCustomer
 import com.norberttalpos.customer.core.repository.AddressRepository
 import com.norberttalpos.customer.core.repository.CustomerRepository
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
@@ -86,11 +85,11 @@ class CustomerService(
         return this.repository.getByEmail(email)
     }
 
-    fun userExistsById(id: UUID): Boolean {
+    fun userExistsById(id: Long): Boolean {
         return this.repository.existsById(id)
     }
 
-    override fun deleteById(id: UUID) {
+    override fun deleteById(id: Long) {
         super.deleteById(id)
 
         jwtRequiredMethod { jwtToken: String ->

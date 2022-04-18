@@ -20,7 +20,7 @@ import java.util.*
 interface CartController : AbstractGettableController<CartDto, CartFilter> {
 
     @PostMapping
-    fun create(@RequestBody createCartRequest: CreateCartRequest): ResponseEntity<UUID>
+    fun create(@RequestBody createCartRequest: CreateCartRequest): ResponseEntity<Long>
 
     @GetMapping("/current-cart")
     fun getCurrentCartOfCustomer(@CurrentUser currentUser: UserDto): ResponseEntity<CartDto>

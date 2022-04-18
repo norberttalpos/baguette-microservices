@@ -5,7 +5,10 @@ import com.norberttalpos.cart.core.entity.CartItem
 import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
 import com.norberttalpos.common.abstracts.dto.MapstructConfig
 import com.norberttalpos.product.api.client.CartProductResource
-import org.mapstruct.*
+import org.mapstruct.AfterMapping
+import org.mapstruct.Mapper
+import org.mapstruct.Mapping
+import org.mapstruct.MappingTarget
 import org.springframework.beans.factory.annotation.Autowired
 
 @Mapper(config = MapstructConfig::class)

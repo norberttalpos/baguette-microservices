@@ -1,7 +1,6 @@
 package com.norberttalpos.customer.core.controller
 
 import com.norberttalpos.auth.api.dto.UserDto
-import com.norberttalpos.common.abstracts.controller.implementations.AbstractDeletableControllerImpl
 import com.norberttalpos.common.abstracts.controller.implementations.AbstractModifiableControllerImpl
 import com.norberttalpos.customer.api.controller.CustomerController
 import com.norberttalpos.customer.api.dto.AddressDto
@@ -11,10 +10,7 @@ import com.norberttalpos.customer.core.entity.Customer
 import com.norberttalpos.customer.core.mapper.AddressMapper
 import com.norberttalpos.customer.core.service.CustomerService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import java.lang.Exception
 import java.util.*
 
 @RestController
@@ -34,7 +30,7 @@ class CustomerControllerImpl(
         return ResponseEntity.ok(this.mapper.toDto(this.service.getByEmail(currentUser.email!!)!!))
     }
 
-    override fun userExistsById(id: UUID): ResponseEntity<Boolean> {
+    override fun userExistsById(id: Long): ResponseEntity<Boolean> {
         return ResponseEntity.ok(this.service.userExistsById(id))
     }
 

@@ -7,7 +7,6 @@ import com.norberttalpos.common.abstracts.dto.MapstructConfig
 import org.mapstruct.AfterMapping
 import org.mapstruct.Mapper
 import org.mapstruct.MappingTarget
-import org.mapstruct.NullValuePropertyMappingStrategy
 
 @Mapper(
     config = MapstructConfig::class,

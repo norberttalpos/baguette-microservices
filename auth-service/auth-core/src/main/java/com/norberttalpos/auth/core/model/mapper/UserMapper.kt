@@ -5,7 +5,6 @@ import com.norberttalpos.auth.core.model.entity.User
 import com.norberttalpos.common.abstracts.dto.AbstractDtoMapper
 import com.norberttalpos.common.abstracts.dto.MapstructConfig
 import org.mapstruct.Mapper
-import org.mapstruct.NullValuePropertyMappingStrategy
 
 @Mapper(config = MapstructConfig::class)
 abstract class UserMapper : AbstractDtoMapper<User, UserDto>()

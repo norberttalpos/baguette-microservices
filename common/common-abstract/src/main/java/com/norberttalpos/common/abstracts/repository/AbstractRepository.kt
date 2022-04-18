@@ -8,4 +8,4 @@ import java.util.*
 
 @Repository
 interface AbstractRepository<ENTITY : AbstractEntity>
-    : JpaRepository<ENTITY, UUID>, QuerydslPredicateExecutor<ENTITY>
+    : JpaRepository<ENTITY, Long>, QuerydslPredicateExecutor<ENTITY>

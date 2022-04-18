@@ -19,8 +19,8 @@ interface CartClient {
     fun createCart(
         @RequestBody createCartRequest: CreateCartRequest,
         @RequestHeader("Authorization") token: String
-    ): ResponseEntity<UUID>
+    ): ResponseEntity<Long>
 
     @DeleteMapping("/api/cart/cart/delete-customer-carts")
-    fun deleteCustomerCarts(@RequestHeader("Authorization") token: String): ResponseEntity<UUID>
+    fun deleteCustomerCarts(@RequestHeader("Authorization") token: String): ResponseEntity<Long>
 }

@@ -10,7 +10,6 @@ import com.norberttalpos.auth.core.security.UserPrincipal
 import com.norberttalpos.auth.core.security.oauth2.user.OAuth2UserInfo
 import com.norberttalpos.auth.core.security.oauth2.user.OAuth2UserInfoFactory
 import com.norberttalpos.auth.core.util.RoleDeterminerService
-import com.norberttalpos.common.abstracts.service.jwtRequiredMethod
 import com.norberttalpos.customer.api.client.CustomerClient
 import com.norberttalpos.customer.api.dto.CustomerDto
 import org.springframework.security.authentication.InternalAuthenticationServiceException

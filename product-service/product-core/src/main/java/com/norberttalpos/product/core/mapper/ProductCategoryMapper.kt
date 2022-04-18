@@ -5,7 +5,6 @@ import com.norberttalpos.common.abstracts.dto.MapstructConfig
 import com.norberttalpos.product.api.dto.ProductCategoryDto
 import com.norberttalpos.product.core.entity.ProductCategory
 import org.mapstruct.Mapper
-import org.mapstruct.NullValuePropertyMappingStrategy
 
 @Mapper(
     config = MapstructConfig::class,

@@ -12,5 +12,5 @@ abstract class AbstractDeletableService<
         >
     : AbstractModifiableService<ENTITY, FILTER, REPOSITORY>() {
 
-    fun deleteById(id: UUID) = this.repository.deleteById(id)
+    fun deleteById(id: Long) = this.repository.deleteById(id)
 }

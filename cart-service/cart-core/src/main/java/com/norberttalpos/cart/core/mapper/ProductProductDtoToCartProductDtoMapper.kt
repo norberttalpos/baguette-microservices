@@ -3,7 +3,10 @@ package com.norberttalpos.cart.core.mapper
 import com.norberttalpos.cart.api.dto.ProductDto
 import com.norberttalpos.common.abstracts.dto.AbstractDtoToDtoMapper
 import com.norberttalpos.common.abstracts.dto.MapstructConfig
-import org.mapstruct.*
+import org.mapstruct.AfterMapping
+import org.mapstruct.Mapper
+import org.mapstruct.Mapping
+import org.mapstruct.MappingTarget
 
 @Mapper(config = MapstructConfig::class)
 abstract class ProductProductDtoToCartProductDtoMapper

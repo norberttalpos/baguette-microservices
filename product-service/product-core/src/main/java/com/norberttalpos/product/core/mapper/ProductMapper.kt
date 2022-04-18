@@ -11,7 +11,10 @@ import com.norberttalpos.product.core.entity.ProductCategory
 import com.norberttalpos.product.core.repository.MeasurementUnitRepository
 import com.norberttalpos.product.core.repository.ProductBrandRepository
 import com.norberttalpos.product.core.repository.ProductCategoryRepository
-import org.mapstruct.*
+import org.mapstruct.AfterMapping
+import org.mapstruct.Mapper
+import org.mapstruct.Mapping
+import org.mapstruct.MappingTarget
 import org.springframework.beans.factory.annotation.Autowired
 
 @Mapper(

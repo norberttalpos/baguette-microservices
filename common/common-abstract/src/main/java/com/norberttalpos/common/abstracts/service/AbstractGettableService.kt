@@ -20,7 +20,7 @@ abstract class AbstractGettableService<
 
     fun getEntities(): List<ENTITY> = this.repository.findAll()
 
-    fun getById(id: UUID): ENTITY? = this.repository.findById(id).unwrap()
+    fun getById(id: Long): ENTITY? = this.repository.findById(id).unwrap()
 }
 
 fun <T> Optional<T>.unwrap(): T? = orElse(null)

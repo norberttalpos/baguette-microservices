@@ -26,7 +26,7 @@ class CustomUserDetailsService(
     }
 
     @Transactional
-    fun loadUserById(id: UUID): UserDetails {
+    fun loadUserById(id: Long): UserDetails {
         val user: User = userRepository.findByIdOrNull(id)
             ?: throw ResourceNotFoundException("User", "id", id)
 

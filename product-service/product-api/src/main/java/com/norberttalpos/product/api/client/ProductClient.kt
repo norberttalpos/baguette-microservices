@@ -13,5 +13,5 @@ import java.util.*
 interface ProductClient : CartProductResource {
 
     @GetMapping("/api/product/product/{id}/")
-    override fun getProductById(@PathVariable id: UUID): ProductDto?
+    override fun getProductById(@PathVariable id: Long): ProductDto?
 }

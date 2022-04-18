@@ -5,5 +5,5 @@ import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
 interface AbstractEntity {
-    var id: UUID?
+    var id: Long?
 }

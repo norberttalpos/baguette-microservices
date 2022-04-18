@@ -15,5 +15,5 @@ interface AbstractDeletableController<DTO : AbstractDto, FILTER : AbstractFilter
 
     @DeleteMapping("/{id}")
     @Operation(description = "deletes an entity")
-    fun deleteById(@PathVariable id: UUID): ResponseEntity<Unit>
+    fun deleteById(@PathVariable id: Long): ResponseEntity<Unit>
 }

@@ -34,7 +34,7 @@ abstract class AbstractGettableControllerImpl<
         return ResponseEntity.ok(dtos)
     }
 
-    override fun getById(id: UUID): ResponseEntity<DTO> {
+    override fun getById(id: Long): ResponseEntity<DTO> {
         val entity = this.service.getById(id) ?: return ResponseEntity.notFound().build()
         val dto = this.mapper.toDto(entity)
 

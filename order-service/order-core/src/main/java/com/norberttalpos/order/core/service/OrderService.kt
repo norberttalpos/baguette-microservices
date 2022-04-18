@@ -61,7 +61,7 @@ class OrderService(
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    fun deleteCustomerOrders(customerId: UUID) {
+    fun deleteCustomerOrders(customerId: Long) {
         val ordersOfCustomer = this.filter(OrderFilter(customerId = customerId))
 
         this.repository.deleteAll(ordersOfCustomer)

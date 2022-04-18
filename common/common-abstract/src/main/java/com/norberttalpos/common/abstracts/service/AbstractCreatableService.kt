@@ -44,11 +44,15 @@ abstract class AbstractCreatableService<
 }
 
 fun jwtRequiredMethod(command: (jwt: String) -> Unit) {
-    val jwtToken = SecurityContextHolder.getContext().authentication.credentials as? String
+    val jwtToken: String?
+
+    try {
+        jwtToken = SecurityContextHolder.getContext().authentication.credentials as? String
+    } catch (e: Exception) {
+        throw NotValidUpdateException("Operation requires a user token")
+    }
 
     jwtToken?.let {
         command.invoke(jwtToken)
-    } ?: run {
-        throw NotValidUpdateException("Operation requires a user token")
     }
 }
