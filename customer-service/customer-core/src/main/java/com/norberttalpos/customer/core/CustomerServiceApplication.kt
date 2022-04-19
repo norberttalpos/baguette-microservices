@@ -1,5 +1,6 @@
 package com.norberttalpos.customer.core
 
+import com.norberttalpos.common.feign.FeignConfiguration
 import com.norberttalpos.customer.core.security.CustomerServiceWebSecurityConfig
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
@@ -19,7 +20,8 @@ import org.springframework.context.annotation.Import
     basePackages = ["com.norberttalpos.auth.api.client", "com.norberttalpos.cart.api.client"]
 )
 @Import(
-    CustomerServiceWebSecurityConfig::class
+    CustomerServiceWebSecurityConfig::class,
+    FeignConfiguration::class
 )
 @OpenAPIDefinition(
     info = Info(title = "Customer API", version = "1.0", description = "Documentation Customer API v1.0")

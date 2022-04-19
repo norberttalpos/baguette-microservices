@@ -1,5 +1,6 @@
 package com.norberttalpos.order.core
 
+import com.norberttalpos.common.feign.FeignConfiguration
 import com.norberttalpos.order.core.security.OrderServiceWebSecurityConfig
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
@@ -22,7 +23,8 @@ import org.springframework.context.annotation.Import
     ]
 )
 @Import(
-    OrderServiceWebSecurityConfig::class
+    OrderServiceWebSecurityConfig::class,
+    FeignConfiguration::class
 )
 @OpenAPIDefinition(
     info = Info(title = "Order API", version = "1.0", description = "Order Product API v1.0")

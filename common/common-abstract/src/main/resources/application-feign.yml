@@ -2,6 +2,4 @@ feign:
   client:
     config:
       default:
-        errorDecoder: com.norberttalpos.common.feign.FeignClientErrorDecoder
-        retryer: com.norberttalpos.common.feign.FeignClientRetryer
         loggerLevel: FULL

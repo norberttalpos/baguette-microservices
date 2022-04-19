@@ -1,6 +1,7 @@
 package com.norberttalpos.cart.core
 
 import com.norberttalpos.cart.core.security.CartServiceWebSecurityConfig
+import com.norberttalpos.common.feign.FeignConfiguration
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -20,7 +21,8 @@ import org.springframework.context.annotation.Import
     ]
 )
 @Import(
-    CartServiceWebSecurityConfig::class
+    CartServiceWebSecurityConfig::class,
+    FeignConfiguration::class
 )
 @OpenAPIDefinition(
     info = Info(title = "Cart API", version = "1.0", description = "Documentation Cart API v1.0")

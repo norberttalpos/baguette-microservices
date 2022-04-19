@@ -1,6 +1,7 @@
 package com.norberttalpos.auth.api.client
 
 import com.norberttalpos.auth.api.dto.UserDto
+import com.norberttalpos.common.feign.FeignConfiguration
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import javax.validation.constraints.Email
 
 @FeignClient(
+    configuration = [FeignConfiguration::class],
     value = "auth",
     url = "http://localhost:8080"
 )

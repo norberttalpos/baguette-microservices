@@ -29,7 +29,7 @@ class ProductService(
         }
         filter.categoryName?.let {
             val childrenOfCategory =
-                this.productCategoryService.getProductCategoryNamesFromRoot(filter.categoryName!!)
+                this.productCategoryService.getChildrenCategoryNames(filter.categoryName!!)
 
             where.add(product.category.name.`in`(childrenOfCategory))
         }

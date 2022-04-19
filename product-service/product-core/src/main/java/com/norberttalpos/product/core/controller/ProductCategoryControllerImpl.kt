@@ -24,7 +24,7 @@ class ProductCategoryControllerImpl(
     override fun getProductCategoryUpToRoot(name: String): ResponseEntity<List<ProductCategoryDto>> {
         val list: List<ProductCategoryDto>
         try {
-            list = this.service.getProductCategoryUpToRoot(name)
+            list = this.service.getAncestorsOfCategory(name)
                 .map { this.productCategoryMapper.toDtoWithoutProducts(it) }
         } catch (e: IllegalArgumentException) {
             return ResponseEntity.badRequest().body(null)

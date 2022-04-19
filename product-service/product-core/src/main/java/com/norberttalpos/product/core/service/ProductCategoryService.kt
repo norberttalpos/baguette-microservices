@@ -34,11 +34,11 @@ class ProductCategoryService
 
     fun getProductCategoryChildren(name: String): ProductCategoryChildrenDto {
         val productCategories = this.getEntities()
-        val root = productCategories.first { it.name == "grocery" }
+        val r = productCategories.first { it.name == "grocery" }
 
-        val r = ProductCategoryChildrenDto(id = root.id, name = root.name, children = mutableListOf())
+        val root = ProductCategoryChildrenDto(id = r.id, name = r.name, children = mutableListOf())
 
-        val processedNodes = mutableMapOf(Pair(r.id!!,r))
+        val processedNodes = mutableMapOf(Pair(root.id!!,root))
 
         var newAdded = true
         while(newAdded) {
@@ -55,10 +55,10 @@ class ProductCategoryService
             }
         }
 
-        return r
+        return root
     }
 
-    fun getProductCategoryUpToRoot(name: String): List<ProductCategory> {
+    fun getAncestorsOfCategory(name: String): List<ProductCategory> {
         val productCategories = this.getEntities().asReversed()
 
         val child: ProductCategory
@@ -85,7 +85,7 @@ class ProductCategoryService
         return list.asReversed()
     }
 
-    fun getProductCategoryNamesFromRoot(name: String): List<String> {
+    fun getChildrenCategoryNames(name: String): List<String> {
         val productCategories = this.getEntities().asReversed()
 
         val root: ProductCategory

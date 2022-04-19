@@ -1,5 +1,6 @@
 package com.norberttalpos.order.api.client
 
+import com.norberttalpos.common.feign.FeignConfiguration
 import com.norberttalpos.order.api.dto.OrderDto
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.ResponseEntity
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import java.util.*
 
 @FeignClient(
+    configuration = [FeignConfiguration::class],
     value = "order",
     url = "http://localhost:8080"
 )
