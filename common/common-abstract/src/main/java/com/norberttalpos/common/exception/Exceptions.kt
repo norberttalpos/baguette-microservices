@@ -20,3 +20,9 @@ fun handleNotValidUpdateException(e: NotValidUpdateException): ResponseEntity<An
 fun handleNullPointerException(): ResponseEntity<Any> {
     return ResponseEntity.internalServerError().body("Internal server error occured")
 }
+
+
+@ExceptionHandler(IllegalArgumentException::class)
+fun handleIllegalArgumentException(e: IllegalArgumentException): ResponseEntity<Any> {
+    return ResponseEntity.badRequest().body(e.message)
+}

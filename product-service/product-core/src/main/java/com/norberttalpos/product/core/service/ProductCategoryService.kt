@@ -34,7 +34,7 @@ class ProductCategoryService
 
     fun getProductCategoryChildren(name: String): ProductCategoryChildrenDto {
         val productCategories = this.getEntities()
-        val root = productCategories.first { it.name == name }
+        val root = productCategories.first { it.name == "grocery" }
 
         val r = ProductCategoryChildrenDto(id = root.id, name = root.name, children = mutableListOf())
 
@@ -60,7 +60,14 @@ class ProductCategoryService
 
     fun getProductCategoryUpToRoot(name: String): List<ProductCategory> {
         val productCategories = this.getEntities().asReversed()
-        val child = productCategories.first { it.name == name }
+
+        val child: ProductCategory
+        try {
+            child = productCategories.first { it.name == name }
+        } catch (e: NoSuchElementException) {
+            throw IllegalArgumentException("No product category with name $name found")
+        }
+
         val root = productCategories.first { it.name == "grocery" }
 
         val list = mutableListOf(child)

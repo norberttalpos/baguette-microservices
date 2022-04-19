@@ -6,4 +6,4 @@ import java.util.*
 data class ProductCategoryFilter(
     override val id: Long? = null,
     val name: String? = null,
-    ) : AbstractFilter
+) : AbstractFilter

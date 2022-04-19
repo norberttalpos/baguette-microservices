@@ -6,6 +6,7 @@ import java.util.*
 data class ProductCategoryDto(
     override var id: Long?,
     val name: String?,
+    val imageUrl: String?,
     val parent: Int?,
     val products: List<ProductDto>?,
 ) : AbstractDto
