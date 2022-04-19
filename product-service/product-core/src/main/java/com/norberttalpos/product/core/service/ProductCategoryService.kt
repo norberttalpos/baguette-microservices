@@ -3,6 +3,7 @@ package com.norberttalpos.product.core.service
 import com.norberttalpos.common.abstracts.filter.QueryBuilder
 import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.service.AbstractDeletableService
+import com.norberttalpos.product.api.dto.ProductCategoryChildrenDto
 import com.norberttalpos.product.api.filter.ProductCategoryFilter
 import com.norberttalpos.product.core.entity.ProductCategory
 import com.norberttalpos.product.core.entity.QProductCategory
@@ -30,4 +31,80 @@ class ProductCategoryService
     override fun validateEntity(entity: ProductCategory) = true
 
     override fun provideUniquenessCheckFilter(entity: ProductCategory) = ProductCategoryFilter(name = entity.name)
+
+    fun getProductCategoryChildren(name: String): ProductCategoryChildrenDto {
+        val productCategories = this.getEntities()
+        val root = productCategories.first { it.name == name }
+
+        val r = ProductCategoryChildrenDto(id = root.id, name = root.name, children = mutableListOf())
+
+        val processedNodes = mutableMapOf(Pair(r.id!!,r))
+
+        var newAdded = true
+        while(newAdded) {
+            newAdded = false
+
+            productCategories.forEach {
+                if(processedNodes.keys.contains(it.parent) && !processedNodes.keys.contains(it.id)) {
+                    val newElement = ProductCategoryChildrenDto(id = it.id, name = it.name, children = mutableListOf())
+                    processedNodes[it.id!!] = newElement
+                    processedNodes[it.parent]?.children?.plusAssign(newElement)
+
+                    newAdded = true
+                }
+            }
+        }
+
+        return r
+    }
+
+    fun getProductCategoryUpToRoot(name: String): List<ProductCategory> {
+        val productCategories = this.getEntities().asReversed()
+        val child = productCategories.first { it.name == name }
+        val root = productCategories.first { it.name == "grocery" }
+
+        val list = mutableListOf(child)
+
+        var currentName = child.name
+        while(currentName != root.name) {
+            productCategories.forEach {
+                if(it.id == list.last().parent) {
+                    list += it
+                    currentName = it.name
+                }
+            }
+        }
+
+        return list.asReversed()
+    }
+
+    fun getProductCategoryNamesFromRoot(name: String): List<String> {
+        val productCategories = this.getEntities().asReversed()
+
+        val root: ProductCategory
+        try {
+            root = productCategories.first { it.name == name }
+        } catch (e: NoSuchElementException) {
+            return emptyList()
+        }
+
+        val list = mutableListOf(Pair(root.id, root.name))
+
+        var newAdded = true
+        while(newAdded) {
+            newAdded = false
+
+            productCategories.forEach { category ->
+                val idList = list.map { it.first }
+                if(idList.contains(category.parent) && !idList.contains(category.id)) {
+                    list += Pair(category.id, category.name)
+
+                    newAdded = true
+                }
+            }
+        }
+
+        return list.map { it.second }
+    }
+
 }

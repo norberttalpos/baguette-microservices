@@ -10,7 +10,9 @@ import com.norberttalpos.product.core.repository.ProductRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ProductService : AbstractDeletableService<Product, ProductFilter, ProductRepository>() {
+class ProductService(
+    private val productCategoryService: ProductCategoryService,
+) : AbstractDeletableService<Product, ProductFilter, ProductRepository>() {
 
     override fun filter(filter: ProductFilter, whereMode: WhereMode): List<Product> {
         val product: QProduct = QProduct.product
@@ -26,7 +28,10 @@ class ProductService : AbstractDeletableService<Product, ProductFilter, ProductR
             where.add(product.brand.name.containsIgnoreCase(filter.brandName))
         }
         filter.categoryName?.let {
-            where.add(product.category.name.containsIgnoreCase(filter.categoryName))
+            val childrenOfCategory =
+                this.productCategoryService.getProductCategoryNamesFromRoot(filter.categoryName!!)
+
+            where.add(product.category.name.`in`(childrenOfCategory))
         }
 
         return this.repository.findAll(where.builder).toList()

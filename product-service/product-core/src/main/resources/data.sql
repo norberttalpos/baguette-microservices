@@ -14,11 +14,18 @@ insert into measurement_unit (name) values ('dl');
 
 --- root categories
 
-insert into product_category (name, parent) values ('meat', 0);
-insert into product_category (name, parent) values ('fruits and vegetables', 0);
-insert into product_category (name, parent) values ('baked goods', 0);
-insert into product_category (name, parent) values ('dairy', 0);
-insert into product_category (name, parent) values ('drink', 0);
+insert into product_category (name, parent) values ('grocery', null);
+
+insert into product_category (name, parent)
+select 'meat', pc.id from product_category pc where pc.name = 'grocery';
+insert into product_category (name, parent)
+select 'fruits and vegetables', pc.id from product_category pc where pc.name = 'grocery';
+insert into product_category (name, parent)
+select 'baked goods', pc.id from product_category pc where pc.name = 'grocery';
+insert into product_category (name, parent)
+select 'dairy', pc.id from product_category pc where pc.name = 'grocery';
+insert into product_category (name, parent)
+select 'drink', pc.id from product_category pc where pc.name = 'grocery';
 
 --- meat
 
@@ -74,6 +81,11 @@ insert into product_category (name, parent)
 select 'wine', pc.id from product_category pc where pc.name = 'drink';
 insert into product_category (name, parent)
 select 'hard liquor', pc.id from product_category pc where pc.name = 'drink';
+
+insert into product_category (name, parent)
+select 'lager', pc.id from product_category pc where pc.name = 'beer';
+insert into product_category (name, parent)
+select 'ipa', pc.id from product_category pc where pc.name = 'beer';
 
 /*
     Product Brand
