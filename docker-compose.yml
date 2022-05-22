@@ -34,9 +34,123 @@ services:
     image: openzipkin/zipkin
     ports:
       - 9411:9411
+    networks:
+      - spring
+
+  eureka-server:
+    image: norberttalpos/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - 8761:8761
+    environment:
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+
+  api-gateway:
+    image: norberttalpos/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - 8080:8080
+    environment:
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://eureka-server:8761/eureka
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+      - eureka-server
+
+  auth-service:
+    image: norberttalpos/auth-service:latest
+    container_name: auth-service
+    ports:
+      - 9000:9000
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/auth?createDatabaseIfNotExist=true
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://eureka-server:8761/eureka
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eureka-server
+      - postgres
+
+  cart-service:
+    image: norberttalpos/cart-service:latest
+    container_name: cart-service
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cart?createDatabaseIfNotExist=true
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://eureka-server:8761/eureka
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eureka-server
+      - postgres
+
+  customer-service:
+    image: norberttalpos/customer-service:latest
+    container_name: customer-service
+    ports:
+      - 8084:8084
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/customer?createDatabaseIfNotExist=true
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://eureka-server:8761/eureka
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eureka-server
+      - postgres
+
+  order-service:
+    image: norberttalpos/order-service:latest
+    container_name: order-service
+    ports:
+      - 8083:8083
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/order?createDatabaseIfNotExist=true
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://eureka-server:8761/eureka
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eureka-server
+      - postgres
+
+  product-service:
+    image: norberttalpos/product-service:latest
+    container_name: product-service
+    ports:
+      - 8082:8082
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/product?createDatabaseIfNotExist=true
+      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://eureka-server:8761/eureka
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eureka-server
+      - postgres
 
 networks:
   postgres:
+    driver: bridge
+  spring:
     driver: bridge
 
 volumes:
