@@ -49,13 +49,6 @@ jobs:
       - uses: actions/checkout@v2
         name: Check out code
 
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
       - name: Add application-secret.yml for auth-service
         env:
           APPLICATION_SECRET_YML: ${{ secrets.APPLICATION_SECRET_YML }}
@@ -68,6 +61,18 @@ jobs:
         with:
           username: norberttalpos
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
       - name: Build jars and docker images, push to Dockerhub repository
         run: mvn -B package -DskipTests -P build-docker-image
