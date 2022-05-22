@@ -5,6 +5,7 @@ import com.norberttalpos.common.abstracts.filter.AbstractFilter
 import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 abstract class AbstractFilterableService<
@@ -14,5 +15,6 @@ abstract class AbstractFilterableService<
         >
     : AbstractGettableService<ENTITY, REPOSITORY>() {
 
+    @Transactional(readOnly = true)
     abstract fun filter(filter: FILTER, whereMode: WhereMode = WhereMode.AND): List<ENTITY>
 }

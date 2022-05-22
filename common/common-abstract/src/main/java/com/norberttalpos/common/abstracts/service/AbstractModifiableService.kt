@@ -4,6 +4,8 @@ import com.norberttalpos.common.abstracts.entity.AbstractEntity
 import com.norberttalpos.common.abstracts.filter.AbstractFilter
 import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import com.norberttalpos.common.exception.NotValidUpdateException
+import org.springframework.transaction.annotation.Isolation
+import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityNotFoundException
 
 abstract class AbstractModifiableService<
@@ -13,6 +15,7 @@ abstract class AbstractModifiableService<
         >
     : AbstractCreatableService<ENTITY, FILTER, REPOSITORY>() {
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
     fun put(entity: ENTITY): ENTITY {
         entity.id ?: throw NotValidUpdateException("Provide an id for put request")
         this.getById(entity.id!!) ?: throw EntityNotFoundException()
