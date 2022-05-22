@@ -1,0 +1,41 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /api/auth
+
+spring:
+  profiles:
+    active: db,eurekaclient,feign,zipkin,secret
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth?createDatabaseIfNotExist=true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+          google:
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+app:
+  auth:
+    tokenExpirationMsec: 864000000
+  cors:
+    allowedOrigins: http://localhost:3000 # Comma separated list of allowed origins
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+
+springdoc:
+  packagesToScan: com.norberttalpos.auth

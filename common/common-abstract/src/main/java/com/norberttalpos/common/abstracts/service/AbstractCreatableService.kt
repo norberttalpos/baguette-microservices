@@ -6,6 +6,8 @@ import com.norberttalpos.common.abstracts.filter.WhereMode
 import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import com.norberttalpos.common.exception.NotValidUpdateException
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.transaction.annotation.Isolation
+import org.springframework.transaction.annotation.Transactional
 
 abstract class AbstractCreatableService<
         ENTITY : AbstractEntity,
@@ -14,12 +16,12 @@ abstract class AbstractCreatableService<
         >
     : AbstractFilterableService<ENTITY, FILTER, REPOSITORY>() {
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
     fun post(entity: ENTITY): ENTITY {
         if(this.validatePost(entity)) {
+
             this.preCreation(entity)
-
             this.repository.saveAndFlush(entity)
-
             this.postCreation(entity)
 
             return entity

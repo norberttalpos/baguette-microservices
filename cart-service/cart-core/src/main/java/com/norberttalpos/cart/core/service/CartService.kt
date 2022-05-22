@@ -91,9 +91,15 @@ class CartService(
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [NotValidUpdateException::class])
     fun removeCartItem(userId: Long, cartItemId: Long): Cart {
         val cart = this.getCartOfUser(userId)
-        cart.cartItems
-            ?.filter { it.id == cartItemId }
-            ?.forEach { this.cartItemRepository.deleteById(it.id!!) }
+
+        val idOfCartItemOfCustomer: Long
+        try {
+            idOfCartItemOfCustomer = cart.cartItems?.first { it.id == cartItemId }?.id!!
+        } catch (e: Exception) {
+            throw NotValidUpdateException("Cart item with id $cartItemId not found")
+        }
+
+        this.cartItemRepository.deleteById(idOfCartItemOfCustomer)
 
         logger.info { "Removed cart item $cartItemId" }
 
@@ -167,7 +173,7 @@ class CartService(
         return createdCartId!!
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional(readOnly = true)
     fun getCartOfUser(userId: Long): Cart {
         val carts = this.filter(CartFilter(userId = userId, active = true))
         if(carts.size == 1) {

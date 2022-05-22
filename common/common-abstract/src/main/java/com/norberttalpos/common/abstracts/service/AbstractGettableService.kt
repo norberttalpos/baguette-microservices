@@ -5,6 +5,7 @@ import com.norberttalpos.common.abstracts.repository.AbstractRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
@@ -18,8 +19,10 @@ abstract class AbstractGettableService<
     @Autowired
     protected lateinit var repository: REPOSITORY
 
+    @Transactional(readOnly = true)
     fun getEntities(): List<ENTITY> = this.repository.findAll()
 
+    @Transactional(readOnly = true)
     fun getById(id: Long): ENTITY? = this.repository.findById(id).unwrap()
 }
 

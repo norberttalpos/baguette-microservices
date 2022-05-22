@@ -8,6 +8,8 @@ import com.norberttalpos.product.core.entity.Product
 import com.norberttalpos.product.core.entity.QProduct
 import com.norberttalpos.product.core.repository.ProductRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Isolation
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ProductService(
@@ -45,7 +47,8 @@ class ProductService(
 
     fun addProduct(productName: String, amount: Int) = this.changeProductQuantity(productName, amount)
 
-    private fun changeProductQuantity(productName: String, amount: Int) {
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
+    protected fun changeProductQuantity(productName: String, amount: Int) {
         val product = this.filter(ProductFilter(name = productName)).first()
 
         product.apply {

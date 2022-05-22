@@ -81,14 +81,17 @@ class CustomerService(
         }
     }
 
+    @Transactional(readOnly = true)
     fun getByEmail(email: @Email String): Customer? {
         return this.repository.getByEmail(email)
     }
 
+    @Transactional(readOnly = true)
     fun userExistsById(id: Long): Boolean {
         return this.repository.existsById(id)
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = [Exception::class])
     override fun deleteById(id: Long) {
         super.deleteById(id)
 

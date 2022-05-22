@@ -23,12 +23,6 @@ spring:
               - PUT
               - DELETE
       routes:
-        - id: openapi
-          uri: http://localhost:${server.port}
-          predicates:
-            - Path=/v3/api-docs/**
-          filters:
-            - RewritePath=/v3/api-docs/(?<path>.*), /api/$\{path}/v3/api-docs
 
         - id: product-service
           uri: lb://product-service
@@ -61,20 +55,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-
-springdoc:
-  swagger-ui:
-    urls:
-      - name: product
-        url: /v3/api-docs/product
-      - name: cart
-        url: /v3/api-docs/cart
-      - name: customer
-        url: /v3/api-docs/customer
-      - name: order
-        url: /v3/api-docs/order
-      - name: auth
-        url: /v3/api-docs/auth
 
 logging:
   level:
