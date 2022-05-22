@@ -40,6 +40,8 @@
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <querydsl.version>5.0.0</querydsl.version>
         <io.springfox.version>3.0.0</io.springfox.version>
+        <sonar.organization>norberttalpos</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencyManagement>

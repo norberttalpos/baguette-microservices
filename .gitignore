@@ -1,1 +1,1 @@
-/auth-service/auth-core/src/main/resources/*.yml
+/auth-service/auth-core/src/main/resources/application-secret.yml
